@@ -1,0 +1,15 @@
+*~
+.classpath
+.project
+target
+.settings
+.DS_Store
+.faces-config.xml.jsfdia
+.idea
+*.iml
+*.jar
+RemoteSystemsTempFiles
+bin
+*.db
+Deployment/
+.metadata

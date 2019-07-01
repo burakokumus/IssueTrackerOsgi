@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Application
+Bundle-SymbolicName: Application
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: application.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: Application
+Import-Package: com.ekinoks.controller,
+ com.ekinoks.view,
+ org.osgi.framework;version="1.3.0"
+Bundle-ActivationPolicy: lazy
+Require-Bundle: UserInterface;bundle-version="1.0.0"
+Export-Package: application

@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Database
+Bundle-SymbolicName: Database
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: database.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: Database
+Import-Package: org.osgi.framework;version="1.3.0"
+Bundle-ActivationPolicy: lazy
+Export-Package: com.ekinoks.database,
+ com.ekinoks.model,
+ database
+Bundle-ClassPath: lib/sqlite-jdbc-3.27.2.1.jar,
+ .
