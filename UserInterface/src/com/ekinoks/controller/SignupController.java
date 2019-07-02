@@ -38,7 +38,7 @@ public class SignupController
 		}
 		else
 		{
-			dbm.addUser(userName, password);
+			dbm.addUser(userName, password, "Developer");
 			message = Messages.getString("signupSuccessful");
 		}
 

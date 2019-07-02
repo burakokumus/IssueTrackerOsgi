@@ -10,6 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
 
 @SuppressWarnings("serial")
 public class AddUserDialogView extends JDialog
@@ -25,6 +26,7 @@ public class AddUserDialogView extends JDialog
 	private GridBagConstraints gbc_passwordLabel;
 	private GridBagConstraints gbc_passwordField;
 	private GridBagConstraints gbc_addUserButton;
+	private JComboBox<String> rankComboBox;
 
 	public AddUserDialogView()
 	{
@@ -39,11 +41,11 @@ public class AddUserDialogView extends JDialog
 		gridBagLayout.columnWidths = new int[]
 		{ 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[]
-		{ 0, 0, 0 };
+		{ 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[]
 		{ 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[]
-		{ 0.0, 0.0, Double.MIN_VALUE };
+		{ 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
 		userNameLabel = new JLabel(Messages.getString("userName"));
@@ -66,7 +68,7 @@ public class AddUserDialogView extends JDialog
 		passwordLabel = new JLabel(Messages.getString("password"));
 		gbc_passwordLabel = new GridBagConstraints();
 		gbc_passwordLabel.anchor = GridBagConstraints.EAST;
-		gbc_passwordLabel.insets = new Insets(5, 5, 0, 5);
+		gbc_passwordLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_passwordLabel.gridx = 0;
 		gbc_passwordLabel.gridy = 1;
 		getContentPane().add(passwordLabel, gbc_passwordLabel);
@@ -81,11 +83,20 @@ public class AddUserDialogView extends JDialog
 
 		addUserButton = new JButton(Messages.getString("add"));
 		gbc_addUserButton = new GridBagConstraints();
+		gbc_addUserButton.insets = new Insets(0, 0, 5, 0);
 		gbc_addUserButton.gridx = 2;
 		gbc_addUserButton.gridy = 1;
 		getContentPane().add(addUserButton, gbc_addUserButton);
 
 		this.getRootPane().setDefaultButton(addUserButton);
+		
+		rankComboBox = new JComboBox<>(new String[] {"Developer", "Tester", "Analyst", "Admin"});
+		GridBagConstraints gbc_rankComboBox = new GridBagConstraints();
+		gbc_rankComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_rankComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_rankComboBox.gridx = 1;
+		gbc_rankComboBox.gridy = 2;
+		getContentPane().add(rankComboBox, gbc_rankComboBox);
 	}
 
 	public void showScreen()
@@ -109,4 +120,8 @@ public class AddUserDialogView extends JDialog
 		return result;
 	}
 
+	public String getRank()
+	{
+		return (String)rankComboBox.getSelectedItem();
+	}
 }

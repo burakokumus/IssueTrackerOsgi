@@ -95,10 +95,6 @@ public class LoginView extends JDialog
 		this.pack();
 	}
 
-	public void hide()
-	{
-		// this.dispose();
-	}
 
 	public String getUserName()
 	{

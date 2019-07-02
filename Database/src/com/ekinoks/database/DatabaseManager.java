@@ -14,7 +14,7 @@ public class DatabaseManager
 {
 	// Constant SQL statements
 	private final String URL = "jdbc:sqlite:C:\\Users\\burak\\eclipse-workspace\\Database\\IssueTrackerDatabase.db";
-	private final String USER_INSERT_STATEMENT = "INSERT INTO users(user_name, password) VALUES(?, ?)";
+	private final String USER_INSERT_STATEMENT = "INSERT INTO users(user_name, password, rank) VALUES(?, ?, ?)";
 	private final String ISSUE_INSERT_STATEMENT = "INSERT INTO issues(title, type, priority, author, description) VALUES(?, ?, ?, ?, ?)";
 	private final String GET_ISSUE_STATEMENT = "SELECT * FROM issues WHERE title = ?";
 	private final String GET_ALL_ISSUES_STATEMENT = "SELECT * from issues";
@@ -26,6 +26,7 @@ public class DatabaseManager
 	private final String GET_ISSUE_ID_FROM_TITLE_STATEMENT = "SELECT issue_id FROM issues WHERE title = ?";
 	private final String GET_USERS_BY_ISSUE_STATEMENT = "SELECT * FROM relation WHERE issue_id = ?";
 	private final String GET_USER_NAME_BY_ID = "SELECT user_name FROM users WHERE user_id = ?";
+	private final String GET_AUTHOR_BY_ISSUE_TITLE = "SELECT author FROM issues WHERE title = ?";
 
 	/**
 	 * Provides connection to the SQL server
@@ -42,7 +43,7 @@ public class DatabaseManager
 		}
 		catch (SQLException | ClassNotFoundException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 		return conn;
 	}
@@ -64,7 +65,7 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			return false;
 		}
 	}
@@ -89,7 +90,7 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			return false;
 		}
 	}
@@ -109,24 +110,42 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 		return result;
 	}
 
-	public boolean addUser(String userName, String password)
+	public boolean addUser(String userName, String password, String rank)
 	{
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(USER_INSERT_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 			pstmt.setString(2, password);
+			if (rank.equals("Admin"))
+			{
+				pstmt.setInt(3, 1);
+			}
+			else if (rank.equals("Analyst"))
+			{
+				pstmt.setInt(3, 2);
+			}
+			else if (rank.equals("Tester"))
+			{
+				pstmt.setInt(3, 3);
+			}
+
+			else if (rank.equals("Developer"))
+			{
+				pstmt.setInt(3, 4);
+			}
+
 			pstmt.executeUpdate();
 			return true;
 
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			return false;
 		}
 	}
@@ -147,7 +166,7 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			return false;
 		}
 	}
@@ -163,7 +182,7 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			return false;
 		}
 	}
@@ -201,11 +220,32 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			return null;
 		}
 	}
 
+	public String getAuthorByIssueTitle(String issueTitle)
+	{
+		String result = "";
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(GET_AUTHOR_BY_ISSUE_TITLE))
+		{
+			pstmt.setString(1, issueTitle);
+			ResultSet executeQuery = pstmt.executeQuery();
+			
+			if (executeQuery.next())
+			{
+				result = executeQuery.getString("author");
+			}
+		}
+		catch(SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+	
+	
 	public ArrayList<Issue> getAllIssues()
 	{
 		int issueID = -1;
@@ -242,7 +282,7 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			return null;
 		}
 	}
@@ -273,7 +313,7 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			return null;
 		}
 
@@ -297,7 +337,7 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 		return result;
 	}
@@ -317,7 +357,7 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 		}
 		return result;
 	}
@@ -337,7 +377,7 @@ public class DatabaseManager
 		}
 		catch (SQLException e)
 		{
-			System.out.println(e.getMessage());
+			System.err.println(e.getMessage());
 			result = -1;
 		}
 		return result;

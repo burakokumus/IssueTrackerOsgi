@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 @SuppressWarnings("serial")
 public class IssueDetailsDialogView extends JDialog
@@ -23,12 +24,15 @@ public class IssueDetailsDialogView extends JDialog
 	private JLabel statusLabel;
 	private JButton assignButton;
 	private String currentUserName;
+	private String author;
+	private JComboBox<String> assignComboBox;
 
-	public IssueDetailsDialogView(String currentUserName)
+	public IssueDetailsDialogView(String currentUserName, String author)
 	{
 		this.setTitle("Issue Details");
 		this.setVisible(false);
 		this.currentUserName = currentUserName;
+		this.author = author;
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]
@@ -45,7 +49,7 @@ public class IssueDetailsDialogView extends JDialog
 		descriptionTitleLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		GridBagConstraints gbc_descriptionTitleLabel = new GridBagConstraints();
 		gbc_descriptionTitleLabel.gridheight = 2;
-		gbc_descriptionTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_descriptionTitleLabel.insets = new Insets(0, 5, 5, 5);
 		gbc_descriptionTitleLabel.gridx = 1;
 		gbc_descriptionTitleLabel.gridy = 1;
 		getContentPane().add(descriptionTitleLabel, gbc_descriptionTitleLabel);
@@ -133,11 +137,21 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_priorityLabel.gridx = 12;
 		gbc_priorityLabel.gridy = 6;
 		getContentPane().add(priorityLabel, gbc_priorityLabel);
+		if (!this.currentUserName.equals(this.author))
+			assignButton.setVisible(false);
+
+		assignComboBox = new JComboBox<>();
+		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
+		gbc_assignComboBox.insets = new Insets(5, 5, 5, 5);
+		gbc_assignComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_assignComboBox.gridx = 1;
+		gbc_assignComboBox.gridy = 7;
+		getContentPane().add(assignComboBox, gbc_assignComboBox);
 
 		assignButton = new JButton(Messages.getString("assign"));
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
-		gbc_assignButton.insets = new Insets(0, 0, 5, 5);
-		gbc_assignButton.gridx = 1;
+		gbc_assignButton.insets = new Insets(5, 5, 5, 5);
+		gbc_assignButton.gridx = 2;
 		gbc_assignButton.gridy = 7;
 		getContentPane().add(assignButton, gbc_assignButton);
 

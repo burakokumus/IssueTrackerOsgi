@@ -32,6 +32,7 @@ public class MainView
 	{
 		this.currentUserName = "";
 		initialize();
+		
 	}
 
 	public void showScreen()
@@ -81,19 +82,7 @@ public class MainView
 		table = new ListTable<Issue>(Issue.class);
 		table.setFilterable(true);
 		table.setSortable(true);
-		
-//		defaultTableModel = new DefaultTableModel(new String[]
-//		{ "Issue Id", "Title", "Type", "Priority", "Author", "Description", "State" }, 0);
-//		table.setModel(defaultTableModel);
-//		DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
-//		centerRenderer.setHorizontalAlignment(JLabel.CENTER);
-//		table.setDefaultRenderer(String.class, centerRenderer);
-
-		// Make table not editable
-//		JTextField tf = new JTextField();
-//		tf.setEditable(false);
-//		DefaultCellEditor editor = new DefaultCellEditor(tf);
-//		table.setDefaultEditor(Object.class, editor);
+		table.getTableHeader().setReorderingAllowed(false);
 
 		scrollPane.setViewportView(table);
 

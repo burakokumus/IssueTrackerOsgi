@@ -49,7 +49,7 @@ public class Controller
 					String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
 					String status = (String) view.getDefaultTableModel().getValueAt(rowNo, 6);
 					ArrayList<String> assignees = dbm.getUsersByIssueTitle(title);
-					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName);
+					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName, author);
 					issueDetailsDialogView.setIssueID(id);
 					issueDetailsDialogView.setIssueTitle(title);
 					issueDetailsDialogView.setIssueType(type);
@@ -98,7 +98,7 @@ public class Controller
 	 */
 	private void addUser()
 	{
-		if (dbm.getUserRank(currentUserName) > 2)
+		if (dbm.getUserRank(currentUserName) > 1)
 		{
 			JOptionPane.showOptionDialog(view.frame, Messages.getString("cannotAddUser"), "",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);

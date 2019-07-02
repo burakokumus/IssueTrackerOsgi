@@ -28,11 +28,12 @@ public class AddUserDialogController
 	{
 		String userName = addUserDialogView.getUserName();
 		String password = addUserDialogView.getPassword();
+		String rank = addUserDialogView.getRank();
 		if (userName.trim().length() == 0 || password.trim().length() == 0)
 		{
 			return;
 		}
-		boolean added = dbm.addUser(userName, password);
+		boolean added = dbm.addUser(userName, password, rank);
 		String message = "";
 
 		if (added)
@@ -41,7 +42,7 @@ public class AddUserDialogController
 		}
 		else
 		{
-			message = Messages.getString("userAlreadyExists");
+			message = Messages.getString("error");
 		}
 		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, message, "", JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE, null, null, null);

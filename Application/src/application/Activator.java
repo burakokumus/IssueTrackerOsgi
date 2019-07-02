@@ -17,6 +17,7 @@ public class Activator implements BundleActivator {
 	}
 
 	public void start(BundleContext bundleContext) throws Exception {
+		
 		MainView mainView = new MainView();
 		LoginView loginView = new LoginView();
 		Controller controller = new Controller(mainView);
