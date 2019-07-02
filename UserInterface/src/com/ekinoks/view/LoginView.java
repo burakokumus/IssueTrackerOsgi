@@ -39,7 +39,7 @@ public class LoginView extends JDialog
 		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
-		JLabel lblId = new JLabel("ID: ");
+		JLabel lblId = new JLabel(Messages.getString("id"));
 		GridBagConstraints gbc_lblId = new GridBagConstraints();
 		gbc_lblId.insets = new Insets(5, 5, 5, 5);
 		gbc_lblId.gridx = 4;
@@ -56,7 +56,7 @@ public class LoginView extends JDialog
 		idTextField.setColumns(10);
 		idTextField.setMinimumSize(idTextField.getSize());
 
-		JLabel lblNewLabel = new JLabel("Password");
+		JLabel lblNewLabel = new JLabel(Messages.getString("password"));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel.insets = new Insets(5, 5, 5, 5);
@@ -73,7 +73,7 @@ public class LoginView extends JDialog
 		getContentPane().add(passwordField, gbc_passwordField);
 		passwordField.setMinimumSize(passwordField.getSize());
 
-		loginButton = new JButton("Login");
+		loginButton = new JButton(Messages.getString("login"));
 		GridBagConstraints gbc_loginButton = new GridBagConstraints();
 		gbc_loginButton.anchor = GridBagConstraints.EAST;
 		gbc_loginButton.insets = new Insets(0, 0, 5, 5);
@@ -83,7 +83,7 @@ public class LoginView extends JDialog
 
 		this.getRootPane().setDefaultButton(loginButton);
 
-		signUpButton = new JButton("Sign up");
+		signUpButton = new JButton(Messages.getString("signUp"));
 		signUpButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		GridBagConstraints gbc_signUpButton = new GridBagConstraints();
 		gbc_signUpButton.anchor = GridBagConstraints.EAST;

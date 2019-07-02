@@ -36,7 +36,7 @@ public class SignupView extends JDialog
 		{ 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
-		JLabel userNameLabel = new JLabel("Username: ");
+		JLabel userNameLabel = new JLabel(Messages.getString("userName"));
 		GridBagConstraints gbc_userNameLabel = new GridBagConstraints();
 		gbc_userNameLabel.anchor = GridBagConstraints.EAST;
 		gbc_userNameLabel.insets = new Insets(5, 5, 5, 5);
@@ -53,7 +53,7 @@ public class SignupView extends JDialog
 		getContentPane().add(userNameTextField, gbc_userNameTextField);
 		userNameTextField.setColumns(10);
 
-		JLabel lblPassword = new JLabel("Password: ");
+		JLabel lblPassword = new JLabel(Messages.getString("password"));
 		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
 		gbc_lblPassword.anchor = GridBagConstraints.EAST;
 		gbc_lblPassword.insets = new Insets(5, 5, 5, 5);
@@ -69,7 +69,7 @@ public class SignupView extends JDialog
 		gbc_passwordField.gridy = 1;
 		getContentPane().add(passwordField, gbc_passwordField);
 
-		signUpButton = new JButton("Sign Up");
+		signUpButton = new JButton(Messages.getString("signUp"));
 		GridBagConstraints gbc_signUpButton = new GridBagConstraints();
 		gbc_signUpButton.insets = new Insets(5, 5, 5, 5);
 		gbc_signUpButton.anchor = GridBagConstraints.EAST;

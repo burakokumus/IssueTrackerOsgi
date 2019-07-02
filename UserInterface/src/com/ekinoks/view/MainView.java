@@ -15,7 +15,7 @@ import com.ekinoks.model.Issue;
 import com.ekinoks.ui.components.listtable.ListTable;
 import com.ekinoks.ui.components.listtable.ListTableModel;
 
-// https://stackoverflow.com/questions/27815400/retrieving-data-from-jdbc-database-into-jtable
+
 
 public class MainView
 {
@@ -24,7 +24,6 @@ public class MainView
 	public JFrame frame;
 	public JDialog addIssueDialog;
 	private ListTable<Issue> table;
-//	private DefaultTableModel defaultTableModel;
 	private JPanel panel;
 	private JButton addIssueButton;
 	private JButton addUserButton;
@@ -66,10 +65,10 @@ public class MainView
 		gbc_panel.gridy = 0;
 		frame.getContentPane().add(panel, gbc_panel);
 
-		addUserButton = new JButton("Add User");
+		addUserButton = new JButton(Messages.getString("addUser"));
 		panel.add(addUserButton);
 
-		addIssueButton = new JButton("Add Issue");
+		addIssueButton = new JButton(Messages.getString("addIssue"));
 		panel.add(addIssueButton);
 
 		JScrollPane scrollPane = new JScrollPane();

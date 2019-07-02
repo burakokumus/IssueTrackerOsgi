@@ -46,7 +46,7 @@ public class AddUserDialogView extends JDialog
 		{ 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
-		userNameLabel = new JLabel("User Name:");
+		userNameLabel = new JLabel(Messages.getString("userName"));
 		gbc_userNameLabel = new GridBagConstraints();
 		gbc_userNameLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_userNameLabel.anchor = GridBagConstraints.EAST;
@@ -63,7 +63,7 @@ public class AddUserDialogView extends JDialog
 		getContentPane().add(userNameTextField, gbc_userNameTextField);
 		userNameTextField.setColumns(10);
 
-		passwordLabel = new JLabel("Password:");
+		passwordLabel = new JLabel(Messages.getString("password"));
 		gbc_passwordLabel = new GridBagConstraints();
 		gbc_passwordLabel.anchor = GridBagConstraints.EAST;
 		gbc_passwordLabel.insets = new Insets(5, 5, 0, 5);
@@ -79,7 +79,7 @@ public class AddUserDialogView extends JDialog
 		gbc_passwordField.gridy = 1;
 		getContentPane().add(passwordField, gbc_passwordField);
 
-		addUserButton = new JButton("Add");
+		addUserButton = new JButton(Messages.getString("add"));
 		gbc_addUserButton = new GridBagConstraints();
 		gbc_addUserButton.gridx = 2;
 		gbc_addUserButton.gridy = 1;
