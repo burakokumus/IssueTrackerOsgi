@@ -26,7 +26,6 @@ public class AddIssueDialogController
 	public void initController()
 	{
 		addIssueDialogView.getAddIssueButton().addActionListener(e -> addIssue());
-
 	}
 
 	private void addIssue()
@@ -47,7 +46,7 @@ public class AddIssueDialogController
 		if (added)
 		{
 			message = Messages.getString("issueAdded");
-			dbm.addRelation(mainView.getCurrentUserName(), title);
+//			dbm.addRelation(mainView.getCurrentUserName(), title);
 			addToJTable(title);
 		}
 		else

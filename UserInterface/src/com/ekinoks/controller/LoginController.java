@@ -39,8 +39,8 @@ public class LoginController
 
 		if (dbm.login(userName, password))
 		{
-			mainController.setCurrentUserName(loginView.getUserName());
-			mainView.setCurrentUserName(loginView.getUserName());
+			mainController.setCurrentUserName(userName);
+			mainView.setCurrentUserName(userName);
 			loginView.dispose();
 			mainView.showScreen();
 		}

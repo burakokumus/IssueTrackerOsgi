@@ -9,10 +9,10 @@ public class IssueDetailsDialogController
 {
 	private IssueDetailsDialogView issueDetailsDialogView;
 	private DatabaseManager dbm;
-	private int ID;
+//	private int ID;
 	private String title;
-	private String author;
-	private String type;
+//	private String author;
+//	private String type;
 	private ArrayList<String> assignees;
 
 	public IssueDetailsDialogController(IssueDetailsDialogView issueDetailsDialogView, int ID,
@@ -20,21 +20,25 @@ public class IssueDetailsDialogController
 	{
 		this.dbm = new DatabaseManager();
 		this.issueDetailsDialogView = issueDetailsDialogView;
-		this.ID = ID;
+//		this.ID = ID;
 		this.title = title;
-		this.author = author;
-		this.type = type;
+//		this.author = author;
+//		this.type = type;
 		this.assignees = assignees;
-		this.initController();
 	}
 	
-	private void initController()
+	public void initController()
 	{
 		issueDetailsDialogView.getAssignButton().addActionListener(e -> assignButtonController());
 	}
 	
 	private void assignButtonController()
 	{
-		dbm.addRelation(issueDetailsDialogView.getCurrentUserName(), title);
+		String curName = issueDetailsDialogView.getCurrentUserName();
+		System.out.println("cur: " + curName);
+		dbm.addRelation(curName, title);
+		assignees.add(curName);
+		issueDetailsDialogView.setIssueAssignees(assignees);
+		issueDetailsDialogView.getAssignButton().setVisible(false);
 	}
 }

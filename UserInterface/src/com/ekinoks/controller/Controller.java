@@ -48,7 +48,7 @@ public class Controller
 					String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 4);
 					String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
 					String status = (String) view.getDefaultTableModel().getValueAt(rowNo, 6);
-					ArrayList<String> users = dbm.getUsersByIssueTitle(title);
+					ArrayList<String> assignees = dbm.getUsersByIssueTitle(title);
 					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName);
 					issueDetailsDialogView.setIssueID(id);
 					issueDetailsDialogView.setIssueTitle(title);
@@ -58,9 +58,15 @@ public class Controller
 					issueDetailsDialogView.setIssueDescription(description);
 					issueDetailsDialogView.setIssueStatus(status);
 					issueDetailsDialogView.showScreen();
-					issueDetailsDialogView.setIssueAssignees(users);
-					if (users.contains(currentUserName))
+					issueDetailsDialogView.setIssueAssignees(assignees);
+					if (assignees.contains(currentUserName))
 						issueDetailsDialogView.getAssignButton().setVisible(false);
+					else
+					{
+						IssueDetailsDialogController issueDetailsDialogController = 
+								new IssueDetailsDialogController(issueDetailsDialogView, Integer.parseInt(id), title, author, type, assignees);
+						issueDetailsDialogController.initController();
+					}
 					issueDetailsDialogView.pack();
 
 				}

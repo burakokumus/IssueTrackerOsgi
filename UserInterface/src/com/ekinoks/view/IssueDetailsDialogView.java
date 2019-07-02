@@ -29,7 +29,7 @@ public class IssueDetailsDialogView extends JDialog
 		this.setTitle("Issue Details");
 		this.setVisible(false);
 		this.currentUserName = currentUserName;
-		
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -133,7 +133,7 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_priorityLabel.gridx = 12;
 		gbc_priorityLabel.gridy = 6;
 		getContentPane().add(priorityLabel, gbc_priorityLabel);
-		
+
 		assignButton = new JButton("Assign");
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
 		gbc_assignButton.insets = new Insets(0, 0, 5, 5);
@@ -141,21 +141,20 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_assignButton.gridy = 7;
 		getContentPane().add(assignButton, gbc_assignButton);
 
-		JLabel currentAssigneeTitleLabel = new JLabel("Current Assignee(s)");
+		JLabel currentAssigneeTitleLabel = new JLabel("Current Assignee(s): ");
 		GridBagConstraints gbc_currentAssigneeTitleLabel = new GridBagConstraints();
 		gbc_currentAssigneeTitleLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_currentAssigneeTitleLabel.gridx = 11;
 		gbc_currentAssigneeTitleLabel.gridy = 7;
 		getContentPane().add(currentAssigneeTitleLabel, gbc_currentAssigneeTitleLabel);
 
-		currentAssigneeLabel = new JLabel("New label");
-		this.currentAssigneeLabel.setText("");
+		currentAssigneeLabel = new JLabel("");
 		GridBagConstraints gbc_currentAssigneeLabel = new GridBagConstraints();
 		gbc_currentAssigneeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_currentAssigneeLabel.gridx = 12;
 		gbc_currentAssigneeLabel.gridy = 7;
 		getContentPane().add(currentAssigneeLabel, gbc_currentAssigneeLabel);
-		
+
 		JLabel statusTitleLabel = new JLabel("Status: ");
 		GridBagConstraints gbc_statusTitleLabel = new GridBagConstraints();
 		gbc_statusTitleLabel.anchor = GridBagConstraints.EAST;
@@ -163,21 +162,21 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_statusTitleLabel.gridx = 11;
 		gbc_statusTitleLabel.gridy = 8;
 		getContentPane().add(statusTitleLabel, gbc_statusTitleLabel);
-		
+
 		statusLabel = new JLabel("New label");
 		GridBagConstraints gbc_statusLabel = new GridBagConstraints();
 		gbc_statusLabel.insets = new Insets(0, 0, 0, 5);
 		gbc_statusLabel.gridx = 12;
 		gbc_statusLabel.gridy = 8;
 		getContentPane().add(statusLabel, gbc_statusLabel);
-		
+
 	}
 
 	public void showScreen()
 	{
 		this.setVisible(true);
 	}
-	
+
 	public void setIssueID(String newID)
 	{
 		this.issueIDLabel.setText(newID);
@@ -220,14 +219,18 @@ public class IssueDetailsDialogView extends JDialog
 		{
 			result = result + assignee + ", ";
 		}
-		this.currentAssigneeLabel.setText(result.substring(0, result.length() - 2));
+		if (result.length() <= 2)
+			this.currentAssigneeLabel.setText(result);
+		else
+
+			this.currentAssigneeLabel.setText(result.substring(0, result.length() - 2));
 	}
-	
+
 	public JButton getAssignButton()
 	{
 		return assignButton;
 	}
-	
+
 	public String getCurrentUserName()
 	{
 		return currentUserName;
