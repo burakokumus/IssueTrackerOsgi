@@ -23,11 +23,18 @@ public class AddIssueDialogController
 		this.mainView = mainView;
 	}
 
+	/**
+	 * initializes the controller
+	 */
 	public void initController()
 	{
 		addIssueDialogView.getAddIssueButton().addActionListener(e -> addIssue());
 	}
 
+	/**
+	 * Action listener for the add issue button. Tries to add the issue to the
+	 * database. If the issue is added, addToJTable method is called
+	 */
 	private void addIssue()
 	{
 		String title = addIssueDialogView.getIssueTitle();
@@ -46,7 +53,6 @@ public class AddIssueDialogController
 		if (added)
 		{
 			message = Messages.getString("issueAdded");
-//			dbm.addRelation(mainView.getCurrentUserName(), title);
 			addToJTable(title);
 		}
 		else
@@ -63,6 +69,11 @@ public class AddIssueDialogController
 		}
 	}
 
+	/**
+	 * Adds the issue with the given title to the JTable
+	 * 
+	 * @param title
+	 */
 	private void addToJTable(String title)
 	{
 		Issue issue = dbm.getIssue(title);

@@ -48,6 +48,12 @@ public class DatabaseManager
 		return conn;
 	}
 
+	/**
+	 * Checks if the user with the given user name already exists
+	 * 
+	 * @param userName
+	 * @return
+	 */
 	public boolean checkUserExists(String userName)
 	{
 		if (userName.trim().length() == 0)
@@ -70,6 +76,13 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * Logs in with the given user name and password
+	 * 
+	 * @param userName
+	 * @param password
+	 * @return
+	 */
 	public boolean login(String userName, String password)
 	{
 		if (userName.trim().length() == 0 || password.trim().length() == 0)
@@ -95,6 +108,12 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * Get the rank of the user with the given user name
+	 * 
+	 * @param userName
+	 * @return
+	 */
 	public int getUserRank(String userName)
 	{
 		int result = -1;
@@ -115,6 +134,14 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * Adds user to the database
+	 * 
+	 * @param userName
+	 * @param password
+	 * @param rank
+	 * @return
+	 */
 	public boolean addUser(String userName, String password, String rank)
 	{
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(USER_INSERT_STATEMENT))
@@ -150,6 +177,16 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * Adds issue to the database
+	 * 
+	 * @param title
+	 * @param type
+	 * @param priority
+	 * @param author
+	 * @param description
+	 * @return
+	 */
 	public boolean addIssue(String title, String type, int priority, String author, String description)
 	{
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(ISSUE_INSERT_STATEMENT))
@@ -171,6 +208,13 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * Add relation between a given user and an issue
+	 * 
+	 * @param userName
+	 * @param issueTitle
+	 * @return
+	 */
 	public boolean addRelation(String userName, String issueTitle)
 	{
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(ADD_RELATION_STATEMENT))
@@ -187,6 +231,12 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * returns the issue with the given title
+	 * 
+	 * @param title
+	 * @return
+	 */
 	public Issue getIssue(String title)
 	{
 		int issueID = -1;
@@ -225,27 +275,38 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * returns the author of the given issue
+	 * 
+	 * @param issueTitle
+	 * @return
+	 */
 	public String getAuthorByIssueTitle(String issueTitle)
 	{
 		String result = "";
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(GET_AUTHOR_BY_ISSUE_TITLE))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(GET_AUTHOR_BY_ISSUE_TITLE))
 		{
 			pstmt.setString(1, issueTitle);
 			ResultSet executeQuery = pstmt.executeQuery();
-			
+
 			if (executeQuery.next())
 			{
 				result = executeQuery.getString("author");
 			}
 		}
-		catch(SQLException e)
+		catch (SQLException e)
 		{
 			System.err.println(e.getMessage());
 		}
 		return result;
 	}
-	
-	
+
+	/**
+	 * returns all issues
+	 * 
+	 * @return
+	 */
 	public ArrayList<Issue> getAllIssues()
 	{
 		int issueID = -1;
@@ -287,6 +348,11 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * returns all users
+	 * 
+	 * @return
+	 */
 	public ArrayList<User> getAllUsers()
 	{
 		ArrayList<User> result = new ArrayList<>();
@@ -319,6 +385,12 @@ public class DatabaseManager
 
 	}
 
+	/**
+	 * returns all users that are assigned to a given issue
+	 * 
+	 * @param issueTitle
+	 * @return
+	 */
 	public ArrayList<String> getUsersByIssueTitle(String issueTitle)
 	{
 		ArrayList<String> result = new ArrayList<>();
@@ -342,6 +414,12 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * returns the user name of the user whose id is given
+	 * 
+	 * @param id
+	 * @return
+	 */
 	private String getUserNameById(int id)
 	{
 		String result = "";
@@ -362,6 +440,12 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * returns the id of the issue whose title is given
+	 * 
+	 * @param issueTitle
+	 * @return
+	 */
 	private int getIssueID(String issueTitle)
 	{
 		int result = -1;

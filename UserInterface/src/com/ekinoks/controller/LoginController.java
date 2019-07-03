@@ -23,6 +23,9 @@ public class LoginController
 		this.dbm = new DatabaseManager();
 	}
 
+	/**
+	 * initializes the controller
+	 */
 	public void initController()
 	{
 		loginView.getLoginButton().addActionListener(e -> login());
@@ -30,7 +33,8 @@ public class LoginController
 	}
 
 	/**
-	 * Action listener for login button
+	 * Action listener for login button. Sends the given user name and password to
+	 * the database manager for authentication
 	 */
 	private void login()
 	{
@@ -53,7 +57,7 @@ public class LoginController
 	}
 
 	/**
-	 * Action listener for sign up button
+	 * Action listener for sign up button. Opens the sign up dialog.
 	 */
 	private void signup()
 	{

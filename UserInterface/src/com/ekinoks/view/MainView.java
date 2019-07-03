@@ -15,8 +15,6 @@ import com.ekinoks.model.Issue;
 import com.ekinoks.ui.components.listtable.ListTable;
 import com.ekinoks.ui.components.listtable.ListTableModel;
 
-
-
 public class MainView
 {
 	private String currentUserName;
@@ -32,14 +30,20 @@ public class MainView
 	{
 		this.currentUserName = "";
 		initialize();
-		
+
 	}
 
+	/**
+	 * makes the screen visible.
+	 */
 	public void showScreen()
 	{
 		frame.setVisible(true);
 	}
 
+	/**
+	 * initializes the UI.
+	 */
 	private void initialize()
 	{
 		frame = new JFrame("");
@@ -89,41 +93,71 @@ public class MainView
 		frame.pack();
 	}
 
+	/**
+	 * 
+	 * @return the add issue button.
+	 */
 	public JButton getAddIssueButton()
 	{
 		return addIssueButton;
 	}
 
+	/**
+	 * 
+	 * @return the add user button.
+	 */
 	public JButton getAddUserButton()
 	{
 		return addUserButton;
 	}
 
+	/**
+	 * 
+	 * @return the table model.
+	 */
 	public ListTableModel<Issue> getDefaultTableModel()
 	{
 		return table.getModel();
 	}
 
+	/**
+	 * setter for the current user name.
+	 * 
+	 * @param userName
+	 */
 	public void setCurrentUserName(String userName)
 	{
 		this.currentUserName = userName;
 	}
 
+	/**
+	 * 
+	 * @return the current user name.
+	 */
 	public String getCurrentUserName()
 	{
 		return this.currentUserName;
 	}
 
+	/**
+	 * 
+	 * @return the table.
+	 */
 	public ListTable<Issue> getTable()
 	{
 		return table;
 	}
 
+	/**
+	 * adds the given issue to the table.
+	 * 
+	 * @param issue
+	 */
 	public void addIssueToJTable(Issue issue)
 	{
-		
+
 		table.getModel().addRow(issue);
-		
+
 //		defaultTableModel.addRow(new String[]
 //		{ Integer.toString(issueID), title, type, Integer.toString(priority), author, description, state });
 	}

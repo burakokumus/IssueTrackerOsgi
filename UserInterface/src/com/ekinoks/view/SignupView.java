@@ -23,6 +23,9 @@ public class SignupView extends JDialog
 		initialize();
 	}
 
+	/**
+	 * initializes the UI.
+	 */
 	private void initialize()
 	{
 		gridBagLayout = new GridBagLayout();
@@ -81,22 +84,37 @@ public class SignupView extends JDialog
 		this.pack();
 	}
 
+	/**
+	 * makes the screen visible.
+	 */
 	public void showScreen()
 	{
 		this.setVisible(true);
 	}
 
+	/**
+	 * 
+	 * @return the given user name.
+	 */
 	public String getUserName()
 	{
 		return userNameTextField.getText();
 	}
 
+	/**
+	 * 
+	 * @return the given password.
+	 */
 	public String getPassword()
 	{
 		String result = new String(passwordField.getPassword());
 		return result;
 	}
 
+	/**
+	 * 
+	 * @return the sign up button.
+	 */
 	public JButton getSignupButton()
 	{
 		return signUpButton;

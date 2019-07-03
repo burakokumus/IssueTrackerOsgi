@@ -17,13 +17,17 @@ public class SignupController
 		this.dbm = new DatabaseManager();
 	}
 
+	/**
+	 * initializes the controller
+	 */
 	public void initController()
 	{
 		signupView.getSignupButton().addActionListener(e -> signup());
 	}
 
 	/*
-	 * Action listener for sign up button
+	 * Action listener for sign up button. Sends the given user name and password to
+	 * the database for sign up.
 	 */
 	private void signup()
 	{

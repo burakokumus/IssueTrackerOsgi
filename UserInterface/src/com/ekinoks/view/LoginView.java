@@ -11,7 +11,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-
 @SuppressWarnings("serial")
 public class LoginView extends JDialog
 {
@@ -25,6 +24,9 @@ public class LoginView extends JDialog
 		initialize();
 	}
 
+	/**
+	 * initializes the UI.
+	 */
 	private void initialize()
 	{
 		this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -95,23 +97,38 @@ public class LoginView extends JDialog
 		this.pack();
 	}
 
-
+	/**
+	 * 
+	 * @return the given user name.
+	 */
 	public String getUserName()
 	{
 		return idTextField.getText();
 	}
 
+	/**
+	 * 
+	 * @return the given password.
+	 */
 	public String getPassword()
 	{
 		String result = new String(passwordField.getPassword());
 		return result;
 	}
 
+	/**
+	 * 
+	 * @return the login button.
+	 */
 	public JButton getLoginButton()
 	{
 		return loginButton;
 	}
 
+	/**
+	 * 
+	 * @return sign up button.
+	 */
 	public JButton getSignUpButton()
 	{
 		return signUpButton;

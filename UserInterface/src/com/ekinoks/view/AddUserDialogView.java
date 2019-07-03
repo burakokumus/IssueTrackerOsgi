@@ -33,6 +33,9 @@ public class AddUserDialogView extends JDialog
 		initialize();
 	}
 
+	/**
+	 * initializes the UI.
+	 */
 	private void initialize()
 	{
 
@@ -89,8 +92,9 @@ public class AddUserDialogView extends JDialog
 		getContentPane().add(addUserButton, gbc_addUserButton);
 
 		this.getRootPane().setDefaultButton(addUserButton);
-		
-		rankComboBox = new JComboBox<>(new String[] {"Developer", "Tester", "Analyst", "Admin"});
+
+		rankComboBox = new JComboBox<>(new String[]
+		{ "Developer", "Tester", "Analyst", "Admin" });
 		GridBagConstraints gbc_rankComboBox = new GridBagConstraints();
 		gbc_rankComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_rankComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -99,29 +103,48 @@ public class AddUserDialogView extends JDialog
 		getContentPane().add(rankComboBox, gbc_rankComboBox);
 	}
 
+	/**
+	 * makes the screen visible.
+	 */
 	public void showScreen()
 	{
 		this.setVisible(true);
 	}
 
+	/**
+	 * 
+	 * @return the add user button.
+	 */
 	public JButton getAddUserButton()
 	{
 		return addUserButton;
 	}
 
+	/**
+	 * 
+	 * @return the user name.
+	 */
 	public String getUserName()
 	{
 		return userNameTextField.getText();
 	}
 
+	/**
+	 * 
+	 * @return the password.
+	 */
 	public String getPassword()
 	{
 		String result = new String(passwordField.getPassword());
 		return result;
 	}
 
+	/**
+	 * 
+	 * @return the rank
+	 */
 	public String getRank()
 	{
-		return (String)rankComboBox.getSelectedItem();
+		return (String) rankComboBox.getSelectedItem();
 	}
 }

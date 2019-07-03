@@ -29,10 +29,19 @@ public class IssueDetailsDialogView extends JDialog
 
 	public IssueDetailsDialogView(String currentUserName, String author)
 	{
-		this.setTitle("Issue Details");
-		this.setVisible(false);
 		this.currentUserName = currentUserName;
 		this.author = author;
+		initialize();
+
+	}
+
+	/**
+	 * initializes the UI.
+	 */
+	private void initialize()
+	{
+		this.setTitle("Issue Details");
+		this.setVisible(false);
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]
@@ -186,46 +195,89 @@ public class IssueDetailsDialogView extends JDialog
 
 	}
 
+	/**
+	 * makes the screen visible.
+	 */
 	public void showScreen()
 	{
 		this.setVisible(true);
 	}
 
+	/**
+	 * setter for the id.
+	 * 
+	 * @param newID
+	 */
 	public void setIssueID(String newID)
 	{
 		this.issueIDLabel.setText(newID);
 	}
 
+	/**
+	 * setter for the issue title.
+	 * 
+	 * @param newTitle
+	 */
 	public void setIssueTitle(String newTitle)
 	{
 		this.issueTitleLabel.setText(newTitle);
 	}
 
+	/**
+	 * setter for the issue description.
+	 * 
+	 * @param newDescription
+	 */
 	public void setIssueDescription(String newDescription)
 	{
 		this.descriptionLabel.setText(newDescription);
 	}
 
+	/**
+	 * setter for the issue author.
+	 * 
+	 * @param newAuthor
+	 */
 	public void setIssueAuthor(String newAuthor)
 	{
 		this.authorLabel.setText(newAuthor);
 	}
 
+	/**
+	 * setter for the issue type
+	 * 
+	 * @param newType
+	 */
 	public void setIssueType(String newType)
 	{
 		this.typeLabel.setText(newType);
 	}
 
+	/**
+	 * setter for the issue priority
+	 * 
+	 * @param newPriority
+	 */
 	public void setIssuePriority(String newPriority)
 	{
 		this.priorityLabel.setText(newPriority);
 	}
 
+	/**
+	 * setter for the issue status
+	 * 
+	 * @param status
+	 */
 	public void setIssueStatus(String status)
 	{
 		this.statusLabel.setText(status);
 	}
 
+	/**
+	 * setter for the issue assignees
+	 * 
+	 * @param assignees
+	 */
 	public void setIssueAssignees(ArrayList<String> assignees)
 	{
 		String result = "";
@@ -240,11 +292,19 @@ public class IssueDetailsDialogView extends JDialog
 			this.currentAssigneeLabel.setText(result.substring(0, result.length() - 2));
 	}
 
+	/**
+	 * 
+	 * @return the assign button.
+	 */
 	public JButton getAssignButton()
 	{
 		return assignButton;
 	}
 
+	/**
+	 * 
+	 * @return the current user name.
+	 */
 	public String getCurrentUserName()
 	{
 		return currentUserName;

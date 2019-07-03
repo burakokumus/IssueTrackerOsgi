@@ -39,6 +39,9 @@ public class AddIssueDialogView extends JDialog
 		initialize();
 	}
 
+	/**
+	 * initializes the UI
+	 */
 	private void initialize()
 	{
 		setMinimumSize(new Dimension(500, 500));
@@ -106,7 +109,6 @@ public class AddIssueDialogView extends JDialog
 		getContentPane().add(priorityTextField, gbc_priorityTextField);
 		priorityTextField.setColumns(10);
 
-
 		descriptionLabel = new JLabel(Messages.getString("AddIssueDialogView.lblDescrl.text")); //$NON-NLS-1$
 		gbc_descriptionLabel = new GridBagConstraints();
 		gbc_descriptionLabel.anchor = GridBagConstraints.EAST;
@@ -136,27 +138,46 @@ public class AddIssueDialogView extends JDialog
 		this.pack();
 	}
 
+	/**
+	 * makes the screen visible
+	 */
 	public void showScreen()
 	{
 		this.setVisible(true);
 	}
 
+	/**
+	 * 
+	 * @return the add issue button.
+	 */
 	public JButton getAddIssueButton()
 	{
 		return addIssueButton;
 	}
 
+	/**
+	 * 
+	 * @return the issue title.
+	 */
 	public String getIssueTitle()
 	{
 		return titleTextField.getText();
 	}
 
+	/**
+	 * 
+	 * @return the issue type.
+	 */
 	public String getIssueType()
 	{
 		String s = typeComboBox.getSelectedItem().toString();
 		return s;
 	}
 
+	/**
+	 * 
+	 * @return the issue priority
+	 */
 	public int getIssuePriority()
 	{
 		String s = priorityTextField.getText().trim();
@@ -167,12 +188,20 @@ public class AddIssueDialogView extends JDialog
 			return -1;
 	}
 
-
+	/**
+	 * 
+	 * @return the issue description
+	 */
 	public String getIssueDescription()
 	{
 		return descriptionTextField.getText();
 	}
 
+	/**
+	 * 
+	 * @param text
+	 * @return if the text is numeric.
+	 */
 	private boolean isNumeric(String text)
 	{
 		try

@@ -33,7 +33,7 @@ public class Controller
 		view.getAddUserButton().addActionListener(e -> addUser());
 		view.getTable().addMouseListener(new MouseAdapter()
 		{
-			
+
 			@Override
 			public void mouseReleased(MouseEvent e)
 			{
@@ -63,8 +63,8 @@ public class Controller
 						issueDetailsDialogView.getAssignButton().setVisible(false);
 					else
 					{
-						IssueDetailsDialogController issueDetailsDialogController = 
-								new IssueDetailsDialogController(issueDetailsDialogView, Integer.parseInt(id), title, author, type, assignees);
+						IssueDetailsDialogController issueDetailsDialogController = new IssueDetailsDialogController(
+								issueDetailsDialogView, Integer.parseInt(id), title, author, type, assignees);
 						issueDetailsDialogController.initController();
 					}
 					issueDetailsDialogView.pack();
@@ -113,11 +113,21 @@ public class Controller
 
 	}
 
+	/**
+	 * Setter for current user name
+	 * 
+	 * @param userName
+	 */
 	public void setCurrentUserName(String userName)
 	{
 		this.currentUserName = userName;
 	}
 
+	/**
+	 * Getter for current user name
+	 * 
+	 * @return
+	 */
 	public String getCurrentUserName()
 	{
 		return this.currentUserName;

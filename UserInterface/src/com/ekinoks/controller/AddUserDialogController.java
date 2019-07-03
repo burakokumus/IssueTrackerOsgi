@@ -18,12 +18,19 @@ public class AddUserDialogController
 		this.dbm = new DatabaseManager();
 	}
 
+	/**
+	 * initializes the controller
+	 */
 	public void initController()
 	{
 		addUserDialogView.getAddUserButton().addActionListener(e -> addUser());
 
 	}
 
+	/**
+	 * Action listener for the add issue button. Tries to add the user into the
+	 * database
+	 */
 	private void addUser()
 	{
 		String userName = addUserDialogView.getUserName();
