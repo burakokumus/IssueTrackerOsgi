@@ -13,23 +13,6 @@ import com.ekinoks.model.User;
 
 public class DatabaseManager
 {
-	// Constant SQL statements
-	private final String URL = "jdbc:sqlite:C:\\Users\\burak\\eclipse-workspace\\Database\\IssueTrackerDatabase.db";
-	private final String USER_INSERT_STATEMENT = "INSERT INTO users(user_name, password, rank) VALUES(?, ?, ?)";
-	private final String ISSUE_INSERT_STATEMENT = "INSERT INTO issues(title, type, priority, author, description) VALUES(?, ?, ?, ?, ?)";
-	private final String GET_ISSUE_STATEMENT = "SELECT * FROM issues WHERE title = ?";
-	private final String GET_ALL_ISSUES_STATEMENT = "SELECT * from issues";
-	private final String LOGIN_CHECK_STATEMENT = "SELECT * FROM users WHERE user_name = ? AND password = ?";
-	private final String GET_RANK_STATEMENT = "SELECT rank FROM users WHERE user_name = ?";
-	private final String CHECK_USER_EXISTS_STATEMENT = "SELECT * FROM users WHERE user_name = ?";
-	private final String GET_ALL_USERS_STATEMENT = "SELECT * from users";
-	private final String ADD_RELATION_STATEMENT = "INSERT INTO relation(user_id, issue_id) SELECT usr.user_id, iss.issue_id FROM users usr JOIN issues iss WHERE user_name = ? and title = ?";
-	private final String GET_ISSUE_ID_FROM_TITLE_STATEMENT = "SELECT issue_id FROM issues WHERE title = ?";
-	private final String GET_USERS_BY_ISSUE_STATEMENT = "SELECT * FROM relation WHERE issue_id = ?";
-	private final String GET_USER_NAME_BY_ID_STATEMENT = "SELECT user_name FROM users WHERE user_id = ?";
-	private final String GET_USER_ID_BY_NAME_STATEMENT = "SELECT user_id FROM users WHERE user_name = ?";
-	private final String GET_AUTHOR_BY_ISSUE_TITLE_STATEMENT = "SELECT author FROM issues WHERE title = ?";
-	private final String GET_IF_USER_AND_ISSUE_RELATED_STATEMENT = "SELECT * FROM relation WHERE user_id = ? AND issue_id = ?";
 
 	/**
 	 * Provides connection to the SQL server
@@ -42,7 +25,7 @@ public class DatabaseManager
 		try
 		{
 			Class.forName("org.sqlite.JDBC");
-			conn = DriverManager.getConnection(URL);
+			conn = DriverManager.getConnection(Statements.URL);
 		}
 		catch (SQLException | ClassNotFoundException e)
 		{
@@ -62,7 +45,7 @@ public class DatabaseManager
 		if (userName.trim().length() == 0)
 			return true;
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(CHECK_USER_EXISTS_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.CHECK_USER_EXISTS_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 			ResultSet executeQuery = pstmt.executeQuery();
@@ -90,7 +73,7 @@ public class DatabaseManager
 	{
 		if (userName.trim().length() == 0 || password.trim().length() == 0)
 			return false;
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(LOGIN_CHECK_STATEMENT))
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.LOGIN_CHECK_STATEMENT))
 		{
 
 			pstmt.setString(1, userName);
@@ -120,7 +103,7 @@ public class DatabaseManager
 	public int getUserRank(String userName)
 	{
 		int result = -1;
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(GET_RANK_STATEMENT))
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.GET_RANK_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 
@@ -147,7 +130,7 @@ public class DatabaseManager
 	 */
 	public boolean addUser(String userName, String password, String rank)
 	{
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(USER_INSERT_STATEMENT))
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.USER_INSERT_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 			pstmt.setString(2, password);
@@ -192,7 +175,7 @@ public class DatabaseManager
 	 */
 	public boolean addIssue(String title, String type, int priority, String author, String description)
 	{
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(ISSUE_INSERT_STATEMENT))
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.ISSUE_INSERT_STATEMENT))
 		{
 			pstmt.setString(1, title);
 			pstmt.setString(2, type);
@@ -220,7 +203,7 @@ public class DatabaseManager
 	 */
 	public boolean addRelation(String userName, String issueTitle)
 	{
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(ADD_RELATION_STATEMENT))
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_RELATION_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 			pstmt.setString(2, issueTitle);
@@ -250,7 +233,7 @@ public class DatabaseManager
 		String issueDescription = "";
 		String issueState = "";
 
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(GET_ISSUE_STATEMENT))
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ISSUE_STATEMENT))
 		{
 
 			pstmt.setString(1, title);
@@ -288,7 +271,7 @@ public class DatabaseManager
 	{
 		String result = "";
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(GET_AUTHOR_BY_ISSUE_TITLE_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_AUTHOR_BY_ISSUE_TITLE_STATEMENT))
 		{
 			pstmt.setString(1, issueTitle);
 			ResultSet executeQuery = pstmt.executeQuery();
@@ -323,7 +306,7 @@ public class DatabaseManager
 		ArrayList<Issue> result = new ArrayList<>();
 
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(GET_ALL_ISSUES_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_ISSUES_STATEMENT))
 		{
 
 			ResultSet executeQuery = pstmt.executeQuery();
@@ -365,7 +348,7 @@ public class DatabaseManager
 		String password = "";
 		int rank = -1;
 
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(GET_ALL_USERS_STATEMENT))
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_USERS_STATEMENT))
 		{
 			ResultSet executeQuery = pstmt.executeQuery();
 			while (executeQuery.next())
@@ -398,7 +381,7 @@ public class DatabaseManager
 		ArrayList<String> result = new ArrayList<>();
 
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(GET_USERS_BY_ISSUE_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_USERS_BY_ISSUE_STATEMENT))
 		{
 			int id = this.getIssueID(issueTitle);
 			pstmt.setInt(1, id);
@@ -426,7 +409,7 @@ public class DatabaseManager
 	{
 		String result = "";
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(GET_USER_NAME_BY_ID_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_USER_NAME_BY_ID_STATEMENT))
 		{
 			pstmt.setInt(1, id);
 			ResultSet executeQuery = pstmt.executeQuery();
@@ -453,7 +436,7 @@ public class DatabaseManager
 	{
 		int result = -1;
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(GET_ISSUE_ID_FROM_TITLE_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ISSUE_ID_FROM_TITLE_STATEMENT))
 		{
 			pstmt.setString(1, issueTitle);
 
@@ -480,7 +463,7 @@ public class DatabaseManager
 	{
 		int result = -1;
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(GET_USER_ID_BY_NAME_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_USER_ID_BY_NAME_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 			ResultSet executeQuery = pstmt.executeQuery();
@@ -510,7 +493,7 @@ public class DatabaseManager
 		int issueId = getIssueID(issueTitle);
 
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(GET_IF_USER_AND_ISSUE_RELATED_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_IF_USER_AND_ISSUE_RELATED_STATEMENT))
 		{
 			for (User user : allUsers)
 			{
@@ -528,7 +511,6 @@ public class DatabaseManager
 		{
 			System.err.println(e.getMessage());
 		}
-		// TODO
 		return result;
 	}
 }
