@@ -5,11 +5,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.ArrayList;
+import java.util.Vector;
 
-import javax.swing.JDialog;
-import javax.swing.JLabel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
 public class IssueDetailsDialogView extends JDialog
@@ -26,11 +28,18 @@ public class IssueDetailsDialogView extends JDialog
 	private String currentUserName;
 	private String author;
 	private JComboBox<String> assignComboBox;
+	private DefaultComboBoxModel<String> assignComboBoxModel;
+	private Vector<String> possibleAssignees;
+	private ArrayList<String> currentAssignees;
 
-	public IssueDetailsDialogView(String currentUserName, String author)
+	public IssueDetailsDialogView(String currentUserName, String author, ArrayList<String> currentAssignees,
+			Vector<String> possibleAssignees)
 	{
 		this.currentUserName = currentUserName;
 		this.author = author;
+		this.possibleAssignees = possibleAssignees;
+		this.assignComboBoxModel = new DefaultComboBoxModel<>(possibleAssignees);
+		this.currentAssignees = currentAssignees;
 		initialize();
 
 	}
@@ -42,7 +51,6 @@ public class IssueDetailsDialogView extends JDialog
 	{
 		this.setTitle("Issue Details");
 		this.setVisible(false);
-
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
@@ -146,16 +154,17 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_priorityLabel.gridx = 12;
 		gbc_priorityLabel.gridy = 6;
 		getContentPane().add(priorityLabel, gbc_priorityLabel);
-		if (!this.currentUserName.equals(this.author))
-			assignButton.setVisible(false);
 
-		assignComboBox = new JComboBox<>();
+		assignComboBox = new JComboBox<>(this.assignComboBoxModel);
+		assignComboBox.setSelectedIndex(0);
 		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
 		gbc_assignComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_assignComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_assignComboBox.gridx = 1;
 		gbc_assignComboBox.gridy = 7;
 		getContentPane().add(assignComboBox, gbc_assignComboBox);
+		if (!this.currentUserName.equals(this.author))
+			assignComboBox.setVisible(false);
 
 		assignButton = new JButton(Messages.getString("assign"));
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
@@ -163,6 +172,8 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_assignButton.gridx = 2;
 		gbc_assignButton.gridy = 7;
 		getContentPane().add(assignButton, gbc_assignButton);
+		if (!this.currentUserName.equals(this.author))
+			assignButton.setVisible(false);
 
 		JLabel currentAssigneeTitleLabel = new JLabel(Messages.getString("currentAssignees"));
 		GridBagConstraints gbc_currentAssigneeTitleLabel = new GridBagConstraints();
@@ -172,6 +183,7 @@ public class IssueDetailsDialogView extends JDialog
 		getContentPane().add(currentAssigneeTitleLabel, gbc_currentAssigneeTitleLabel);
 
 		currentAssigneeLabel = new JLabel("");
+		setIssueAssignees(this.currentAssignees);
 		GridBagConstraints gbc_currentAssigneeLabel = new GridBagConstraints();
 		gbc_currentAssigneeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_currentAssigneeLabel.gridx = 12;
@@ -301,6 +313,11 @@ public class IssueDetailsDialogView extends JDialog
 		return assignButton;
 	}
 
+	public String getSelectedUserName()
+	{
+		return (String) assignComboBox.getSelectedItem();
+	}
+
 	/**
 	 * 
 	 * @return the current user name.
@@ -308,6 +325,11 @@ public class IssueDetailsDialogView extends JDialog
 	public String getCurrentUserName()
 	{
 		return currentUserName;
+	}
+
+	public Vector<String> getPossibleAssignees()
+	{
+		return possibleAssignees;
 	}
 
 }

@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import com.ekinoks.model.Issue;
 import com.ekinoks.model.User;
@@ -21,12 +22,14 @@ public class DatabaseManager
 	private final String LOGIN_CHECK_STATEMENT = "SELECT * FROM users WHERE user_name = ? AND password = ?";
 	private final String GET_RANK_STATEMENT = "SELECT rank FROM users WHERE user_name = ?";
 	private final String CHECK_USER_EXISTS_STATEMENT = "SELECT * FROM users WHERE user_name = ?";
-	private final String GET_ALL_USER_NAMES_STATEMENT = "SELECT user_name from users";
+	private final String GET_ALL_USERS_STATEMENT = "SELECT * from users";
 	private final String ADD_RELATION_STATEMENT = "INSERT INTO relation(user_id, issue_id) SELECT usr.user_id, iss.issue_id FROM users usr JOIN issues iss WHERE user_name = ? and title = ?";
 	private final String GET_ISSUE_ID_FROM_TITLE_STATEMENT = "SELECT issue_id FROM issues WHERE title = ?";
 	private final String GET_USERS_BY_ISSUE_STATEMENT = "SELECT * FROM relation WHERE issue_id = ?";
-	private final String GET_USER_NAME_BY_ID = "SELECT user_name FROM users WHERE user_id = ?";
-	private final String GET_AUTHOR_BY_ISSUE_TITLE = "SELECT author FROM issues WHERE title = ?";
+	private final String GET_USER_NAME_BY_ID_STATEMENT = "SELECT user_name FROM users WHERE user_id = ?";
+	private final String GET_USER_ID_BY_NAME_STATEMENT = "SELECT user_id FROM users WHERE user_name = ?";
+	private final String GET_AUTHOR_BY_ISSUE_TITLE_STATEMENT = "SELECT author FROM issues WHERE title = ?";
+	private final String GET_IF_USER_AND_ISSUE_RELATED_STATEMENT = "SELECT * FROM relation WHERE user_id = ? AND issue_id = ?";
 
 	/**
 	 * Provides connection to the SQL server
@@ -285,7 +288,7 @@ public class DatabaseManager
 	{
 		String result = "";
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(GET_AUTHOR_BY_ISSUE_TITLE))
+				PreparedStatement pstmt = conn.prepareStatement(GET_AUTHOR_BY_ISSUE_TITLE_STATEMENT))
 		{
 			pstmt.setString(1, issueTitle);
 			ResultSet executeQuery = pstmt.executeQuery();
@@ -362,8 +365,7 @@ public class DatabaseManager
 		String password = "";
 		int rank = -1;
 
-		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(GET_ALL_USER_NAMES_STATEMENT))
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(GET_ALL_USERS_STATEMENT))
 		{
 			ResultSet executeQuery = pstmt.executeQuery();
 			while (executeQuery.next())
@@ -423,7 +425,8 @@ public class DatabaseManager
 	private String getUserNameById(int id)
 	{
 		String result = "";
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(GET_USER_NAME_BY_ID))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(GET_USER_NAME_BY_ID_STATEMENT))
 		{
 			pstmt.setInt(1, id);
 			ResultSet executeQuery = pstmt.executeQuery();
@@ -464,6 +467,68 @@ public class DatabaseManager
 			System.err.println(e.getMessage());
 			result = -1;
 		}
+		return result;
+	}
+
+	/**
+	 * returns the id of the user whose user name is given.
+	 * 
+	 * @param userName
+	 * @return
+	 */
+	private int getUserIdByName(String userName)
+	{
+		int result = -1;
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(GET_USER_ID_BY_NAME_STATEMENT))
+		{
+			pstmt.setString(1, userName);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if (executeQuery.next())
+			{
+				result = executeQuery.getInt("user_id");
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+
+		}
+		return result;
+	}
+
+	/**
+	 * 
+	 * @param issueTitle
+	 * @return the users that can be assigned to the given issue.
+	 */
+	public Vector<String> getPossibleAssignees(String issueTitle)
+	{
+		ArrayList<User> allUsers = getAllUsers();
+		Vector<String> result = new Vector<>();
+		ResultSet executeQuery;
+		int issueId = getIssueID(issueTitle);
+
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(GET_IF_USER_AND_ISSUE_RELATED_STATEMENT))
+		{
+			for (User user : allUsers)
+			{
+				int userId = getUserIdByName(user.getUserName());
+				pstmt.setInt(1, userId);
+				pstmt.setInt(2, issueId);
+				executeQuery = pstmt.executeQuery();
+				if (!executeQuery.next())
+				{
+					result.add(user.getUserName());
+				}
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		// TODO
 		return result;
 	}
 }

@@ -3,6 +3,7 @@ package com.ekinoks.controller;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.Vector;
 
 import javax.swing.JOptionPane;
 
@@ -11,8 +12,8 @@ import com.ekinoks.model.Issue;
 import com.ekinoks.view.AddIssueDialogView;
 import com.ekinoks.view.AddUserDialogView;
 import com.ekinoks.view.IssueDetailsDialogView;
-import com.ekinoks.view.Messages;
 import com.ekinoks.view.MainView;
+import com.ekinoks.view.Messages;
 
 public class Controller
 {
@@ -49,7 +50,11 @@ public class Controller
 					String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
 					String status = (String) view.getDefaultTableModel().getValueAt(rowNo, 6);
 					ArrayList<String> assignees = dbm.getUsersByIssueTitle(title);
-					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName, author);
+
+					Vector<String> possibleAssignees = dbm.getPossibleAssignees(title);
+
+					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName, author,
+							assignees, possibleAssignees);
 					issueDetailsDialogView.setIssueID(id);
 					issueDetailsDialogView.setIssueTitle(title);
 					issueDetailsDialogView.setIssueType(type);
@@ -64,7 +69,7 @@ public class Controller
 					else
 					{
 						IssueDetailsDialogController issueDetailsDialogController = new IssueDetailsDialogController(
-								issueDetailsDialogView, Integer.parseInt(id), title, author, type, assignees);
+								issueDetailsDialogView, title, assignees);
 						issueDetailsDialogController.initController();
 					}
 					issueDetailsDialogView.pack();
