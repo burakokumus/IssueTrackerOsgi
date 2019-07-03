@@ -121,6 +121,45 @@ public class DatabaseManager
 	}
 
 	/**
+	 * Get the state of the issue with the given title
+	 * @param title
+	 * @return
+	 */
+	public int getIssueState(String title)
+	{
+		int result = -1;
+		try(Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ISSUE_STATE_STATEMENT))
+		{
+			pstmt.setString(1, title);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if(executeQuery.next())
+			{
+				result = executeQuery.getInt("state");
+			}
+		}
+		catch(SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+	
+	public void updateIssueState(String title, String newState)
+	{
+		try(Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.UPDATE_ISSUE_STATE_STATEMENT))
+		{
+			pstmt.setString(1, newState);
+			pstmt.setString(2, title);
+			
+			pstmt.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
+
+	/**
 	 * Adds user to the database
 	 * 
 	 * @param userName

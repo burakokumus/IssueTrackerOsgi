@@ -69,11 +69,11 @@ public class Controller
 					else
 					{
 						IssueDetailsDialogController issueDetailsDialogController = new IssueDetailsDialogController(
-								issueDetailsDialogView, title, assignees);
+								issueDetailsDialogView, view, title, assignees);
 						issueDetailsDialogController.initController();
 					}
+					//issueDetailsDialogView.setMinimumSize(new Dimension(800,500));;
 					issueDetailsDialogView.pack();
-
 				}
 			}
 		});

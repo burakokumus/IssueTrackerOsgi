@@ -1,5 +1,6 @@
 package com.ekinoks.model;
 
+
 public class Issue
 {
 	private int id;
@@ -9,7 +10,7 @@ public class Issue
 	private String author;
 	private String description;
 	private String state;
-	
+
 	public Issue(int id, String title, String type, int priority, String author, String description, String state)
 	{
 		this.id = id;
@@ -20,6 +21,7 @@ public class Issue
 		this.description = description;
 		this.state = state;
 	}
+
 
 	public int getId()
 	{
@@ -55,6 +57,5 @@ public class Issue
 	{
 		return state;
 	}
-	
-	
+
 }

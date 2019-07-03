@@ -18,6 +18,8 @@ public class Statements
 	public static final String GET_USER_ID_BY_NAME_STATEMENT = "SELECT user_id FROM users WHERE user_name = ?";
 	public static final String GET_AUTHOR_BY_ISSUE_TITLE_STATEMENT = "SELECT author FROM issues WHERE title = ?";
 	public static final String GET_IF_USER_AND_ISSUE_RELATED_STATEMENT = "SELECT * FROM relation WHERE user_id = ? AND issue_id = ?";
+	public static final String GET_ISSUE_STATE_STATEMENT = "SELECT state FROM issues WHERE title = ?";
+	public static final String UPDATE_ISSUE_STATE_STATEMENT = "UPDATE issues SET state = ? WHERE title = ?";
 	
 	private Statements()
 	{

@@ -31,6 +31,8 @@ public class IssueDetailsDialogView extends JDialog
 	private DefaultComboBoxModel<String> assignComboBoxModel;
 	private Vector<String> possibleAssignees;
 	private ArrayList<String> currentAssignees;
+	private JComboBox<String> stateComboBox;
+	private JButton stateSetButton;
 
 	public IssueDetailsDialogView(String currentUserName, String author, ArrayList<String> currentAssignees,
 			Vector<String> possibleAssignees)
@@ -41,7 +43,6 @@ public class IssueDetailsDialogView extends JDialog
 		this.assignComboBoxModel = new DefaultComboBoxModel<>(possibleAssignees);
 		this.currentAssignees = currentAssignees;
 		initialize();
-
 	}
 
 	/**
@@ -55,11 +56,11 @@ public class IssueDetailsDialogView extends JDialog
 		gridBagLayout.columnWidths = new int[]
 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[]
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[]
 		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[]
-		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
 		JLabel descriptionTitleLabel = new JLabel(Messages.getString("description"));
@@ -155,28 +156,9 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_priorityLabel.gridy = 6;
 		getContentPane().add(priorityLabel, gbc_priorityLabel);
 
-		assignComboBox = new JComboBox<>(this.assignComboBoxModel);
-		assignComboBox.setSelectedIndex(0);
-		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
-		gbc_assignComboBox.insets = new Insets(5, 5, 5, 5);
-		gbc_assignComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_assignComboBox.gridx = 1;
-		gbc_assignComboBox.gridy = 7;
-		getContentPane().add(assignComboBox, gbc_assignComboBox);
-		if (!this.currentUserName.equals(this.author))
-			assignComboBox.setVisible(false);
-
-		assignButton = new JButton(Messages.getString("assign"));
-		GridBagConstraints gbc_assignButton = new GridBagConstraints();
-		gbc_assignButton.insets = new Insets(5, 5, 5, 5);
-		gbc_assignButton.gridx = 2;
-		gbc_assignButton.gridy = 7;
-		getContentPane().add(assignButton, gbc_assignButton);
-		if (!this.currentUserName.equals(this.author))
-			assignButton.setVisible(false);
-
 		JLabel currentAssigneeTitleLabel = new JLabel(Messages.getString("currentAssignees"));
 		GridBagConstraints gbc_currentAssigneeTitleLabel = new GridBagConstraints();
+		gbc_currentAssigneeTitleLabel.anchor = GridBagConstraints.EAST;
 		gbc_currentAssigneeTitleLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_currentAssigneeTitleLabel.gridx = 11;
 		gbc_currentAssigneeTitleLabel.gridy = 7;
@@ -190,20 +172,63 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_currentAssigneeLabel.gridy = 7;
 		getContentPane().add(currentAssigneeLabel, gbc_currentAssigneeLabel);
 
+		assignComboBox = new JComboBox<>(this.assignComboBoxModel);
+		assignComboBox.setSelectedIndex(0);
+		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
+		gbc_assignComboBox.insets = new Insets(5, 5, 5, 5);
+		gbc_assignComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_assignComboBox.gridx = 1;
+		gbc_assignComboBox.gridy = 8;
+		getContentPane().add(assignComboBox, gbc_assignComboBox);
+
+		assignButton = new JButton(Messages.getString("assign"));
+		GridBagConstraints gbc_assignButton = new GridBagConstraints();
+		gbc_assignButton.insets = new Insets(5, 5, 5, 5);
+		gbc_assignButton.gridx = 2;
+		gbc_assignButton.gridy = 8;
+		getContentPane().add(assignButton, gbc_assignButton);
+
+		
+
 		JLabel statusTitleLabel = new JLabel(Messages.getString("status"));
 		GridBagConstraints gbc_statusTitleLabel = new GridBagConstraints();
 		gbc_statusTitleLabel.anchor = GridBagConstraints.EAST;
-		gbc_statusTitleLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_statusTitleLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_statusTitleLabel.gridx = 11;
 		gbc_statusTitleLabel.gridy = 8;
 		getContentPane().add(statusTitleLabel, gbc_statusTitleLabel);
 
 		statusLabel = new JLabel();
 		GridBagConstraints gbc_statusLabel = new GridBagConstraints();
-		gbc_statusLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_statusLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_statusLabel.gridx = 12;
 		gbc_statusLabel.gridy = 8;
 		getContentPane().add(statusLabel, gbc_statusLabel);
+
+		stateComboBox = new JComboBox<>(new String[]
+		{ "PENDING", "DONE", "REJECTED", "REOPEN", "VERIFIED DONE" });
+		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
+		gbc_stateComboBox.insets = new Insets(5, 5, 0, 5);
+		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_stateComboBox.gridx = 1;
+		gbc_stateComboBox.gridy = 9;
+		getContentPane().add(stateComboBox, gbc_stateComboBox);
+
+		stateSetButton = new JButton(Messages.getString("IssueDetailsDialogView.btnSet.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_stateSetButton = new GridBagConstraints();
+		gbc_stateSetButton.insets = new Insets(5, 5, 0, 5);
+		gbc_stateSetButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_stateSetButton.gridx = 2;
+		gbc_stateSetButton.gridy = 9;
+		getContentPane().add(stateSetButton, gbc_stateSetButton);
+		
+		if (!this.currentUserName.equals(this.author))
+		{
+			stateComboBox.setVisible(false);
+			stateSetButton.setVisible(false);
+			assignComboBox.setVisible(false);
+			assignButton.setVisible(false);
+		}
 
 	}
 
@@ -313,9 +338,31 @@ public class IssueDetailsDialogView extends JDialog
 		return assignButton;
 	}
 
+	/**
+	 * 
+	 * @return the selected user name for assignment
+	 */
 	public String getSelectedUserName()
 	{
 		return (String) assignComboBox.getSelectedItem();
+	}
+
+	/**
+	 * 
+	 * @return get selected state
+	 */
+	public String getSelectedState()
+	{
+		return (String) stateComboBox.getSelectedItem();
+	}
+
+	/**
+	 * 
+	 * @return set state button
+	 */
+	public JButton getStateSetButton()
+	{
+		return stateSetButton;
 	}
 
 	/**

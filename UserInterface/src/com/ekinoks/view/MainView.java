@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -160,5 +161,24 @@ public class MainView
 
 //		defaultTableModel.addRow(new String[]
 //		{ Integer.toString(issueID), title, type, Integer.toString(priority), author, description, state });
+	}
+
+	public void updateIssueStateOnJTable(String title, String newState)
+	{
+		List<Issue> temp = table.getModel().getRows();
+		int count = 0;
+		for (Issue issue : temp)
+		{
+			if (issue.getTitle().equals(title))
+			{
+				table.getModel().setRow(count, new Issue(issue.getId(), issue.getTitle(), issue.getType(),
+						issue.getPriority(), issue.getAuthor(), issue.getDescription(), newState));
+				break;
+			}
+			else
+			{
+				count++;
+			}
+		}
 	}
 }
