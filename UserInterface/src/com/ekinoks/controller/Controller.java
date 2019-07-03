@@ -64,15 +64,12 @@ public class Controller
 					issueDetailsDialogView.setIssueStatus(status);
 					issueDetailsDialogView.showScreen();
 					issueDetailsDialogView.setIssueAssignees(assignees);
-					if (assignees.contains(currentUserName))
-						issueDetailsDialogView.getAssignButton().setVisible(false);
-					else
-					{
-						IssueDetailsDialogController issueDetailsDialogController = new IssueDetailsDialogController(
-								issueDetailsDialogView, view, title, assignees);
-						issueDetailsDialogController.initController();
-					}
-					//issueDetailsDialogView.setMinimumSize(new Dimension(800,500));;
+
+					IssueDetailsDialogController issueDetailsDialogController = new IssueDetailsDialogController(
+							issueDetailsDialogView, view, title, assignees);
+					issueDetailsDialogController.initController();
+
+					// issueDetailsDialogView.setMinimumSize(new Dimension(800,500));;
 					issueDetailsDialogView.pack();
 				}
 			}

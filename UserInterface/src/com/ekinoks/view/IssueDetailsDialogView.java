@@ -66,8 +66,9 @@ public class IssueDetailsDialogView extends JDialog
 		JLabel descriptionTitleLabel = new JLabel(Messages.getString("description"));
 		descriptionTitleLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
 		GridBagConstraints gbc_descriptionTitleLabel = new GridBagConstraints();
+		gbc_descriptionTitleLabel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_descriptionTitleLabel.gridheight = 2;
-		gbc_descriptionTitleLabel.insets = new Insets(0, 5, 5, 5);
+		gbc_descriptionTitleLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_descriptionTitleLabel.gridx = 1;
 		gbc_descriptionTitleLabel.gridy = 1;
 		getContentPane().add(descriptionTitleLabel, gbc_descriptionTitleLabel);
@@ -76,7 +77,7 @@ public class IssueDetailsDialogView extends JDialog
 		GridBagConstraints gbc_issueIDTitleLabel = new GridBagConstraints();
 		gbc_issueIDTitleLabel.anchor = GridBagConstraints.EAST;
 		gbc_issueIDTitleLabel.fill = GridBagConstraints.VERTICAL;
-		gbc_issueIDTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueIDTitleLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_issueIDTitleLabel.gridx = 11;
 		gbc_issueIDTitleLabel.gridy = 2;
 		getContentPane().add(issueIDTitleLabel, gbc_issueIDTitleLabel);
@@ -84,14 +85,14 @@ public class IssueDetailsDialogView extends JDialog
 		issueIDLabel = new JLabel();
 		GridBagConstraints gbc_issueIDLabel = new GridBagConstraints();
 		gbc_issueIDLabel.fill = GridBagConstraints.VERTICAL;
-		gbc_issueIDLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueIDLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_issueIDLabel.gridx = 12;
 		gbc_issueIDLabel.gridy = 2;
 		getContentPane().add(issueIDLabel, gbc_issueIDLabel);
 
 		descriptionLabel = new JLabel();
 		GridBagConstraints gbc_descriptionLabel = new GridBagConstraints();
-		gbc_descriptionLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_descriptionLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_descriptionLabel.gridx = 1;
 		gbc_descriptionLabel.gridy = 3;
 		getContentPane().add(descriptionLabel, gbc_descriptionLabel);
@@ -99,14 +100,14 @@ public class IssueDetailsDialogView extends JDialog
 		JLabel issueTitleTitleLabel = new JLabel(Messages.getString("title"));
 		GridBagConstraints gbc_issueTitleTitleLabel = new GridBagConstraints();
 		gbc_issueTitleTitleLabel.anchor = GridBagConstraints.EAST;
-		gbc_issueTitleTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueTitleTitleLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_issueTitleTitleLabel.gridx = 11;
 		gbc_issueTitleTitleLabel.gridy = 3;
 		getContentPane().add(issueTitleTitleLabel, gbc_issueTitleTitleLabel);
 
 		issueTitleLabel = new JLabel();
 		GridBagConstraints gbc_issueTitleLabel = new GridBagConstraints();
-		gbc_issueTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueTitleLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_issueTitleLabel.gridx = 12;
 		gbc_issueTitleLabel.gridy = 3;
 		getContentPane().add(issueTitleLabel, gbc_issueTitleLabel);
@@ -114,14 +115,14 @@ public class IssueDetailsDialogView extends JDialog
 		JLabel authorTitleLabel = new JLabel(Messages.getString("author"));
 		GridBagConstraints gbc_authorTitleLabel = new GridBagConstraints();
 		gbc_authorTitleLabel.anchor = GridBagConstraints.EAST;
-		gbc_authorTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_authorTitleLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_authorTitleLabel.gridx = 11;
 		gbc_authorTitleLabel.gridy = 4;
 		getContentPane().add(authorTitleLabel, gbc_authorTitleLabel);
 
 		authorLabel = new JLabel();
 		GridBagConstraints gbc_authorLabel = new GridBagConstraints();
-		gbc_authorLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_authorLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_authorLabel.gridx = 12;
 		gbc_authorLabel.gridy = 4;
 		getContentPane().add(authorLabel, gbc_authorLabel);
@@ -129,14 +130,14 @@ public class IssueDetailsDialogView extends JDialog
 		JLabel typeTitleLabel = new JLabel(Messages.getString("type"));
 		GridBagConstraints gbc_typeTitleLabel = new GridBagConstraints();
 		gbc_typeTitleLabel.anchor = GridBagConstraints.EAST;
-		gbc_typeTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_typeTitleLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_typeTitleLabel.gridx = 11;
 		gbc_typeTitleLabel.gridy = 5;
 		getContentPane().add(typeTitleLabel, gbc_typeTitleLabel);
 
 		typeLabel = new JLabel();
 		GridBagConstraints gbc_typeLabel = new GridBagConstraints();
-		gbc_typeLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_typeLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_typeLabel.gridx = 12;
 		gbc_typeLabel.gridy = 5;
 		getContentPane().add(typeLabel, gbc_typeLabel);
@@ -144,14 +145,14 @@ public class IssueDetailsDialogView extends JDialog
 		JLabel priorityTitleLabel = new JLabel(Messages.getString("priority"));
 		GridBagConstraints gbc_priorityTitleLabel = new GridBagConstraints();
 		gbc_priorityTitleLabel.anchor = GridBagConstraints.EAST;
-		gbc_priorityTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_priorityTitleLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_priorityTitleLabel.gridx = 11;
 		gbc_priorityTitleLabel.gridy = 6;
 		getContentPane().add(priorityTitleLabel, gbc_priorityTitleLabel);
 
 		priorityLabel = new JLabel();
 		GridBagConstraints gbc_priorityLabel = new GridBagConstraints();
-		gbc_priorityLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_priorityLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_priorityLabel.gridx = 12;
 		gbc_priorityLabel.gridy = 6;
 		getContentPane().add(priorityLabel, gbc_priorityLabel);
@@ -159,7 +160,7 @@ public class IssueDetailsDialogView extends JDialog
 		JLabel currentAssigneeTitleLabel = new JLabel(Messages.getString("currentAssignees"));
 		GridBagConstraints gbc_currentAssigneeTitleLabel = new GridBagConstraints();
 		gbc_currentAssigneeTitleLabel.anchor = GridBagConstraints.EAST;
-		gbc_currentAssigneeTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_currentAssigneeTitleLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_currentAssigneeTitleLabel.gridx = 11;
 		gbc_currentAssigneeTitleLabel.gridy = 7;
 		getContentPane().add(currentAssigneeTitleLabel, gbc_currentAssigneeTitleLabel);
@@ -167,7 +168,7 @@ public class IssueDetailsDialogView extends JDialog
 		currentAssigneeLabel = new JLabel("");
 		setIssueAssignees(this.currentAssignees);
 		GridBagConstraints gbc_currentAssigneeLabel = new GridBagConstraints();
-		gbc_currentAssigneeLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_currentAssigneeLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_currentAssigneeLabel.gridx = 12;
 		gbc_currentAssigneeLabel.gridy = 7;
 		getContentPane().add(currentAssigneeLabel, gbc_currentAssigneeLabel);
@@ -183,6 +184,7 @@ public class IssueDetailsDialogView extends JDialog
 
 		assignButton = new JButton(Messages.getString("assign"));
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
+		gbc_assignButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_assignButton.insets = new Insets(5, 5, 5, 5);
 		gbc_assignButton.gridx = 2;
 		gbc_assignButton.gridy = 8;
@@ -193,14 +195,14 @@ public class IssueDetailsDialogView extends JDialog
 		JLabel statusTitleLabel = new JLabel(Messages.getString("status"));
 		GridBagConstraints gbc_statusTitleLabel = new GridBagConstraints();
 		gbc_statusTitleLabel.anchor = GridBagConstraints.EAST;
-		gbc_statusTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_statusTitleLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_statusTitleLabel.gridx = 11;
 		gbc_statusTitleLabel.gridy = 8;
 		getContentPane().add(statusTitleLabel, gbc_statusTitleLabel);
 
 		statusLabel = new JLabel();
 		GridBagConstraints gbc_statusLabel = new GridBagConstraints();
-		gbc_statusLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_statusLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_statusLabel.gridx = 12;
 		gbc_statusLabel.gridy = 8;
 		getContentPane().add(statusLabel, gbc_statusLabel);
@@ -208,7 +210,7 @@ public class IssueDetailsDialogView extends JDialog
 		stateComboBox = new JComboBox<>(new String[]
 		{ "PENDING", "DONE", "REJECTED", "REOPEN", "VERIFIED DONE" });
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
-		gbc_stateComboBox.insets = new Insets(5, 5, 0, 5);
+		gbc_stateComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_stateComboBox.gridx = 1;
 		gbc_stateComboBox.gridy = 9;
@@ -216,7 +218,7 @@ public class IssueDetailsDialogView extends JDialog
 
 		stateSetButton = new JButton(Messages.getString("IssueDetailsDialogView.btnSet.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_stateSetButton = new GridBagConstraints();
-		gbc_stateSetButton.insets = new Insets(5, 5, 0, 5);
+		gbc_stateSetButton.insets = new Insets(5, 5, 5, 5);
 		gbc_stateSetButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_stateSetButton.gridx = 2;
 		gbc_stateSetButton.gridy = 9;
@@ -224,10 +226,14 @@ public class IssueDetailsDialogView extends JDialog
 		
 		if (!this.currentUserName.equals(this.author))
 		{
-			stateComboBox.setVisible(false);
-			stateSetButton.setVisible(false);
 			assignComboBox.setVisible(false);
 			assignButton.setVisible(false);
+			if(!this.currentAssignees.contains(this.currentUserName))
+			{
+				stateComboBox.setVisible(false);
+				stateSetButton.setVisible(false);
+			}
+			
 		}
 
 	}
