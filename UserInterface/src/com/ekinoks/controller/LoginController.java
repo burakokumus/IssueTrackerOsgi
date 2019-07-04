@@ -46,7 +46,11 @@ public class LoginController
 			mainController.setCurrentUserName(userName);
 			mainView.setCurrentUserName(userName);
 			loginView.dispose();
-			mainView.showScreen();
+			int rank = dbm.getUserRank(userName);
+			mainView.setRank(rank);
+			mainView.setCurrentUserName(userName);
+			mainView.setVisible(true);
+			mainView.pack();
 		}
 		else
 		{

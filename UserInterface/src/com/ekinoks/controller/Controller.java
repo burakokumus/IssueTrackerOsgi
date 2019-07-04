@@ -66,10 +66,9 @@ public class Controller
 					issueDetailsDialogView.setIssueAssignees(assignees);
 
 					IssueDetailsDialogController issueDetailsDialogController = new IssueDetailsDialogController(
-							issueDetailsDialogView, view, title, assignees);
+							issueDetailsDialogView, view, title, currentUserName, assignees);
 					issueDetailsDialogController.initController();
 
-					// issueDetailsDialogView.setMinimumSize(new Dimension(800,500));;
 					issueDetailsDialogView.pack();
 				}
 			}
@@ -102,7 +101,7 @@ public class Controller
 	{
 		if (dbm.getUserRank(currentUserName) > 1)
 		{
-			JOptionPane.showOptionDialog(view.frame, Messages.getString("cannotAddUser"), "",
+			JOptionPane.showOptionDialog(view, Messages.getString("cannotAddUser"), "",
 					JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 		}
 		else

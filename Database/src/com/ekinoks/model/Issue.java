@@ -11,6 +11,11 @@ public class Issue
 	private String description;
 	private String state;
 
+	public Issue()
+	{
+		
+	}
+	
 	public Issue(int id, String title, String type, int priority, String author, String description, String state)
 	{
 		this.id = id;

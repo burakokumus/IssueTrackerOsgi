@@ -15,23 +15,26 @@ import javax.swing.JScrollPane;
 import com.ekinoks.model.Issue;
 import com.ekinoks.ui.components.listtable.ListTable;
 import com.ekinoks.ui.components.listtable.ListTableModel;
+import javax.swing.JLabel;
 
-public class MainView
+@SuppressWarnings("serial")
+public class MainView extends JFrame
 {
 	private String currentUserName;
 
-	public JFrame frame;
 	public JDialog addIssueDialog;
 	private ListTable<Issue> table;
-	private JPanel panel;
+	private JPanel buttonPanel;
 	private JButton addIssueButton;
 	private JButton addUserButton;
+	private JPanel infoPanel;
+	private JLabel userNameLabel;
+	private int rank = -1;
 
 	public MainView()
 	{
 		this.currentUserName = "";
 		initialize();
-
 	}
 
 	/**
@@ -39,7 +42,7 @@ public class MainView
 	 */
 	public void showScreen()
 	{
-		frame.setVisible(true);
+		this.setVisible(true);
 	}
 
 	/**
@@ -47,42 +50,43 @@ public class MainView
 	 */
 	private void initialize()
 	{
-		frame = new JFrame("");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setVisible(false);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setVisible(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]
 		{ 0, 0 };
 		gridBagLayout.rowHeights = new int[]
-		{ 36, 0, 0 };
+		{ 36, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[]
 		{ 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[]
-		{ 0.0, 1.0, Double.MIN_VALUE };
-		frame.getContentPane().setLayout(gridBagLayout);
+		{ 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		this.getContentPane().setLayout(gridBagLayout);
 
-		panel = new JPanel();
-		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(5, 5, 5, 0);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 0;
-		frame.getContentPane().add(panel, gbc_panel);
+		buttonPanel = new JPanel();
+		FlowLayout fl_buttonPanel = (FlowLayout) buttonPanel.getLayout();
+		fl_buttonPanel.setAlignment(FlowLayout.RIGHT);
+		GridBagConstraints gbc_buttonPanel = new GridBagConstraints();
+		gbc_buttonPanel.anchor = GridBagConstraints.NORTH;
+		gbc_buttonPanel.insets = new Insets(5, 5, 5, 5);
+		gbc_buttonPanel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_buttonPanel.gridx = 0;
+		gbc_buttonPanel.gridy = 0;
+		this.getContentPane().add(buttonPanel, gbc_buttonPanel);
 
 		addUserButton = new JButton(Messages.getString("addUser"));
-		panel.add(addUserButton);
+		buttonPanel.add(addUserButton);
 
 		addIssueButton = new JButton(Messages.getString("addIssue"));
-		panel.add(addIssueButton);
+		buttonPanel.add(addIssueButton);
 
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(5, 5, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
-		frame.getContentPane().add(scrollPane, gbc_scrollPane);
+		this.getContentPane().add(scrollPane, gbc_scrollPane);
 
 		table = new ListTable<Issue>(Issue.class);
 		table.setFilterable(true);
@@ -90,8 +94,21 @@ public class MainView
 		table.getTableHeader().setReorderingAllowed(false);
 
 		scrollPane.setViewportView(table);
+		
+		infoPanel = new JPanel();
+		GridBagConstraints gbc_infoPanel = new GridBagConstraints();
+		gbc_infoPanel.fill = GridBagConstraints.HORIZONTAL;
+//		gbc_infoPanel.anchor = GridBagConstraints.SOUTH;
+		gbc_infoPanel.insets = new Insets(5, 5, 5, 5);
+		gbc_infoPanel.gridx = 0;
+		gbc_infoPanel.gridy = 2;
+		getContentPane().add(infoPanel, gbc_infoPanel);
+		infoPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		
+		userNameLabel = new JLabel(Messages.getString("MainView.userNameLabel.text")); //$NON-NLS-1$ //$NON-NLS-1$
+		infoPanel.add(userNameLabel);
 
-		frame.pack();
+		this.pack();
 	}
 
 	/**
@@ -129,6 +146,27 @@ public class MainView
 	public void setCurrentUserName(String userName)
 	{
 		this.currentUserName = userName;
+		String rankName = "";
+		if(this.rank == 1)
+			rankName = "Manager";
+		else if(this.rank == 2)
+			rankName = "Analyst";
+		else if(this.rank == 3)
+			rankName = "Tester";
+		else if(this.rank == 4)
+			rankName = "Developer";
+			
+		this.userNameLabel.setText("User: " + userName + ",  " + rankName);
+		
+	}
+	
+	/**
+	 * 
+	 * @param rank
+	 */
+	public void setRank(int rank)
+	{
+		this.rank = rank;
 	}
 
 	/**
