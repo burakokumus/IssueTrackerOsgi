@@ -16,6 +16,14 @@ import javax.swing.JLabel;
 @SuppressWarnings("serial")
 public class IssueDetailsDialogView extends JDialog
 {
+	private String[] possibleStates;
+	private Vector<String> possibleAssignees;
+	private ArrayList<String> currentAssignees;
+	private String currentUserName;
+	private String author;
+	private String currentState;
+	private int userRank;
+
 	private JLabel issueIDLabel;
 	private JLabel descriptionLabel;
 	private JLabel issueTitleLabel;
@@ -25,24 +33,165 @@ public class IssueDetailsDialogView extends JDialog
 	private JLabel priorityLabel;
 	private JLabel statusLabel;
 	private JButton assignButton;
-	private String currentUserName;
-	private String author;
 	private JComboBox<String> assignComboBox;
 	private DefaultComboBoxModel<String> assignComboBoxModel;
-	private Vector<String> possibleAssignees;
-	private ArrayList<String> currentAssignees;
 	private JComboBox<String> stateComboBox;
 	private JButton stateSetButton;
 
-	public IssueDetailsDialogView(String currentUserName, String author, ArrayList<String> currentAssignees,
-			Vector<String> possibleAssignees)
+	public IssueDetailsDialogView(String currentUserName, int userRank, String author, String currentState,
+			ArrayList<String> currentAssignees, Vector<String> possibleAssignees)
 	{
 		this.currentUserName = currentUserName;
 		this.author = author;
 		this.possibleAssignees = possibleAssignees;
 		this.assignComboBoxModel = new DefaultComboBoxModel<>(possibleAssignees);
 		this.currentAssignees = currentAssignees;
+		this.currentState = currentState;
+		this.userRank = userRank;
+		stateSetButton = new JButton(Messages.getString("IssueDetailsDialogView.btnSet.text")); //$NON-NLS-1$
+		assignButton = new JButton(Messages.getString("assign"));
 		initialize();
+	}
+
+	/**
+	 * Sets the selectable states for the issue
+	 */
+	public void setPossibleStates()
+	{
+		System.out.println(this.currentState);
+		if (this.userRank == 1)
+		{
+			if (this.currentState.equals("PENDING"))
+			{
+				this.possibleStates = new String[]
+				{ "DONE", "REJECTED", "REOPEN", "VERIFIED DONE" };
+			}
+			else if (this.currentState.equals("DONE"))
+			{
+				this.possibleStates = new String[]
+				{ "PENDING", "REJECTED", "REOPEN", "VERIFIED DONE" };
+			}
+
+			else if (this.currentState.equals("REJECTED"))
+			{
+				this.possibleStates = new String[]
+				{ "PENDING", "DONE", "REOPEN", "VERIFIED DONE" };
+			}
+
+			else if (this.currentState.equals("REOPEN"))
+			{
+				this.possibleStates = new String[]
+				{ "PENDING", "DONE", "REJECTED", "VERIFIED DONE" };
+			}
+
+			else if (this.currentState.equals("VERIFIED DONE"))
+			{
+				this.possibleStates = new String[]
+				{ "PENDING", "DONE", "REJECTED", "REOPEN" };
+			}
+
+		}
+		else if (this.userRank == 2)
+		{
+			if (this.currentState.equals("PENDING"))
+			{
+				this.possibleStates = new String[]
+				{ "DONE", "REJECTED" };
+			}
+			else if (this.currentState.equals("DONE"))
+			{
+				this.possibleStates = new String[]
+				{ "REJECTED", "REOPEN" };
+			}
+
+			else if (this.currentState.equals("REJECTED"))
+			{
+				this.possibleStates = new String[]
+				{ "REOPEN" };
+			}
+
+			else if (this.currentState.equals("REOPEN"))
+			{
+				this.possibleStates = new String[]
+				{ "DONE", "REJECTED" };
+			}
+
+			else if (this.currentState.equals("VERIFIED DONE"))
+			{
+				this.possibleStates = new String[]
+				{ "REOPEN" };
+			}
+		}
+		else if (this.userRank == 3)
+		{
+			if (this.currentState.equals("PENDING"))
+			{
+				this.possibleStates = new String[]
+				{};
+				this.stateSetButton.setEnabled(false);
+			}
+			else if (this.currentState.equals("DONE"))
+			{
+				this.possibleStates = new String[]
+				{ "REOPEN", "VERIFIED DONE" };
+			}
+
+			else if (this.currentState.equals("REJECTED"))
+			{
+				this.possibleStates = new String[]
+				{ "REOPEN" };
+			}
+
+			else if (this.currentState.equals("REOPEN"))
+			{
+				this.possibleStates = new String[]
+				{};
+				this.stateSetButton.setEnabled(false);
+			}
+
+			else if (this.currentState.equals("VERIFIED DONE"))
+			{
+				this.possibleStates = new String[]
+				{};
+				this.stateSetButton.setEnabled(false);
+				this.assignButton.setEnabled(false);
+			}
+		}
+		else if (this.userRank == 4)
+		{
+			if (this.currentState.equals("PENDING"))
+			{
+				this.possibleStates = new String[]
+				{ "DONE", "REJECTED" };
+			}
+			else if (this.currentState.equals("DONE"))
+			{
+				this.possibleStates = new String[]
+				{};
+				this.stateSetButton.setEnabled(false);
+				this.assignButton.setEnabled(false);
+			}
+
+			else if (this.currentState.equals("REJECTED"))
+			{
+				this.possibleStates = new String[]
+				{ "PENDING", "REOPEN" };
+			}
+
+			else if (this.currentState.equals("REOPEN"))
+			{
+				this.possibleStates = new String[]
+				{ "DONE" };
+			}
+
+			else if (this.currentState.equals("VERIFIED DONE"))
+			{
+				this.possibleStates = new String[]
+				{};
+				this.stateSetButton.setEnabled(false);
+			}
+		}
+
 	}
 
 	/**
@@ -50,6 +199,9 @@ public class IssueDetailsDialogView extends JDialog
 	 */
 	private void initialize()
 	{
+		possibleStates = new String[]
+		{ "1", "2", "3" };
+		this.setPossibleStates();
 		this.setTitle("Issue Details");
 		this.setVisible(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -182,15 +334,12 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_assignComboBox.gridy = 8;
 		getContentPane().add(assignComboBox, gbc_assignComboBox);
 
-		assignButton = new JButton(Messages.getString("assign"));
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
 		gbc_assignButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_assignButton.insets = new Insets(5, 5, 5, 5);
 		gbc_assignButton.gridx = 2;
 		gbc_assignButton.gridy = 8;
 		getContentPane().add(assignButton, gbc_assignButton);
-
-		
 
 		JLabel statusTitleLabel = new JLabel(Messages.getString("status"));
 		GridBagConstraints gbc_statusTitleLabel = new GridBagConstraints();
@@ -207,8 +356,7 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_statusLabel.gridy = 8;
 		getContentPane().add(statusLabel, gbc_statusLabel);
 
-		stateComboBox = new JComboBox<>(new String[]
-		{ "PENDING", "DONE", "REJECTED", "REOPEN", "VERIFIED DONE" });
+		stateComboBox = new JComboBox<>(possibleStates);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -216,24 +364,23 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_stateComboBox.gridy = 9;
 		getContentPane().add(stateComboBox, gbc_stateComboBox);
 
-		stateSetButton = new JButton(Messages.getString("IssueDetailsDialogView.btnSet.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_stateSetButton = new GridBagConstraints();
 		gbc_stateSetButton.insets = new Insets(5, 5, 5, 5);
 		gbc_stateSetButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_stateSetButton.gridx = 2;
 		gbc_stateSetButton.gridy = 9;
 		getContentPane().add(stateSetButton, gbc_stateSetButton);
-		
+
 		if (!this.currentUserName.equals(this.author))
 		{
 			assignComboBox.setVisible(false);
 			assignButton.setVisible(false);
-			if(!this.currentAssignees.contains(this.currentUserName))
+			if (!this.currentAssignees.contains(this.currentUserName))
 			{
 				stateComboBox.setVisible(false);
 				stateSetButton.setVisible(false);
 			}
-			
+
 		}
 
 	}

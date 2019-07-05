@@ -88,6 +88,8 @@ public class IssueDetailsDialogController
 				mainView.updateIssueStateOnJTable(title, selectedState);
 			}
 		}
+		
+		issueDetailsDialogView.setPossibleStates();
 
 	}
 }

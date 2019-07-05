@@ -53,8 +53,8 @@ public class Controller
 
 					Vector<String> possibleAssignees = dbm.getPossibleAssignees(title);
 
-					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName, author,
-							assignees, possibleAssignees);
+					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName,
+							dbm.getUserRank(currentUserName), author, status, assignees, possibleAssignees);
 					issueDetailsDialogView.setIssueID(id);
 					issueDetailsDialogView.setIssueTitle(title);
 					issueDetailsDialogView.setIssueType(type);
@@ -101,8 +101,8 @@ public class Controller
 	{
 		if (dbm.getUserRank(currentUserName) > 1)
 		{
-			JOptionPane.showOptionDialog(view, Messages.getString("cannotAddUser"), "",
-					JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			JOptionPane.showOptionDialog(view, Messages.getString("cannotAddUser"), "", JOptionPane.DEFAULT_OPTION,
+					JOptionPane.INFORMATION_MESSAGE, null, null, null);
 		}
 		else
 		{
