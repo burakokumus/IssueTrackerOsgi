@@ -1,5 +1,6 @@
 package com.ekinoks.controller;
 
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -106,8 +107,11 @@ public class Controller
 		}
 		else
 		{
-			AddUserDialogView addUserDialogView = new AddUserDialogView();
-			addUserDialogView.showScreen();
+			ArrayList<String> requests = dbm.getAllSignUpRequestUserNames();
+			AddUserDialogView addUserDialogView = new AddUserDialogView(requests);
+			addUserDialogView.setPreferredSize(new Dimension(300,300));
+			addUserDialogView.pack();
+			addUserDialogView.setVisible(true);
 			AddUserDialogController addUserDialogController = new AddUserDialogController(addUserDialogView);
 			addUserDialogController.initController();
 		}

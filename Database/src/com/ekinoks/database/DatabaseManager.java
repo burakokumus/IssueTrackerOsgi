@@ -73,7 +73,8 @@ public class DatabaseManager
 	{
 		if (userName.trim().length() == 0 || password.trim().length() == 0)
 			return false;
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.LOGIN_CHECK_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.LOGIN_CHECK_STATEMENT))
 		{
 
 			pstmt.setString(1, userName);
@@ -103,7 +104,8 @@ public class DatabaseManager
 	public int getUserRank(String userName)
 	{
 		int result = -1;
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.GET_RANK_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_RANK_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 
@@ -122,38 +124,41 @@ public class DatabaseManager
 
 	/**
 	 * Get the state of the issue with the given title
+	 * 
 	 * @param title
 	 * @return
 	 */
 	public int getIssueState(String title)
 	{
 		int result = -1;
-		try(Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ISSUE_STATE_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ISSUE_STATE_STATEMENT))
 		{
 			pstmt.setString(1, title);
 			ResultSet executeQuery = pstmt.executeQuery();
-			if(executeQuery.next())
+			if (executeQuery.next())
 			{
 				result = executeQuery.getInt("state");
 			}
 		}
-		catch(SQLException e)
+		catch (SQLException e)
 		{
 			System.err.println(e.getMessage());
 		}
 		return result;
 	}
-	
+
 	public void updateIssueState(String title, String newState)
 	{
-		try(Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.UPDATE_ISSUE_STATE_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.UPDATE_ISSUE_STATE_STATEMENT))
 		{
 			pstmt.setString(1, newState);
 			pstmt.setString(2, title);
-			
+
 			pstmt.executeUpdate();
 		}
-		catch(SQLException e)
+		catch (SQLException e)
 		{
 			System.err.println(e.getMessage());
 		}
@@ -169,7 +174,8 @@ public class DatabaseManager
 	 */
 	public boolean addUser(String userName, String password, String rank)
 	{
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.USER_INSERT_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.USER_INSERT_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 			pstmt.setString(2, password);
@@ -214,7 +220,8 @@ public class DatabaseManager
 	 */
 	public boolean addIssue(String title, String type, int priority, String author, String description)
 	{
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.ISSUE_INSERT_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ISSUE_INSERT_STATEMENT))
 		{
 			pstmt.setString(1, title);
 			pstmt.setString(2, type);
@@ -242,7 +249,8 @@ public class DatabaseManager
 	 */
 	public boolean addRelation(String userName, String issueTitle)
 	{
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_RELATION_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_RELATION_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 			pstmt.setString(2, issueTitle);
@@ -272,7 +280,8 @@ public class DatabaseManager
 		String issueDescription = "";
 		String issueState = "";
 
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ISSUE_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ISSUE_STATEMENT))
 		{
 
 			pstmt.setString(1, title);
@@ -387,7 +396,8 @@ public class DatabaseManager
 		String password = "";
 		int rank = -1;
 
-		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_USERS_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_USERS_STATEMENT))
 		{
 			ResultSet executeQuery = pstmt.executeQuery();
 			while (executeQuery.next())
@@ -555,16 +565,69 @@ public class DatabaseManager
 
 	public void addSignUpRequest(String userName, String password)
 	{
-		try(Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.SIGN_UP_REQUEST_STATEMENT))
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.SIGN_UP_REQUEST_STATEMENT))
 		{
 			pstmt.setString(1, userName);
 			pstmt.setString(2, password);
 			pstmt.executeUpdate();
 		}
-		catch(SQLException e)
+		catch (SQLException e)
 		{
 			System.err.println(e.getMessage());
 		}
 	}
 
+	public ArrayList<String> getAllSignUpRequestUserNames()
+	{
+		ArrayList<String> result = new ArrayList<>();
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_REQUESTS_STATEMENT))
+		{
+			ResultSet executeQuery = pstmt.executeQuery();
+			while (executeQuery.next())
+			{
+				result.add(executeQuery.getString("user_name"));
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
+	public String getSignUpRequestPassword(String name)
+	{
+		String result = "";
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_REQUEST_PASSWORD_BY_USER_NAME_STATEMENT))
+		{
+			pstmt.setString(1, name);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if(executeQuery.next())
+			{
+				result = executeQuery.getString("password");
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
+	public void removeRequest(String userName)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.REMOVE_REQUEST_STATEMENT))
+		{
+			pstmt.setString(1, userName);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
 }

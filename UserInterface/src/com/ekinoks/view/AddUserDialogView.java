@@ -1,46 +1,37 @@
 package com.ekinoks.view;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
+import javax.swing.JDialog;
 import java.awt.GridBagLayout;
+import javax.swing.JComboBox;
+import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
 
 @SuppressWarnings("serial")
 public class AddUserDialogView extends JDialog
 {
-	private JTextField userNameTextField;
-	private JPasswordField passwordField;
-	private JButton addUserButton;
-	private GridBagLayout gridBagLayout;
-	private JLabel userNameLabel;
-	private GridBagConstraints gbc_userNameLabel;
-	private GridBagConstraints gbc_userNameTextField;
-	private JLabel passwordLabel;
-	private GridBagConstraints gbc_passwordLabel;
-	private GridBagConstraints gbc_passwordField;
-	private GridBagConstraints gbc_addUserButton;
-	private JComboBox<String> rankComboBox;
+	JComboBox<String> requestsComboBox;
+	JComboBox<String> ranksComboBox;
+	String[] usersArr;
+	String[] ranks;
+	JButton acceptButton;
+	JButton rejectButton;
 
-	public AddUserDialogView()
+	public AddUserDialogView(ArrayList<String> requests)
 	{
+		ranks = new String[]
+		{ "Manager", "Analyst", "Tester", "Developer" };
+		this.usersArr = new String[requests.size()];
+		for (int i = 0; i < requests.size(); i++)
+			usersArr[i] = requests.get(i);
 		initialize();
 	}
 
-	/**
-	 * initializes the UI.
-	 */
 	private void initialize()
 	{
-
-		setMinimumSize(new Dimension(500, 500));
-		gridBagLayout = new GridBagLayout();
+		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]
 		{ 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[]
@@ -51,100 +42,55 @@ public class AddUserDialogView extends JDialog
 		{ 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
-		userNameLabel = new JLabel(Messages.getString("userName"));
-		gbc_userNameLabel = new GridBagConstraints();
-		gbc_userNameLabel.insets = new Insets(5, 5, 5, 5);
-		gbc_userNameLabel.anchor = GridBagConstraints.EAST;
-		gbc_userNameLabel.gridx = 0;
-		gbc_userNameLabel.gridy = 0;
-		getContentPane().add(userNameLabel, gbc_userNameLabel);
+		requestsComboBox = new JComboBox<>(usersArr);
+		GridBagConstraints gbc_requestsComboBox = new GridBagConstraints();
+		gbc_requestsComboBox.insets = new Insets(5, 5, 5, 5);
+		gbc_requestsComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_requestsComboBox.gridx = 1;
+		gbc_requestsComboBox.gridy = 1;
+		getContentPane().add(requestsComboBox, gbc_requestsComboBox);
 
-		userNameTextField = new JTextField();
-		gbc_userNameTextField = new GridBagConstraints();
-		gbc_userNameTextField.insets = new Insets(5, 5, 5, 5);
-		gbc_userNameTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_userNameTextField.gridx = 1;
-		gbc_userNameTextField.gridy = 0;
-		getContentPane().add(userNameTextField, gbc_userNameTextField);
-		userNameTextField.setColumns(10);
+		ranksComboBox = new JComboBox<>(ranks);
+		GridBagConstraints gbc_ranksComboBox = new GridBagConstraints();
+		gbc_ranksComboBox.insets = new Insets(5, 5, 5, 5);
+		gbc_ranksComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_ranksComboBox.gridx = 2;
+		gbc_ranksComboBox.gridy = 1;
+		getContentPane().add(ranksComboBox, gbc_ranksComboBox);
 
-		passwordLabel = new JLabel(Messages.getString("password"));
-		gbc_passwordLabel = new GridBagConstraints();
-		gbc_passwordLabel.anchor = GridBagConstraints.EAST;
-		gbc_passwordLabel.insets = new Insets(5, 5, 5, 5);
-		gbc_passwordLabel.gridx = 0;
-		gbc_passwordLabel.gridy = 1;
-		getContentPane().add(passwordLabel, gbc_passwordLabel);
+		acceptButton = new JButton("Accept");
+		GridBagConstraints gbc_acceptButton = new GridBagConstraints();
+		gbc_acceptButton.insets = new Insets(5, 5, 5, 5);
+		gbc_acceptButton.gridx = 1;
+		gbc_acceptButton.gridy = 2;
+		getContentPane().add(acceptButton, gbc_acceptButton);
 
-		passwordField = new JPasswordField();
-		gbc_passwordField = new GridBagConstraints();
-		gbc_passwordField.insets = new Insets(5, 5, 5, 5);
-		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_passwordField.gridx = 1;
-		gbc_passwordField.gridy = 1;
-		getContentPane().add(passwordField, gbc_passwordField);
-
-		addUserButton = new JButton(Messages.getString("add"));
-		gbc_addUserButton = new GridBagConstraints();
-		gbc_addUserButton.insets = new Insets(0, 0, 5, 0);
-		gbc_addUserButton.gridx = 2;
-		gbc_addUserButton.gridy = 1;
-		getContentPane().add(addUserButton, gbc_addUserButton);
-
-		this.getRootPane().setDefaultButton(addUserButton);
-
-		rankComboBox = new JComboBox<>(new String[]
-		{ "Developer", "Tester", "Analyst", "Admin" });
-		GridBagConstraints gbc_rankComboBox = new GridBagConstraints();
-		gbc_rankComboBox.insets = new Insets(0, 0, 0, 5);
-		gbc_rankComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_rankComboBox.gridx = 1;
-		gbc_rankComboBox.gridy = 2;
-		getContentPane().add(rankComboBox, gbc_rankComboBox);
+		rejectButton = new JButton("Reject");
+		GridBagConstraints gbc_rejectButton = new GridBagConstraints();
+		gbc_rejectButton.insets = new Insets(5, 5, 5, 5);
+		gbc_rejectButton.gridx = 2;
+		gbc_rejectButton.gridy = 2;
+		getContentPane().add(rejectButton, gbc_rejectButton);
 	}
 
-	/**
-	 * makes the screen visible.
-	 */
-	public void showScreen()
+	public String getSelectedUser()
 	{
-		this.setVisible(true);
+		return (String) this.requestsComboBox.getSelectedItem();
 	}
 
-	/**
-	 * 
-	 * @return the add user button.
-	 */
-	public JButton getAddUserButton()
+	public String getSelectedRank()
 	{
-		return addUserButton;
+		return (String) this.ranksComboBox.getSelectedItem();
 	}
 
-	/**
-	 * 
-	 * @return the user name.
-	 */
-	public String getUserName()
+	public JButton getAcceptButton()
 	{
-		return userNameTextField.getText();
+		return this.acceptButton;
 	}
 
-	/**
-	 * 
-	 * @return the password.
-	 */
-	public String getPassword()
+	public JButton getRejectButton()
 	{
-		String result = new String(passwordField.getPassword());
-		return result;
+		return this.rejectButton;
 	}
 
-	/**
-	 * 
-	 * @return the rank
-	 */
-	public String getRank()
-	{
-		return (String) rankComboBox.getSelectedItem();
-	}
 }

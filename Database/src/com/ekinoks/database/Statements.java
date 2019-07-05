@@ -21,6 +21,9 @@ public class Statements
 	public static final String GET_ISSUE_STATE_STATEMENT = "SELECT state FROM issues WHERE title = ?";
 	public static final String UPDATE_ISSUE_STATE_STATEMENT = "UPDATE issues SET state = ? WHERE title = ?";
 	public static final String SIGN_UP_REQUEST_STATEMENT = "INSERT INTO requests(user_name, password) VALUES(?,?)";
+	public static final String GET_ALL_REQUESTS_STATEMENT = "SELECT * FROM requests";
+	public static final String REMOVE_REQUEST_STATEMENT = "DELETE FROM requests WHERE user_name = ?";
+	public static final String GET_REQUEST_PASSWORD_BY_USER_NAME_STATEMENT = "SELECT password FROM requests WHERE user_name = ?";
 	
 	private Statements()
 	{

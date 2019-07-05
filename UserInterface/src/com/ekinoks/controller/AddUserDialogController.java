@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.view.AddUserDialogView;
-import com.ekinoks.view.Messages;
+import com.ekinokssoftware.tropic.zemin.Messages;
 
 public class AddUserDialogController
 {
@@ -23,7 +23,8 @@ public class AddUserDialogController
 	 */
 	public void initController()
 	{
-		addUserDialogView.getAddUserButton().addActionListener(e -> addUser());
+		addUserDialogView.getAcceptButton().addActionListener(e -> addUser());
+		addUserDialogView.getRejectButton().addActionListener(e -> rejectUser());
 
 	}
 
@@ -33,28 +34,29 @@ public class AddUserDialogController
 	 */
 	private void addUser()
 	{
-		String userName = addUserDialogView.getUserName();
-		String password = addUserDialogView.getPassword();
-		String rank = addUserDialogView.getRank();
-		if (userName.trim().length() == 0 || password.trim().length() == 0)
-		{
-			return;
-		}
-		boolean added = dbm.addUser(userName, password, rank);
-		String message = "";
-
-		if (added)
-		{
-			message = Messages.getString("userAdded");
-		}
-		else
-		{
-			message = Messages.getString("error");
-		}
-		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, message, "", JOptionPane.DEFAULT_OPTION,
+		String userName = addUserDialogView.getSelectedUser();
+		String password = dbm.getSignUpRequestPassword(userName);
+		String rank = addUserDialogView.getSelectedRank();
+		dbm.addUser(userName, password, rank);
+		dbm.removeRequest(userName);
+		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userAdded"), "", JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
-		if (added && (showOptionDialog == 0 || showOptionDialog == -1))
+		if (showOptionDialog == 0 || showOptionDialog == -1)
+		{
+			addUserDialogView.dispose();
+		}
+	}
+	
+	private void rejectUser()
+	{
+
+		String userName = addUserDialogView.getSelectedUser();
+		dbm.removeRequest(userName);
+		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userRemoved"), "", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+		if (showOptionDialog == 0 || showOptionDialog == -1)
 		{
 			addUserDialogView.dispose();
 		}

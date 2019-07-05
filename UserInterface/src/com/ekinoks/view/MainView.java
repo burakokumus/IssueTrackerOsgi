@@ -29,7 +29,7 @@ public class MainView extends JFrame
 	private JButton addUserButton;
 	private JPanel infoPanel;
 	private JLabel userNameLabel;
-	private int rank = -1;
+	private int currentRank = -1;
 
 	public MainView()
 	{
@@ -147,16 +147,19 @@ public class MainView extends JFrame
 	{
 		this.currentUserName = userName;
 		String rankName = "";
-		if(this.rank == 1)
+		if(this.currentRank == 1)
 			rankName = "Manager";
-		else if(this.rank == 2)
+		else if(this.currentRank == 2)
 			rankName = "Analyst";
-		else if(this.rank == 3)
+		else if(this.currentRank == 3)
 			rankName = "Tester";
-		else if(this.rank == 4)
+		else if(this.currentRank == 4)
 			rankName = "Developer";
 			
 		this.userNameLabel.setText("User: " + userName + ",  " + rankName);
+
+		if(currentRank > 1)
+			addUserButton.setVisible(false);
 		
 	}
 	
@@ -166,7 +169,7 @@ public class MainView extends JFrame
 	 */
 	public void setRank(int rank)
 	{
-		this.rank = rank;
+		this.currentRank = rank;
 	}
 
 	/**
