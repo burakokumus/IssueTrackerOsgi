@@ -552,4 +552,19 @@ public class DatabaseManager
 		}
 		return result;
 	}
+
+	public void addSignUpRequest(String userName, String password)
+	{
+		try(Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(Statements.SIGN_UP_REQUEST_STATEMENT))
+		{
+			pstmt.setString(1, userName);
+			pstmt.setString(2, password);
+			pstmt.executeUpdate();
+		}
+		catch(SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
+
 }

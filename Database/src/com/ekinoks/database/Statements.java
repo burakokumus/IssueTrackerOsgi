@@ -20,6 +20,7 @@ public class Statements
 	public static final String GET_IF_USER_AND_ISSUE_RELATED_STATEMENT = "SELECT * FROM relation WHERE user_id = ? AND issue_id = ?";
 	public static final String GET_ISSUE_STATE_STATEMENT = "SELECT state FROM issues WHERE title = ?";
 	public static final String UPDATE_ISSUE_STATE_STATEMENT = "UPDATE issues SET state = ? WHERE title = ?";
+	public static final String SIGN_UP_REQUEST_STATEMENT = "INSERT INTO requests(user_name, password) VALUES(?,?)";
 	
 	private Statements()
 	{

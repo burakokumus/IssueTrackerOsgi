@@ -42,8 +42,8 @@ public class SignupController
 		}
 		else
 		{
-			dbm.addUser(userName, password, "Developer");
-			message = Messages.getString("signupSuccessful");
+			dbm.addSignUpRequest(userName, password);
+			message = Messages.getString("requestSent");
 		}
 
 		int showOptionDialog = JOptionPane.showOptionDialog(signupView, message, "", JOptionPane.DEFAULT_OPTION,
