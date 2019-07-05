@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.model.Issue;
+import com.ekinoks.model.User;
 import com.ekinoks.view.AddIssueDialogView;
 import com.ekinoks.view.AddUserDialogView;
 import com.ekinoks.view.IssueDetailsDialogView;
@@ -108,7 +109,11 @@ public class Controller
 		else
 		{
 			ArrayList<String> requests = dbm.getAllSignUpRequestUserNames();
-			AddUserDialogView addUserDialogView = new AddUserDialogView(requests);
+			ArrayList<User> allUsers = dbm.getAllUsers();
+			ArrayList<String> allUsersString = new ArrayList<>();
+			for(User user : allUsers)
+				allUsersString.add(user.getUserName());
+			AddUserDialogView addUserDialogView = new AddUserDialogView(requests, allUsersString);
 			addUserDialogView.setPreferredSize(new Dimension(300,300));
 			addUserDialogView.pack();
 			addUserDialogView.setVisible(true);

@@ -630,4 +630,18 @@ public class DatabaseManager
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	public void removeUser(String userName)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.REMOVE_USER_STATEMENT))
+		{
+			pstmt.setString(1, userName);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
 }

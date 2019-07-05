@@ -74,7 +74,7 @@ public class MainView extends JFrame
 		gbc_buttonPanel.gridy = 0;
 		this.getContentPane().add(buttonPanel, gbc_buttonPanel);
 
-		addUserButton = new JButton(Messages.getString("addUser"));
+		addUserButton = new JButton(Messages.getString("manageUsers"));
 		buttonPanel.add(addUserButton);
 
 		addIssueButton = new JButton(Messages.getString("addIssue"));
@@ -98,14 +98,13 @@ public class MainView extends JFrame
 		infoPanel = new JPanel();
 		GridBagConstraints gbc_infoPanel = new GridBagConstraints();
 		gbc_infoPanel.fill = GridBagConstraints.HORIZONTAL;
-//		gbc_infoPanel.anchor = GridBagConstraints.SOUTH;
 		gbc_infoPanel.insets = new Insets(5, 5, 5, 5);
 		gbc_infoPanel.gridx = 0;
 		gbc_infoPanel.gridy = 2;
 		getContentPane().add(infoPanel, gbc_infoPanel);
 		infoPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		
-		userNameLabel = new JLabel(Messages.getString("MainView.userNameLabel.text")); //$NON-NLS-1$ //$NON-NLS-1$
+		userNameLabel = new JLabel(Messages.getString("MainView.userNameLabel.text"));
 		infoPanel.add(userNameLabel);
 
 		this.pack();

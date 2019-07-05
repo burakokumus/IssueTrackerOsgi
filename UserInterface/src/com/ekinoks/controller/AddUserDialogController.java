@@ -25,6 +25,7 @@ public class AddUserDialogController
 	{
 		addUserDialogView.getAcceptButton().addActionListener(e -> addUser());
 		addUserDialogView.getRejectButton().addActionListener(e -> rejectUser());
+		addUserDialogView.getRemoveButton().addActionListener(e -> removeUser());
 
 	}
 
@@ -53,6 +54,19 @@ public class AddUserDialogController
 
 		String userName = addUserDialogView.getSelectedUser();
 		dbm.removeRequest(userName);
+		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userRemoved"), "", JOptionPane.DEFAULT_OPTION,
+				JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+		if (showOptionDialog == 0 || showOptionDialog == -1)
+		{
+			addUserDialogView.dispose();
+		}
+	}
+	
+	private void removeUser()
+	{
+		String userName = addUserDialogView.getRemoveName();
+		dbm.removeUser(userName);
 		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userRemoved"), "", JOptionPane.DEFAULT_OPTION,
 				JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
