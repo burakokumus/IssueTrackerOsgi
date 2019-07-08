@@ -34,6 +34,7 @@ public class Controller
 	{
 		view.getAddIssueButton().addActionListener(e -> addIssue());
 		view.getAddUserButton().addActionListener(e -> addUser());
+		view.getRefreshButton().addActionListener(e -> refresh());
 		view.getTable().addMouseListener(new MouseAdapter()
 		{
 
@@ -123,6 +124,20 @@ public class Controller
 
 	}
 
+	/**
+	 * Action Listener for the Refresh Button.
+	 */
+	private void refresh()
+	{
+		view.clearJTable();
+		ArrayList<Issue> issueList = dbm.getAllIssues();
+
+		for (Issue issue : issueList)
+		{
+
+			view.addIssueToJTable(issue);
+		}
+	}
 	/**
 	 * Setter for current user name
 	 * 

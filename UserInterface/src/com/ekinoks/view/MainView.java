@@ -16,6 +16,7 @@ import com.ekinoks.model.Issue;
 import com.ekinoks.ui.components.listtable.ListTable;
 import com.ekinoks.ui.components.listtable.ListTableModel;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class MainView extends JFrame
@@ -30,6 +31,7 @@ public class MainView extends JFrame
 	private JPanel infoPanel;
 	private JLabel userNameLabel;
 	private int currentRank = -1;
+	private JButton refreshButton;
 
 	public MainView()
 	{
@@ -94,7 +96,7 @@ public class MainView extends JFrame
 		table.getTableHeader().setReorderingAllowed(false);
 
 		scrollPane.setViewportView(table);
-		
+
 		infoPanel = new JPanel();
 		GridBagConstraints gbc_infoPanel = new GridBagConstraints();
 		gbc_infoPanel.fill = GridBagConstraints.HORIZONTAL;
@@ -103,8 +105,13 @@ public class MainView extends JFrame
 		gbc_infoPanel.gridy = 2;
 		getContentPane().add(infoPanel, gbc_infoPanel);
 		infoPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
-		
+
+		refreshButton = new JButton(Messages.getString("MainView.btnRefresh.text"));
+		refreshButton.setHorizontalAlignment(SwingConstants.LEFT);
+		infoPanel.add(refreshButton);
+
 		userNameLabel = new JLabel(Messages.getString("MainView.userNameLabel.text"));
+		userNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		infoPanel.add(userNameLabel);
 
 		this.pack();
@@ -130,6 +137,15 @@ public class MainView extends JFrame
 
 	/**
 	 * 
+	 * @return the refresh button.
+	 */
+	public JButton getRefreshButton()
+	{
+		return refreshButton;
+	}
+
+	/**
+	 * 
 	 * @return the table model.
 	 */
 	public ListTableModel<Issue> getDefaultTableModel()
@@ -146,22 +162,22 @@ public class MainView extends JFrame
 	{
 		this.currentUserName = userName;
 		String rankName = "";
-		if(this.currentRank == 1)
+		if (this.currentRank == 1)
 			rankName = "Manager";
-		else if(this.currentRank == 2)
+		else if (this.currentRank == 2)
 			rankName = "Analyst";
-		else if(this.currentRank == 3)
+		else if (this.currentRank == 3)
 			rankName = "Tester";
-		else if(this.currentRank == 4)
+		else if (this.currentRank == 4)
 			rankName = "Developer";
-			
+
 		this.userNameLabel.setText("User: " + userName + ",  " + rankName);
 
-		if(currentRank > 1)
+		if (currentRank > 1)
 			addUserButton.setVisible(false);
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param rank
@@ -203,6 +219,13 @@ public class MainView extends JFrame
 //		{ Integer.toString(issueID), title, type, Integer.toString(priority), author, description, state });
 	}
 
+	/**
+	 * Clears the JTable
+	 */
+	public void clearJTable()
+	{
+		table.getModel().removeAllRows();
+	}
 	public void updateIssueStateOnJTable(String title, String newState)
 	{
 		List<Issue> temp = table.getModel().getRows();
