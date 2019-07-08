@@ -3,6 +3,7 @@ package com.ekinoks.controller;
 import java.util.ArrayList;
 
 import com.ekinoks.database.DatabaseManager;
+import com.ekinoks.model.IssueState;
 import com.ekinoks.view.IssueDetailsDialogView;
 import com.ekinoks.view.MainView;
 
@@ -13,6 +14,7 @@ public class IssueDetailsDialogController
 	private String title;
 	private ArrayList<String> assignees;
 	private MainView mainView;
+	private String currentUserName;
 
 	public IssueDetailsDialogController(IssueDetailsDialogView issueDetailsDialogView, MainView mainView, String title,
 			String currentUserName, ArrayList<String> assignees)
@@ -22,7 +24,7 @@ public class IssueDetailsDialogController
 		this.title = title;
 		this.assignees = assignees;
 		this.mainView = mainView;
-		//this.currentUserName = currentUserName;
+		this.currentUserName = currentUserName;
 	}
 
 	public void initController()
@@ -45,7 +47,16 @@ public class IssueDetailsDialogController
 		String selectedState = issueDetailsDialogView.getSelectedState();
 		dbm.updateIssueState(title, selectedState);
 		issueDetailsDialogView.setIssueState(selectedState);
+		if(selectedState.equals(IssueState.InProgress.toString()))
+		{
+			dbm.setProgressUser(title, currentUserName);
+		}
+		else
+		{
+			dbm.setProgressUser(title, null);
+		}
 		mainView.updateIssueStateOnJTable(title, selectedState);
+		
 		issueDetailsDialogView.setPossibleStates();
 
 	}

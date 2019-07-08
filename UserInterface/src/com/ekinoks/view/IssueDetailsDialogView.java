@@ -23,6 +23,7 @@ public class IssueDetailsDialogView extends JDialog
 	private ArrayList<String> currentAssignees;
 	private String currentUserName;
 	private String author;
+	private String progressUser;
 	private IssueState currentState;
 	private int userRank;
 
@@ -50,6 +51,7 @@ public class IssueDetailsDialogView extends JDialog
 		this.currentAssignees = currentAssignees;
 		this.currentState = currentState;
 		this.userRank = userRank;
+		this.progressUser = progressUser;
 		stateSetButton = new JButton(Messages.getString("IssueDetailsDialogView.btnSet.text")); //$NON-NLS-1$
 		assignButton = new JButton(Messages.getString("assign"));
 		if (currentState.equals(IssueState.InProgress))
@@ -72,19 +74,27 @@ public class IssueDetailsDialogView extends JDialog
 	 */
 	public void setPossibleStates()
 	{
+		if (this.progressUser != null)
+		{
+			if (this.currentUserName.equals(progressUser))
+			{
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.InProgress, IssueState.Done, IssueState.Rejected, IssueState.Reopen,
+						IssueState.VerifiedDone };
+			}
+			else
+			{
+				this.possibleStates = new IssueState[] {};
+			}
+			return;
+		}
+
 		if (this.userRank == 1)
 		{
 			if (this.currentState.equals(IssueState.Pending))
 			{
 				this.possibleStates = new IssueState[]
 				{ IssueState.InProgress, IssueState.Done, IssueState.Rejected, IssueState.Reopen,
-						IssueState.VerifiedDone };
-			}
-
-			else if (this.currentState.equals(IssueState.InProgress))
-			{
-				this.possibleStates = new IssueState[]
-				{ IssueState.Pending, IssueState.Done, IssueState.Rejected, IssueState.Reopen,
 						IssueState.VerifiedDone };
 			}
 
@@ -123,11 +133,6 @@ public class IssueDetailsDialogView extends JDialog
 				this.possibleStates = new IssueState[]
 				{ IssueState.Done, IssueState.Rejected };
 			}
-			else if (this.currentState.equals(IssueState.InProgress))
-			{
-				this.possibleStates = new IssueState[]
-				{ IssueState.Done, IssueState.Reopen };
-			}
 
 			else if (this.currentState.equals(IssueState.Done))
 			{
@@ -163,12 +168,6 @@ public class IssueDetailsDialogView extends JDialog
 						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals(IssueState.InProgress))
-			{
-				this.possibleStates = new IssueState[]
-				{ IssueState.Pending, IssueState.Done, IssueState.Reopen, IssueState.VerifiedDone };
-			}
-
 			else if (this.currentState.equals(IssueState.Done))
 			{
 				this.possibleStates = new IssueState[]
@@ -202,8 +201,10 @@ public class IssueDetailsDialogView extends JDialog
 			if (this.currentState.equals(IssueState.Pending))
 			{
 				this.possibleStates = new IssueState[]
-				{ IssueState.Done, IssueState.Rejected };
+				{IssueState.InProgress, IssueState.Done, IssueState.Rejected };
 			}
+			
+			
 			else if (this.currentState.equals(IssueState.Done))
 			{
 				this.possibleStates = new IssueState[]
@@ -395,7 +396,7 @@ public class IssueDetailsDialogView extends JDialog
 		getContentPane().add(statusLabel, gbc_statusLabel);
 
 		String[] comboBoxArr = new String[this.possibleStates.length];
-		for(int i = 0; i < this.possibleStates.length; i++)
+		for (int i = 0; i < this.possibleStates.length; i++)
 		{
 			comboBoxArr[i] = this.possibleStates[i].toString();
 		}

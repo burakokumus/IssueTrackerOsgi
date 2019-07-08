@@ -562,6 +562,11 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * Adds new sign up request to the database.
+	 * @param userName
+	 * @param password
+	 */
 	public void addSignUpRequest(String userName, String password)
 	{
 		try (Connection conn = this.connect();
@@ -577,6 +582,10 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * 
+	 * @return all current sign up requests.
+	 */
 	public ArrayList<String> getAllSignUpRequestUserNames()
 	{
 		ArrayList<String> result = new ArrayList<>();
@@ -596,6 +605,11 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param name
+	 * @return the password of the sign up request with the given name.
+	 */
 	public String getSignUpRequestPassword(String name)
 	{
 		String result = "";
@@ -616,6 +630,10 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * removes the sign up request.
+	 * @param userName
+	 */
 	public void removeRequest(String userName)
 	{
 		try (Connection conn = this.connect();
@@ -630,6 +648,10 @@ public class DatabaseManager
 		}
 	}
 	
+	/**
+	 * removes an existing user.
+	 * @param userName
+	 */
 	public void removeUser(String userName)
 	{
 		try (Connection conn = this.connect();
@@ -644,6 +666,11 @@ public class DatabaseManager
 		}
 	}
 	
+	/**
+	 * 
+	 * @param title
+	 * @return the progress user of a given issue.
+	 */
 	public String getProgressUser(String title)
 	{
 		String result = null;
@@ -662,5 +689,26 @@ public class DatabaseManager
 			System.err.println(e.getMessage());
 		}
 		return result;
+	}
+	
+	/**
+	 * sets the progress user of a given issue.
+	 * @param title
+	 * @param userName
+	 */
+	public void setProgressUser(String title, String userName)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.SET_PROGRESS_USER_STATEMENT))
+		{
+			pstmt.setString(1, userName);
+			pstmt.setString(2, title);
+			pstmt.executeUpdate();
+			
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 }
