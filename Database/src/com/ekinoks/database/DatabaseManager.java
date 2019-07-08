@@ -16,19 +16,19 @@ import com.ekinoks.model.User;
 
 public class DatabaseManager
 {
-	
+
 	private static DatabaseManager databaseManager = new DatabaseManager();
-	
+
 	private DatabaseManager()
 	{
-		
+
 	}
-	
+
 	public static DatabaseManager getInstance()
 	{
 		return databaseManager;
 	}
-			
+
 	/**
 	 * Provides connection to the SQL server
 	 * 
@@ -244,6 +244,7 @@ public class DatabaseManager
 			pstmt.setInt(3, priority);
 			pstmt.setString(4, author);
 			pstmt.setString(5, description);
+			pstmt.setString(6, getCurrentDate());
 			pstmt.executeUpdate();
 			return true;
 
@@ -580,6 +581,7 @@ public class DatabaseManager
 
 	/**
 	 * Adds new sign up request to the database.
+	 * 
 	 * @param userName
 	 * @param password
 	 */
@@ -634,7 +636,7 @@ public class DatabaseManager
 		{
 			pstmt.setString(1, name);
 			ResultSet executeQuery = pstmt.executeQuery();
-			if(executeQuery.next())
+			if (executeQuery.next())
 			{
 				result = executeQuery.getString("password");
 			}
@@ -648,6 +650,7 @@ public class DatabaseManager
 
 	/**
 	 * removes the sign up request.
+	 * 
 	 * @param userName
 	 */
 	public void removeRequest(String userName)
@@ -663,9 +666,10 @@ public class DatabaseManager
 			System.err.println(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * removes an existing user.
+	 * 
 	 * @param userName
 	 */
 	public void removeUser(String userName)
@@ -681,7 +685,7 @@ public class DatabaseManager
 			System.err.println(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param title
@@ -695,7 +699,7 @@ public class DatabaseManager
 		{
 			pstmt.setString(1, title);
 			ResultSet executeQuery = pstmt.executeQuery();
-			if(executeQuery.next())
+			if (executeQuery.next())
 			{
 				result = executeQuery.getString("progress_user");
 			}
@@ -706,9 +710,10 @@ public class DatabaseManager
 		}
 		return result;
 	}
-	
+
 	/**
 	 * sets the progress user of a given issue.
+	 * 
 	 * @param title
 	 * @param userName
 	 */
@@ -720,7 +725,7 @@ public class DatabaseManager
 			pstmt.setString(1, userName);
 			pstmt.setString(2, title);
 			pstmt.executeUpdate();
-			
+			setStartDate(title);
 		}
 		catch (SQLException e)
 		{
@@ -728,8 +733,42 @@ public class DatabaseManager
 		}
 	}
 
-	
-	
+	/**
+	 * Sets the start date of the issue. Called by setProgressUser method.
+	 * 
+	 * @param title
+	 */
+	private void setStartDate(String title)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.SET_START_DATE_STATEMENT))
+		{
+			pstmt.setString(1, getCurrentDate());
+			pstmt.setString(2, title);
+			pstmt.executeUpdate();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
+
+	public void setFinishDate(String title)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.SET_FINISH_DATE_STATEMENT))
+		{
+			pstmt.setString(1, getCurrentDate());
+			pstmt.setString(2, title);
+			pstmt.executeUpdate();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
 	public String getCurrentDate()
 	{
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");

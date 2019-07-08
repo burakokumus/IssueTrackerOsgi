@@ -53,6 +53,10 @@ public class IssueDetailsDialogController
 		{
 			DatabaseManager.getInstance().setProgressUser(title, null);
 		}
+		if (selectedState.equals(IssueState.VerifiedDone.toString()))
+		{
+			DatabaseManager.getInstance().setFinishDate(title);
+		}
 		mainView.updateIssueStateOnJTable(title, selectedState);
 
 		issueDetailsDialogView.setPossibleStates();
