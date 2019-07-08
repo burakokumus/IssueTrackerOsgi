@@ -10,12 +10,9 @@ public class AddUserDialogController
 {
 	private AddUserDialogView addUserDialogView;
 
-	private DatabaseManager dbm;
-
 	public AddUserDialogController(AddUserDialogView viewInput)
 	{
 		this.addUserDialogView = viewInput;
-		this.dbm = new DatabaseManager();
 	}
 
 	/**
@@ -36,39 +33,39 @@ public class AddUserDialogController
 	private void addUser()
 	{
 		String userName = addUserDialogView.getSelectedUser();
-		String password = dbm.getSignUpRequestPassword(userName);
+		String password = DatabaseManager.getInstance().getSignUpRequestPassword(userName);
 		String rank = addUserDialogView.getSelectedRank();
-		dbm.addUser(userName, password, rank);
-		dbm.removeRequest(userName);
-		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userAdded"), "", JOptionPane.DEFAULT_OPTION,
-				JOptionPane.INFORMATION_MESSAGE, null, null, null);
+		DatabaseManager.getInstance().addUser(userName, password, rank);
+		DatabaseManager.getInstance().removeRequest(userName);
+		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userAdded"), "",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
 		if (showOptionDialog == 0 || showOptionDialog == -1)
 		{
 			addUserDialogView.dispose();
 		}
 	}
-		
+
 	private void rejectUser()
 	{
 
 		String userName = addUserDialogView.getSelectedUser();
-		dbm.removeRequest(userName);
-		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userRemoved"), "", JOptionPane.DEFAULT_OPTION,
-				JOptionPane.INFORMATION_MESSAGE, null, null, null);
+		DatabaseManager.getInstance().removeRequest(userName);
+		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userRemoved"), "",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
 		if (showOptionDialog == 0 || showOptionDialog == -1)
 		{
 			addUserDialogView.dispose();
 		}
 	}
-	
+
 	private void removeUser()
 	{
 		String userName = addUserDialogView.getRemoveName();
-		dbm.removeUser(userName);
-		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userRemoved"), "", JOptionPane.DEFAULT_OPTION,
-				JOptionPane.INFORMATION_MESSAGE, null, null, null);
+		DatabaseManager.getInstance().removeUser(userName);
+		int showOptionDialog = JOptionPane.showOptionDialog(addUserDialogView, Messages.getString("userRemoved"), "",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 
 		if (showOptionDialog == 0 || showOptionDialog == -1)
 		{

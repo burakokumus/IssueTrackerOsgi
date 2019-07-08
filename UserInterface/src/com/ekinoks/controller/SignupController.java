@@ -9,12 +9,10 @@ import com.ekinoks.view.SignupView;
 public class SignupController
 {
 	private SignupView signupView;
-	private DatabaseManager dbm;
 
 	public SignupController(SignupView viewInput)
 	{
 		this.signupView = viewInput;
-		this.dbm = new DatabaseManager();
 	}
 
 	/**
@@ -35,14 +33,14 @@ public class SignupController
 		String password = signupView.getPassword();
 
 		String message = "";
-		boolean userExists = dbm.checkUserExists(userName);
+		boolean userExists = DatabaseManager.getInstance().checkUserExists(userName);
 		if (userExists)
 		{
 			message = Messages.getString("userAlreadyExists");
 		}
 		else
 		{
-			dbm.addSignUpRequest(userName, password);
+			DatabaseManager.getInstance().addSignUpRequest(userName, password);
 			message = Messages.getString("requestSent");
 		}
 

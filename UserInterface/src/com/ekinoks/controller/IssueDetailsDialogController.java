@@ -10,7 +10,6 @@ import com.ekinoks.view.MainView;
 public class IssueDetailsDialogController
 {
 	private IssueDetailsDialogView issueDetailsDialogView;
-	private DatabaseManager dbm;
 	private String title;
 	private ArrayList<String> assignees;
 	private MainView mainView;
@@ -19,7 +18,6 @@ public class IssueDetailsDialogController
 	public IssueDetailsDialogController(IssueDetailsDialogView issueDetailsDialogView, MainView mainView, String title,
 			String currentUserName, ArrayList<String> assignees)
 	{
-		this.dbm = new DatabaseManager();
 		this.issueDetailsDialogView = issueDetailsDialogView;
 		this.title = title;
 		this.assignees = assignees;
@@ -36,7 +34,7 @@ public class IssueDetailsDialogController
 	private void assignButtonController()
 	{
 		String selectedUserName = issueDetailsDialogView.getSelectedUserName();
-		dbm.addRelation(selectedUserName, title);
+		DatabaseManager.getInstance().addRelation(selectedUserName, title);
 		issueDetailsDialogView.getPossibleAssignees().remove(selectedUserName);
 		assignees.add(selectedUserName);
 		issueDetailsDialogView.setIssueAssignees(assignees);
@@ -45,18 +43,18 @@ public class IssueDetailsDialogController
 	private void stateSetButtonController()
 	{
 		String selectedState = issueDetailsDialogView.getSelectedState();
-		dbm.updateIssueState(title, selectedState);
+		DatabaseManager.getInstance().updateIssueState(title, selectedState);
 		issueDetailsDialogView.setIssueState(selectedState);
-		if(selectedState.equals(IssueState.InProgress.toString()))
+		if (selectedState.equals(IssueState.InProgress.toString()))
 		{
-			dbm.setProgressUser(title, currentUserName);
+			DatabaseManager.getInstance().setProgressUser(title, currentUserName);
 		}
 		else
 		{
-			dbm.setProgressUser(title, null);
+			DatabaseManager.getInstance().setProgressUser(title, null);
 		}
 		mainView.updateIssueStateOnJTable(title, selectedState);
-		
+
 		issueDetailsDialogView.setPossibleStates();
 
 	}

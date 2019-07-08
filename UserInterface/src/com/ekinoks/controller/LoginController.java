@@ -13,14 +13,12 @@ public class LoginController
 	private MainView mainView;
 	private LoginView loginView;
 	private Controller mainController;
-	private DatabaseManager dbm;
 
 	public LoginController(LoginView loginViewInput, MainView mainViewInput, Controller mainControllerInput)
 	{
 		this.loginView = loginViewInput;
 		this.mainView = mainViewInput;
 		this.mainController = mainControllerInput;
-		this.dbm = new DatabaseManager();
 	}
 
 	/**
@@ -41,12 +39,12 @@ public class LoginController
 		String userName = loginView.getUserName();
 		String password = loginView.getPassword();
 
-		if (dbm.login(userName, password))
+		if (DatabaseManager.getInstance().login(userName, password))
 		{
 			mainController.setCurrentUserName(userName);
 			mainView.setCurrentUserName(userName);
 			loginView.dispose();
-			int rank = dbm.getUserRank(userName);
+			int rank = DatabaseManager.getInstance().getUserRank(userName);
 			mainView.setRank(rank);
 			mainView.setCurrentUserName(userName);
 			mainView.setVisible(true);

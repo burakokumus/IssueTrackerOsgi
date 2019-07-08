@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Vector;
 
 import com.ekinoks.model.Issue;
@@ -13,12 +16,25 @@ import com.ekinoks.model.User;
 
 public class DatabaseManager
 {
-
+	
+	private static DatabaseManager databaseManager = new DatabaseManager();
+	
+	private DatabaseManager()
+	{
+		
+	}
+	
+	public static DatabaseManager getInstance()
+	{
+		return databaseManager;
+	}
+			
 	/**
 	 * Provides connection to the SQL server
 	 * 
 	 * @return Connection
 	 */
+
 	private Connection connect()
 	{
 		Connection conn = null;
@@ -710,5 +726,15 @@ public class DatabaseManager
 		{
 			System.err.println(e.getMessage());
 		}
+	}
+
+	
+	
+	public String getCurrentDate()
+	{
+		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date date = new Date();
+		String s = dateFormat.format(date);
+		return s;
 	}
 }

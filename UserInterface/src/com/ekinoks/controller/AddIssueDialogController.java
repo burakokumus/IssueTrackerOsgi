@@ -5,21 +5,18 @@ import javax.swing.JOptionPane;
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.model.Issue;
 import com.ekinoks.view.AddIssueDialogView;
-import com.ekinoks.view.Messages;
 import com.ekinoks.view.MainView;
+import com.ekinoks.view.Messages;
 
 public class AddIssueDialogController
 {
 	private AddIssueDialogView addIssueDialogView;
-
-	private DatabaseManager dbm;
 
 	private MainView mainView;
 
 	public AddIssueDialogController(AddIssueDialogView viewInput, MainView mainView)
 	{
 		this.addIssueDialogView = viewInput;
-		this.dbm = new DatabaseManager();
 		this.mainView = mainView;
 	}
 
@@ -48,7 +45,7 @@ public class AddIssueDialogController
 		}
 
 		String author = mainView.getCurrentUserName();
-		boolean added = dbm.addIssue(title, type, priority, author, description);
+		boolean added = DatabaseManager.getInstance().addIssue(title, type, priority, author, description);
 		String message = "";
 		if (added)
 		{
@@ -76,7 +73,7 @@ public class AddIssueDialogController
 	 */
 	private void addToJTable(String title)
 	{
-		Issue issue = dbm.getIssue(title);
+		Issue issue = DatabaseManager.getInstance().getIssue(title);
 		mainView.addIssueToJTable(issue);
 
 	}

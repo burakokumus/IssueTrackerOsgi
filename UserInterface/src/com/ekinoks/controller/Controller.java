@@ -22,13 +22,11 @@ public class Controller
 {
 	private MainView view;
 	private String currentUserName;
-	private DatabaseManager dbm;
 
 	public Controller(MainView viewInput)
 	{
 		this.view = viewInput;
 		this.currentUserName = "";
-		dbm = new DatabaseManager();
 	}
 
 	public void initController()
@@ -53,14 +51,14 @@ public class Controller
 					String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 4);
 					String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
 					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 6).toString());
-					ArrayList<String> assignees = dbm.getUsersByIssueTitle(title);
-					String progressUser = dbm.getProgressUser(title);
+					ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
+					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
 
-					Vector<String> possibleAssignees = dbm.getPossibleAssignees(title);
+					Vector<String> possibleAssignees = DatabaseManager.getInstance().getPossibleAssignees(title);
 
 					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName,
-							dbm.getUserRank(currentUserName), author, progressUser, state, assignees,
-							possibleAssignees);
+							DatabaseManager.getInstance().getUserRank(currentUserName), author, progressUser, state,
+							assignees, possibleAssignees);
 					issueDetailsDialogView.setIssueID(id);
 					issueDetailsDialogView.setIssueTitle(title);
 					issueDetailsDialogView.setIssueType(type);
@@ -80,7 +78,7 @@ public class Controller
 			}
 		});
 
-		ArrayList<Issue> issueList = dbm.getAllIssues();
+		ArrayList<Issue> issueList = DatabaseManager.getInstance().getAllIssues();
 
 		for (Issue issue : issueList)
 		{
@@ -105,15 +103,15 @@ public class Controller
 	 */
 	private void addUser()
 	{
-		if (dbm.getUserRank(currentUserName) > 1)
+		if (DatabaseManager.getInstance().getUserRank(currentUserName) > 1)
 		{
 			JOptionPane.showOptionDialog(view, Messages.getString("cannotAddUser"), "", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.INFORMATION_MESSAGE, null, null, null);
 		}
 		else
 		{
-			ArrayList<String> requests = dbm.getAllSignUpRequestUserNames();
-			ArrayList<User> allUsers = dbm.getAllUsers();
+			ArrayList<String> requests = DatabaseManager.getInstance().getAllSignUpRequestUserNames();
+			ArrayList<User> allUsers = DatabaseManager.getInstance().getAllUsers();
 			ArrayList<String> allUsersString = new ArrayList<>();
 			for (User user : allUsers)
 				allUsersString.add(user.getUserName());
@@ -133,7 +131,7 @@ public class Controller
 	private void refresh()
 	{
 		view.clearJTable();
-		ArrayList<Issue> issueList = dbm.getAllIssues();
+		ArrayList<Issue> issueList = DatabaseManager.getInstance().getAllIssues();
 
 		for (Issue issue : issueList)
 		{
