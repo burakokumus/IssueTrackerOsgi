@@ -13,7 +13,6 @@ public class IssueDetailsDialogController
 	private String title;
 	private ArrayList<String> assignees;
 	private MainView mainView;
-	private String currentUserName;
 
 	public IssueDetailsDialogController(IssueDetailsDialogView issueDetailsDialogView, MainView mainView, String title,
 			String currentUserName, ArrayList<String> assignees)
@@ -23,7 +22,7 @@ public class IssueDetailsDialogController
 		this.title = title;
 		this.assignees = assignees;
 		this.mainView = mainView;
-		this.currentUserName = currentUserName;
+		//this.currentUserName = currentUserName;
 	}
 
 	public void initController()
@@ -44,36 +43,9 @@ public class IssueDetailsDialogController
 	private void stateSetButtonController()
 	{
 		String selectedState = issueDetailsDialogView.getSelectedState();
-		int rank = dbm.getUserRank(currentUserName);
-		if (rank == 1) // ADMIN
-		{
-			dbm.updateIssueState(title, selectedState);
-			issueDetailsDialogView.setIssueStatus(selectedState);
-			mainView.updateIssueStateOnJTable(title, selectedState);
-		}
-		else if (rank == 2) // ANALYST
-		{
-			dbm.updateIssueState(title, selectedState);
-			issueDetailsDialogView.setIssueStatus(selectedState);
-			mainView.updateIssueStateOnJTable(title, selectedState);
-		}
-		else if (rank == 3) // TESTER
-		{
-
-			dbm.updateIssueState(title, selectedState);
-			issueDetailsDialogView.setIssueStatus(selectedState);
-			mainView.updateIssueStateOnJTable(title, selectedState);
-
-		}
-		else if (rank == 4) // DEVELOPER
-		{
-
-			dbm.updateIssueState(title, selectedState);
-			issueDetailsDialogView.setIssueStatus(selectedState);
-			mainView.updateIssueStateOnJTable(title, selectedState);
-
-		}
-
+		dbm.updateIssueState(title, selectedState);
+		issueDetailsDialogView.setIssueState(selectedState);
+		mainView.updateIssueStateOnJTable(title, selectedState);
 		issueDetailsDialogView.setPossibleStates();
 
 	}

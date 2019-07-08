@@ -229,7 +229,6 @@ public class DatabaseManager
 			pstmt.setString(4, author);
 			pstmt.setString(5, description);
 			pstmt.executeUpdate();
-			System.out.println("data added");
 			return true;
 
 		}
@@ -643,5 +642,25 @@ public class DatabaseManager
 		{
 			System.err.println(e.getMessage());
 		}
+	}
+	
+	public String getProgressUser(String title)
+	{
+		String result = null;
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_PROGRESS_USER_STATEMENT))
+		{
+			pstmt.setString(1, title);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if(executeQuery.next())
+			{
+				result = executeQuery.getString("progress_user");
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
 	}
 }

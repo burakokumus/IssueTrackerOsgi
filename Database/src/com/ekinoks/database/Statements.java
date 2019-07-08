@@ -25,6 +25,7 @@ public class Statements
 	public static final String REMOVE_REQUEST_STATEMENT = "DELETE FROM requests WHERE user_name = ?";
 	public static final String GET_REQUEST_PASSWORD_BY_USER_NAME_STATEMENT = "SELECT password FROM requests WHERE user_name = ?";
 	public static final String REMOVE_USER_STATEMENT = "DELETE FROM users WHERE user_name = ?";
+	public static final String GET_PROGRESS_USER_STATEMENT = "SELECT progress_user FROM issues WHERE title = ?";
 	
 	private Statements()
 	{

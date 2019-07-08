@@ -181,7 +181,6 @@ public class AddIssueDialogView extends JDialog
 	public int getIssuePriority()
 	{
 		String s = priorityTextField.getText().trim();
-		System.out.println(s);
 		if (isNumeric(s))
 			return Integer.parseInt(s);
 		else

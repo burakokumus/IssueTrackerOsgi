@@ -13,15 +13,17 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
+import com.ekinoks.model.IssueState;
+
 @SuppressWarnings("serial")
 public class IssueDetailsDialogView extends JDialog
 {
-	private String[] possibleStates;
+	private IssueState[] possibleStates;
 	private Vector<String> possibleAssignees;
 	private ArrayList<String> currentAssignees;
 	private String currentUserName;
 	private String author;
-	private String currentState;
+	private IssueState currentState;
 	private int userRank;
 
 	private JLabel issueIDLabel;
@@ -38,8 +40,8 @@ public class IssueDetailsDialogView extends JDialog
 	private JComboBox<String> stateComboBox;
 	private JButton stateSetButton;
 
-	public IssueDetailsDialogView(String currentUserName, int userRank, String author, String currentState,
-			ArrayList<String> currentAssignees, Vector<String> possibleAssignees)
+	public IssueDetailsDialogView(String currentUserName, int userRank, String author, String progressUser,
+			IssueState currentState, ArrayList<String> currentAssignees, Vector<String> possibleAssignees)
 	{
 		this.currentUserName = currentUserName;
 		this.author = author;
@@ -50,6 +52,18 @@ public class IssueDetailsDialogView extends JDialog
 		this.userRank = userRank;
 		stateSetButton = new JButton(Messages.getString("IssueDetailsDialogView.btnSet.text")); //$NON-NLS-1$
 		assignButton = new JButton(Messages.getString("assign"));
+		if (currentState.equals(IssueState.InProgress))
+		{
+			if (currentUserName.equals(progressUser))
+			{
+				setPossibleStates();
+			}
+			else
+			{
+				this.possibleStates = new IssueState[]
+				{};
+			}
+		}
 		initialize();
 	}
 
@@ -60,150 +74,159 @@ public class IssueDetailsDialogView extends JDialog
 	{
 		if (this.userRank == 1)
 		{
-			if (this.currentState.equals("PENDING"))
+			if (this.currentState.equals(IssueState.Pending))
 			{
-				this.possibleStates = new String[]
-				{ "IN PROGRESS", "DONE", "REJECTED", "REOPEN", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.InProgress, IssueState.Done, IssueState.Rejected, IssueState.Reopen,
+						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("IN PROGRESS"))
+			else if (this.currentState.equals(IssueState.InProgress))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "DONE", "REJECTED", "REOPEN", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.Done, IssueState.Rejected, IssueState.Reopen,
+						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("DONE"))
+			else if (this.currentState.equals(IssueState.Done))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "IN PROGRESS", "REJECTED", "REOPEN", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.InProgress, IssueState.Rejected, IssueState.Reopen,
+						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("REJECTED"))
+			else if (this.currentState.equals(IssueState.Rejected))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "IN PROGRESS", "DONE", "REOPEN", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.InProgress, IssueState.Done, IssueState.Reopen,
+						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("REOPEN"))
+			else if (this.currentState.equals(IssueState.Reopen))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "IN PROGRESS", "DONE", "REJECTED", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.InProgress, IssueState.Done, IssueState.Rejected,
+						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("VERIFIED DONE"))
+			else if (this.currentState.equals(IssueState.VerifiedDone))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "IN PROGRESS", "DONE", "REJECTED", "REOPEN" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.InProgress, IssueState.Done, IssueState.Rejected, IssueState.Reopen };
 			}
 
 		}
 		else if (this.userRank == 2)
 		{
-			if (this.currentState.equals("PENDING"))
+			if (this.currentState.equals(IssueState.Pending))
 			{
-				this.possibleStates = new String[]
-				{ "DONE", "REJECTED" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Done, IssueState.Rejected };
 			}
-			else if (this.currentState.equals("IN PROGRESS"))
+			else if (this.currentState.equals(IssueState.InProgress))
 			{
-				this.possibleStates = new String[]
-				{ "DONE", "REOPEN" };
-			}
-
-			else if (this.currentState.equals("DONE"))
-			{
-				this.possibleStates = new String[]
-				{ "REJECTED", "REOPEN" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Done, IssueState.Reopen };
 			}
 
-			else if (this.currentState.equals("REJECTED"))
+			else if (this.currentState.equals(IssueState.Done))
 			{
-				this.possibleStates = new String[]
-				{ "REOPEN" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Rejected, IssueState.Reopen };
 			}
 
-			else if (this.currentState.equals("REOPEN"))
+			else if (this.currentState.equals(IssueState.Rejected))
 			{
-				this.possibleStates = new String[]
-				{ "DONE", "REJECTED" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Reopen };
 			}
 
-			else if (this.currentState.equals("VERIFIED DONE"))
+			else if (this.currentState.equals(IssueState.Reopen))
 			{
-				this.possibleStates = new String[]
-				{ "REOPEN" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Done, IssueState.Rejected };
+			}
+
+			else if (this.currentState.equals(IssueState.VerifiedDone))
+			{
+				this.possibleStates = new IssueState[]
+				{ IssueState.Reopen };
 			}
 		}
 		else if (this.userRank == 3)
 		{
 
-			if (this.currentState.equals("PENDING"))
+			if (this.currentState.equals(IssueState.Pending))
 			{
-				this.possibleStates = new String[]
-				{ "DONE", "IN PROGRESS", "REJECTED", "REOPEN", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Done, IssueState.InProgress, IssueState.Rejected, IssueState.Reopen,
+						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("IN PROGRESS"))
+			else if (this.currentState.equals(IssueState.InProgress))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "DONE", "REOPEN", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.Done, IssueState.Reopen, IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("DONE"))
+			else if (this.currentState.equals(IssueState.Done))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "IN PROGRESS", "REJECTED", "REOPEN", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.InProgress, IssueState.Rejected, IssueState.Reopen,
+						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("REJECTED"))
+			else if (this.currentState.equals(IssueState.Rejected))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "IN PROGRESS", "DONE", "REOPEN", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.InProgress, IssueState.Done, IssueState.Reopen,
+						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("REOPEN"))
+			else if (this.currentState.equals(IssueState.Reopen))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "IN PROGRESS", "DONE", "REJECTED", "VERIFIED DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.InProgress, IssueState.Done, IssueState.Rejected,
+						IssueState.VerifiedDone };
 			}
 
-			else if (this.currentState.equals("VERIFIED DONE"))
+			else if (this.currentState.equals(IssueState.VerifiedDone))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "IN PROGRESS", "DONE", "REJECTED", "REOPEN" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.InProgress, IssueState.Done, IssueState.Rejected, IssueState.Reopen };
 			}
 
 		}
 		else if (this.userRank == 4)
 		{
-			if (this.currentState.equals("PENDING"))
+			if (this.currentState.equals(IssueState.Pending))
 			{
-				this.possibleStates = new String[]
-				{ "DONE", "REJECTED" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Done, IssueState.Rejected };
 			}
-			else if (this.currentState.equals("DONE"))
+			else if (this.currentState.equals(IssueState.Done))
 			{
-				this.possibleStates = new String[]
+				this.possibleStates = new IssueState[]
 				{};
 				this.stateSetButton.setEnabled(false);
 				this.assignButton.setEnabled(false);
 			}
 
-			else if (this.currentState.equals("REJECTED"))
+			else if (this.currentState.equals(IssueState.Rejected))
 			{
-				this.possibleStates = new String[]
-				{ "PENDING", "REOPEN" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Pending, IssueState.Reopen };
 			}
 
-			else if (this.currentState.equals("REOPEN"))
+			else if (this.currentState.equals(IssueState.Reopen))
 			{
-				this.possibleStates = new String[]
-				{ "DONE" };
+				this.possibleStates = new IssueState[]
+				{ IssueState.Done };
 			}
 
-			else if (this.currentState.equals("VERIFIED DONE"))
+			else if (this.currentState.equals(IssueState.VerifiedDone))
 			{
-				this.possibleStates = new String[]
+				this.possibleStates = new IssueState[]
 				{};
 				this.stateSetButton.setEnabled(false);
 			}
@@ -216,8 +239,6 @@ public class IssueDetailsDialogView extends JDialog
 	 */
 	private void initialize()
 	{
-		possibleStates = new String[]
-		{ "1", "2", "3" };
 		this.setPossibleStates();
 		this.setTitle("Issue Details");
 		this.setVisible(false);
@@ -373,7 +394,12 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_statusLabel.gridy = 8;
 		getContentPane().add(statusLabel, gbc_statusLabel);
 
-		stateComboBox = new JComboBox<>(possibleStates);
+		String[] comboBoxArr = new String[this.possibleStates.length];
+		for(int i = 0; i < this.possibleStates.length; i++)
+		{
+			comboBoxArr[i] = this.possibleStates[i].toString();
+		}
+		stateComboBox = new JComboBox<>(comboBoxArr);
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -388,7 +414,6 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_stateSetButton.gridy = 9;
 		getContentPane().add(stateSetButton, gbc_stateSetButton);
 
-		// Author degilse ve assigned tester degilse
 		if ((!this.currentUserName.equals(this.author))
 				&& !(this.currentAssignees.contains(this.currentUserName) && this.userRank == 3))
 		{
@@ -477,7 +502,7 @@ public class IssueDetailsDialogView extends JDialog
 	 * 
 	 * @param status
 	 */
-	public void setIssueStatus(String status)
+	public void setIssueState(String status)
 	{
 		this.statusLabel.setText(status);
 	}

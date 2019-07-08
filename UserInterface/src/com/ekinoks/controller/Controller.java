@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.model.Issue;
+import com.ekinoks.model.IssueState;
 import com.ekinoks.model.User;
 import com.ekinoks.view.AddIssueDialogView;
 import com.ekinoks.view.AddUserDialogView;
@@ -51,20 +52,22 @@ public class Controller
 					String priority = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 3));
 					String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 4);
 					String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
-					String status = (String) view.getDefaultTableModel().getValueAt(rowNo, 6);
+					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 6).toString());
 					ArrayList<String> assignees = dbm.getUsersByIssueTitle(title);
+					String progressUser = dbm.getProgressUser(title);
 
 					Vector<String> possibleAssignees = dbm.getPossibleAssignees(title);
 
 					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName,
-							dbm.getUserRank(currentUserName), author, status, assignees, possibleAssignees);
+							dbm.getUserRank(currentUserName), author, progressUser, state, assignees,
+							possibleAssignees);
 					issueDetailsDialogView.setIssueID(id);
 					issueDetailsDialogView.setIssueTitle(title);
 					issueDetailsDialogView.setIssueType(type);
 					issueDetailsDialogView.setIssuePriority(priority);
 					issueDetailsDialogView.setIssueAuthor(author);
 					issueDetailsDialogView.setIssueDescription(description);
-					issueDetailsDialogView.setIssueStatus(status);
+					issueDetailsDialogView.setIssueState(state.toString());
 					issueDetailsDialogView.showScreen();
 					issueDetailsDialogView.setIssueAssignees(assignees);
 
@@ -112,10 +115,10 @@ public class Controller
 			ArrayList<String> requests = dbm.getAllSignUpRequestUserNames();
 			ArrayList<User> allUsers = dbm.getAllUsers();
 			ArrayList<String> allUsersString = new ArrayList<>();
-			for(User user : allUsers)
+			for (User user : allUsers)
 				allUsersString.add(user.getUserName());
 			AddUserDialogView addUserDialogView = new AddUserDialogView(requests, allUsersString);
-			addUserDialogView.setPreferredSize(new Dimension(300,300));
+			addUserDialogView.setPreferredSize(new Dimension(300, 300));
 			addUserDialogView.pack();
 			addUserDialogView.setVisible(true);
 			AddUserDialogController addUserDialogController = new AddUserDialogController(addUserDialogView);
@@ -138,6 +141,7 @@ public class Controller
 			view.addIssueToJTable(issue);
 		}
 	}
+
 	/**
 	 * Setter for current user name
 	 * 
