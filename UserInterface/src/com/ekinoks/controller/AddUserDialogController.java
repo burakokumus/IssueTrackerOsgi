@@ -48,7 +48,7 @@ public class AddUserDialogController
 			addUserDialogView.dispose();
 		}
 	}
-	
+		
 	private void rejectUser()
 	{
 

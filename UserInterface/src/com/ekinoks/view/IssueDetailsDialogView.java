@@ -58,36 +58,42 @@ public class IssueDetailsDialogView extends JDialog
 	 */
 	public void setPossibleStates()
 	{
-		System.out.println(this.currentState);
 		if (this.userRank == 1)
 		{
 			if (this.currentState.equals("PENDING"))
 			{
 				this.possibleStates = new String[]
-				{ "DONE", "REJECTED", "REOPEN", "VERIFIED DONE" };
+				{ "IN PROGRESS", "DONE", "REJECTED", "REOPEN", "VERIFIED DONE" };
 			}
+
+			else if (this.currentState.equals("IN PROGRESS"))
+			{
+				this.possibleStates = new String[]
+				{ "PENDING", "DONE", "REJECTED", "REOPEN", "VERIFIED DONE" };
+			}
+
 			else if (this.currentState.equals("DONE"))
 			{
 				this.possibleStates = new String[]
-				{ "PENDING", "REJECTED", "REOPEN", "VERIFIED DONE" };
+				{ "PENDING", "IN PROGRESS", "REJECTED", "REOPEN", "VERIFIED DONE" };
 			}
 
 			else if (this.currentState.equals("REJECTED"))
 			{
 				this.possibleStates = new String[]
-				{ "PENDING", "DONE", "REOPEN", "VERIFIED DONE" };
+				{ "PENDING", "IN PROGRESS", "DONE", "REOPEN", "VERIFIED DONE" };
 			}
 
 			else if (this.currentState.equals("REOPEN"))
 			{
 				this.possibleStates = new String[]
-				{ "PENDING", "DONE", "REJECTED", "VERIFIED DONE" };
+				{ "PENDING", "IN PROGRESS", "DONE", "REJECTED", "VERIFIED DONE" };
 			}
 
 			else if (this.currentState.equals("VERIFIED DONE"))
 			{
 				this.possibleStates = new String[]
-				{ "PENDING", "DONE", "REJECTED", "REOPEN" };
+				{ "PENDING", "IN PROGRESS", "DONE", "REJECTED", "REOPEN" };
 			}
 
 		}
@@ -98,6 +104,12 @@ public class IssueDetailsDialogView extends JDialog
 				this.possibleStates = new String[]
 				{ "DONE", "REJECTED" };
 			}
+			else if (this.currentState.equals("IN PROGRESS"))
+			{
+				this.possibleStates = new String[]
+				{ "DONE", "REOPEN" };
+			}
+
 			else if (this.currentState.equals("DONE"))
 			{
 				this.possibleStates = new String[]
@@ -124,38 +136,43 @@ public class IssueDetailsDialogView extends JDialog
 		}
 		else if (this.userRank == 3)
 		{
+
 			if (this.currentState.equals("PENDING"))
 			{
 				this.possibleStates = new String[]
-				{};
-				this.stateSetButton.setEnabled(false);
+				{ "DONE", "IN PROGRESS", "REJECTED", "REOPEN", "VERIFIED DONE" };
 			}
+
+			else if (this.currentState.equals("IN PROGRESS"))
+			{
+				this.possibleStates = new String[]
+				{ "PENDING", "DONE", "REOPEN", "VERIFIED DONE" };
+			}
+
 			else if (this.currentState.equals("DONE"))
 			{
 				this.possibleStates = new String[]
-				{ "REOPEN", "VERIFIED DONE" };
+				{ "PENDING", "IN PROGRESS", "REJECTED", "REOPEN", "VERIFIED DONE" };
 			}
 
 			else if (this.currentState.equals("REJECTED"))
 			{
 				this.possibleStates = new String[]
-				{ "REOPEN" };
+				{ "PENDING", "IN PROGRESS", "DONE", "REOPEN", "VERIFIED DONE" };
 			}
 
 			else if (this.currentState.equals("REOPEN"))
 			{
 				this.possibleStates = new String[]
-				{};
-				this.stateSetButton.setEnabled(false);
+				{ "PENDING", "IN PROGRESS", "DONE", "REJECTED", "VERIFIED DONE" };
 			}
 
 			else if (this.currentState.equals("VERIFIED DONE"))
 			{
 				this.possibleStates = new String[]
-				{};
-				this.stateSetButton.setEnabled(false);
-				this.assignButton.setEnabled(false);
+				{ "PENDING", "IN PROGRESS", "DONE", "REJECTED", "REOPEN" };
 			}
+
 		}
 		else if (this.userRank == 4)
 		{
@@ -371,7 +388,9 @@ public class IssueDetailsDialogView extends JDialog
 		gbc_stateSetButton.gridy = 9;
 		getContentPane().add(stateSetButton, gbc_stateSetButton);
 
-		if (!this.currentUserName.equals(this.author))
+		// Author degilse ve assigned tester degilse
+		if ((!this.currentUserName.equals(this.author))
+				&& !(this.currentAssignees.contains(this.currentUserName) && this.userRank == 3))
 		{
 			assignComboBox.setVisible(false);
 			assignButton.setVisible(false);

@@ -2,8 +2,6 @@ package com.ekinoks.controller;
 
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.view.IssueDetailsDialogView;
 import com.ekinoks.view.MainView;
@@ -61,34 +59,21 @@ public class IssueDetailsDialogController
 		}
 		else if (rank == 3) // TESTER
 		{
-			if (selectedState.equals("PENDING") || selectedState.equals("DONE"))
-			{
-				JOptionPane.showOptionDialog(issueDetailsDialogView, "Unavailable state!", "",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
-			}
-			else
-			{
-				dbm.updateIssueState(title, selectedState);
-				issueDetailsDialogView.setIssueStatus(selectedState);
-				mainView.updateIssueStateOnJTable(title, selectedState);
-			}
+
+			dbm.updateIssueState(title, selectedState);
+			issueDetailsDialogView.setIssueStatus(selectedState);
+			mainView.updateIssueStateOnJTable(title, selectedState);
+
 		}
 		else if (rank == 4) // DEVELOPER
 		{
-			if (selectedState.equals("VERIFIED DONE") || selectedState.equals("REOPEN")
-					|| selectedState.equals("PENDING"))
-			{
-				JOptionPane.showOptionDialog(issueDetailsDialogView, "Unavailable state!", "",
-						JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
-			}
-			else
-			{
-				dbm.updateIssueState(title, selectedState);
-				issueDetailsDialogView.setIssueStatus(selectedState);
-				mainView.updateIssueStateOnJTable(title, selectedState);
-			}
+
+			dbm.updateIssueState(title, selectedState);
+			issueDetailsDialogView.setIssueStatus(selectedState);
+			mainView.updateIssueStateOnJTable(title, selectedState);
+
 		}
-		
+
 		issueDetailsDialogView.setPossibleStates();
 
 	}
