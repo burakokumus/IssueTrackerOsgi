@@ -22,6 +22,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.ekinoks.database.DatabaseManager;
+import com.ekinoks.database.LogManager;
 import com.ekinoks.model.Issue;
 import com.ekinoks.model.IssueState;
 import com.ekinoks.model.User;
@@ -144,6 +145,7 @@ public class Controller
 	 */
 	private void refresh()
 	{
+		LogManager.getInstance().log("Refresh button is pressed by " + currentUserName);
 		view.clearJTable();
 		ArrayList<Issue> issueList = DatabaseManager.getInstance().getAllIssues();
 
