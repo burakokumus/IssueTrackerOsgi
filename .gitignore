@@ -13,3 +13,4 @@ bin
 *.db
 Deployment/
 .metadata
+*.xlsx
