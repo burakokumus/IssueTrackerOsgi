@@ -3,6 +3,7 @@ package com.ekinoks.controller;
 import javax.swing.JOptionPane;
 
 import com.ekinoks.database.DatabaseManager;
+import com.ekinoks.database.LogManager;
 import com.ekinoks.view.LoginView;
 import com.ekinoks.view.SignupView;
 import com.ekinoks.view.MainView;
@@ -49,11 +50,15 @@ public class LoginController
 			mainView.setCurrentUserName(userName);
 			mainView.setVisible(true);
 			mainView.pack();
+
+			LogManager.getInstance().log(userName + " logged in!");
 		}
 		else
 		{
 			JOptionPane.showOptionDialog(loginView, Messages.getString("loginFailed"), "", JOptionPane.DEFAULT_OPTION,
 					JOptionPane.INFORMATION_MESSAGE, null, null, null);
+			LogManager.getInstance()
+					.log("Someone tried to login with username " + userName + " and password " + password);
 		}
 
 	}

@@ -3,6 +3,7 @@ package com.ekinoks.controller;
 import javax.swing.JOptionPane;
 
 import com.ekinoks.database.DatabaseManager;
+import com.ekinoks.database.LogManager;
 import com.ekinoks.model.Issue;
 import com.ekinoks.view.AddIssueDialogView;
 import com.ekinoks.view.MainView;
@@ -51,9 +52,11 @@ public class AddIssueDialogController
 		{
 			message = Messages.getString("issueAdded");
 			addToJTable(title);
+			LogManager.getInstance().log("Issue " + title + "is added by " + mainView.getCurrentUserName());
 		}
 		else
 		{
+			LogManager.getInstance().log(mainView.getCurrentUserName() + "tried to add issue " + title + " but it already exists");
 			message = Messages.getString("issueAlreadyExists");
 		}
 

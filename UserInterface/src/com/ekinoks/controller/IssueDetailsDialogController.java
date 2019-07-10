@@ -3,6 +3,7 @@ package com.ekinoks.controller;
 import java.util.ArrayList;
 
 import com.ekinoks.database.DatabaseManager;
+import com.ekinoks.database.LogManager;
 import com.ekinoks.model.IssueState;
 import com.ekinoks.view.IssueDetailsDialogView;
 import com.ekinoks.view.MainView;
@@ -38,6 +39,7 @@ public class IssueDetailsDialogController
 		issueDetailsDialogView.getPossibleAssignees().remove(selectedUserName);
 		assignees.add(selectedUserName);
 		issueDetailsDialogView.setIssueAssignees(assignees);
+		LogManager.getInstance().log("Issue " + title + "is assigned to " + selectedUserName + " by " + mainView.getCurrentUserName());
 	}
 
 	private void stateSetButtonController()
@@ -60,6 +62,7 @@ public class IssueDetailsDialogController
 		mainView.updateIssueStateOnJTable(title, selectedState);
 
 		issueDetailsDialogView.setPossibleStates();
+		LogManager.getInstance().log("State of the issue " + title + "is set to " + selectedState + " by " + mainView.getCurrentUserName());
 
 	}
 }

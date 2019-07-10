@@ -107,6 +107,7 @@ public class Controller
 	 */
 	public void addIssue()
 	{
+		LogManager.getInstance().log("Add Issue button is pressed by " + currentUserName);
 		AddIssueDialogView addIssueDialogView = new AddIssueDialogView();
 		addIssueDialogView.showScreen();
 		AddIssueDialogController addIssueDialogController = new AddIssueDialogController(addIssueDialogView, view);
@@ -118,6 +119,7 @@ public class Controller
 	 */
 	private void addUser()
 	{
+		LogManager.getInstance().log("Add User button is pressed by " + currentUserName);
 		if (DatabaseManager.getInstance().getUserRank(currentUserName) > 1)
 		{
 			JOptionPane.showOptionDialog(view, Messages.getString("cannotAddUser"), "", JOptionPane.DEFAULT_OPTION,
@@ -157,6 +159,7 @@ public class Controller
 
 	private void exportToExcel()
 	{
+		LogManager.getInstance().log("Export button is pressed by " + currentUserName);
 		String[] columns = new String[]
 		{ "ID", "Title", "Type", "Priority", "Author", "Description", "State" };
 		ArrayList<Issue> issues = new ArrayList<>();

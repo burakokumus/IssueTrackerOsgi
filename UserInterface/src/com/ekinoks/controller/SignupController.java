@@ -3,6 +3,7 @@ package com.ekinoks.controller;
 import javax.swing.JOptionPane;
 
 import com.ekinoks.database.DatabaseManager;
+import com.ekinoks.database.LogManager;
 import com.ekinoks.view.Messages;
 import com.ekinoks.view.SignupView;
 
@@ -37,11 +38,13 @@ public class SignupController
 		if (userExists)
 		{
 			message = Messages.getString("userAlreadyExists");
+			LogManager.getInstance().log("someone tried to sign up with already existing user name " + userName);
 		}
 		else
 		{
 			DatabaseManager.getInstance().addSignUpRequest(userName, password);
 			message = Messages.getString("requestSent");
+			LogManager.getInstance().log(userName + " signed up!");
 		}
 
 		int showOptionDialog = JOptionPane.showOptionDialog(signupView, message, "", JOptionPane.DEFAULT_OPTION,
