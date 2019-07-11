@@ -85,7 +85,7 @@ public class AddIssueDialogView extends JDialog
 		typeComboBox = new JComboBox<>(new String[]
 		{ "Type1", "Type2", "Type3" });
 		gbc_typeComboBox = new GridBagConstraints();
-		gbc_typeComboBox.insets = new Insets(5, 5, 5, 0);
+		gbc_typeComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_typeComboBox.gridx = 1;
 		gbc_typeComboBox.gridy = 1;
@@ -214,4 +214,8 @@ public class AddIssueDialogView extends JDialog
 		}
 	}
 
+	public JTextField getPriorityTextField()
+	{
+		return priorityTextField;
+	}
 }

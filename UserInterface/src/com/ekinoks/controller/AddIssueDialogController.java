@@ -1,5 +1,8 @@
 package com.ekinoks.controller;
 
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JOptionPane;
 
 import com.ekinoks.database.DatabaseManager;
@@ -27,6 +30,19 @@ public class AddIssueDialogController
 	public void initController()
 	{
 		addIssueDialogView.getAddIssueButton().addActionListener(e -> addIssue());
+		addIssueDialogView.getPriorityTextField().addKeyListener(new KeyAdapter()
+		{
+			public void keyTyped(KeyEvent e)
+			{
+				char input = e.getKeyChar();
+				if ((input < '0' || input > '9') && input != '\b')
+				{
+					e.consume();
+					JOptionPane.showOptionDialog(addIssueDialogView, Messages.getString("Priority has to be integer!"), "", JOptionPane.DEFAULT_OPTION,
+							JOptionPane.INFORMATION_MESSAGE, null, null, null);
+				}
+			}
+		});
 	}
 
 	/**
@@ -56,7 +72,8 @@ public class AddIssueDialogController
 		}
 		else
 		{
-			LogManager.getInstance().log(mainView.getCurrentUserName() + "tried to add issue " + title + " but it already exists");
+			LogManager.getInstance()
+					.log(mainView.getCurrentUserName() + "tried to add issue " + title + " but it already exists");
 			message = Messages.getString("issueAlreadyExists");
 		}
 
@@ -80,4 +97,5 @@ public class AddIssueDialogController
 		mainView.addIssueToJTable(issue);
 
 	}
+
 }
