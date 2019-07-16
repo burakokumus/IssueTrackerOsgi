@@ -117,6 +117,7 @@ public class Controller
 	/**
 	 * Action Listener for the Add User Button
 	 */
+	@SuppressWarnings("unused")
 	private void addUser()
 	{
 		LogManager.getInstance().log("Add User button is pressed by " + currentUserName);
@@ -132,12 +133,11 @@ public class Controller
 			ArrayList<String> allUsersString = new ArrayList<>();
 			for (User user : allUsers)
 				allUsersString.add(user.getUserName());
-			AddUserDialogView addUserDialogView = new AddUserDialogView(requests, allUsersString);
+			AddUserDialogView addUserDialogView = new AddUserDialogView(view, requests, allUsersString);
+			AddUserDialogController addUserDialogController = new AddUserDialogController(addUserDialogView);
 			addUserDialogView.setPreferredSize(new Dimension(300, 300));
 			addUserDialogView.pack();
 			addUserDialogView.setVisible(true);
-			AddUserDialogController addUserDialogController = new AddUserDialogController(addUserDialogView);
-			addUserDialogController.initController();
 		}
 
 	}

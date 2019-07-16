@@ -32,7 +32,6 @@ public class LogManager
 			fh.setFormatter(formatter);
 
 			logger.info(logInput);
-			System.out.println(logInput);
 
 		}
 		catch (SecurityException e)

@@ -365,7 +365,7 @@ public class IssueDetailsDialogView extends JDialog
 		getContentPane().add(currentAssigneeLabel, gbc_currentAssigneeLabel);
 
 		assignComboBox = new JComboBox<>(this.assignComboBoxModel);
-		assignComboBox.setSelectedIndex(0);
+		//assignComboBox.setSelectedIndex(0);
 		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
 		gbc_assignComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_assignComboBox.fill = GridBagConstraints.HORIZONTAL;

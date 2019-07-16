@@ -13,6 +13,7 @@ public class AddUserDialogController
 	public AddUserDialogController(AddUserDialogView viewInput)
 	{
 		this.addUserDialogView = viewInput;
+		initController();
 	}
 
 	/**

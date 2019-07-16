@@ -1,13 +1,14 @@
 package com.ekinoks.view;
 
-import javax.swing.JDialog;
-import java.awt.GridBagLayout;
-import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Window;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
@@ -24,16 +25,33 @@ public class AddUserDialogView extends JDialog
 	private JComboBox<String> removeComboBox;
 	private JButton removeButton;
 
+	public AddUserDialogView()
+	{
+		this(new ArrayList<String>(), new ArrayList<String>());
+	}
+
 	public AddUserDialogView(ArrayList<String> requests, ArrayList<String> allUsers)
 	{
+		this(null, requests, allUsers);
+	}
+
+	public AddUserDialogView(Window parentWindow, ArrayList<String> requests, ArrayList<String> allUsers)
+	{
+		super(parentWindow);
 		ranks = new String[]
 		{ "Manager", "Analyst", "Tester", "Developer" };
 		this.usersArr = new String[requests.size()];
 		for (int i = 0; i < requests.size(); i++)
 			usersArr[i] = requests.get(i);
 		this.allUsers = new String[allUsers.size()];
-		for(int i = 0; i < allUsers.size(); i++)
+		for (int i = 0; i < allUsers.size(); i++)
 			this.allUsers[i] = allUsers.get(i);
+
+		this.setLocationRelativeTo(parentWindow);
+		this.setLocation(this.getLocation().x + parentWindow.getSize().width / 2, this.getLocation().y);
+		this.setModal(true);
+		this.setModalityType(ModalityType.APPLICATION_MODAL);
+
 		initialize();
 	}
 
@@ -50,7 +68,7 @@ public class AddUserDialogView extends JDialog
 		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
-		requestsComboBox = new JComboBox<>(usersArr);
+		requestsComboBox = new JComboBox<String>(usersArr);
 		GridBagConstraints gbc_requestsComboBox = new GridBagConstraints();
 		gbc_requestsComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_requestsComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -58,7 +76,7 @@ public class AddUserDialogView extends JDialog
 		gbc_requestsComboBox.gridy = 1;
 		getContentPane().add(requestsComboBox, gbc_requestsComboBox);
 
-		ranksComboBox = new JComboBox<>(ranks);
+		ranksComboBox = new JComboBox<String>(ranks);
 		GridBagConstraints gbc_ranksComboBox = new GridBagConstraints();
 		gbc_ranksComboBox.insets = new Insets(5, 5, 5, 0);
 		gbc_ranksComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -79,14 +97,14 @@ public class AddUserDialogView extends JDialog
 		gbc_rejectButton.gridx = 2;
 		gbc_rejectButton.gridy = 2;
 		getContentPane().add(rejectButton, gbc_rejectButton);
-		
+
 		removeLabel = new JLabel("Remove an existing user");
 		GridBagConstraints gbc_removeLabel = new GridBagConstraints();
 		gbc_removeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_removeLabel.gridx = 1;
 		gbc_removeLabel.gridy = 5;
 		getContentPane().add(removeLabel, gbc_removeLabel);
-		
+
 		removeComboBox = new JComboBox<>(allUsers);
 		GridBagConstraints gbc_removeComboBox = new GridBagConstraints();
 		gbc_removeComboBox.insets = new Insets(0, 0, 0, 5);
@@ -94,12 +112,13 @@ public class AddUserDialogView extends JDialog
 		gbc_removeComboBox.gridx = 1;
 		gbc_removeComboBox.gridy = 6;
 		getContentPane().add(removeComboBox, gbc_removeComboBox);
-		
+
 		removeButton = new JButton("Remove");
 		GridBagConstraints gbc_removeButton = new GridBagConstraints();
 		gbc_removeButton.gridx = 2;
 		gbc_removeButton.gridy = 6;
 		getContentPane().add(removeButton, gbc_removeButton);
+
 	}
 
 	public String getSelectedUser()
@@ -121,15 +140,15 @@ public class AddUserDialogView extends JDialog
 	{
 		return this.rejectButton;
 	}
-	
+
 	public JButton getRemoveButton()
 	{
 		return this.removeButton;
 	}
-	
+
 	public String getRemoveName()
 	{
-		return (String)removeComboBox.getSelectedItem();
+		return (String) removeComboBox.getSelectedItem();
 	}
 
 }
