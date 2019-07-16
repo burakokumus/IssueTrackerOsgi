@@ -7,14 +7,17 @@ import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import com.ekinoks.model.Issue;
+import com.ekinoks.model.IssueState;
 import com.ekinoks.ui.components.listtable.ListTable;
 import com.ekinoks.ui.components.listtable.ListTableModel;
 
@@ -28,12 +31,22 @@ public class MainView extends JFrame
 	private JPanel buttonPanel;
 	private JButton addIssueButton;
 	private JButton addUserButton;
-	private JPanel infoPanel;
+	private JPanel userPanel;
 	private JLabel userNameLabel;
 	private int currentRank = -1;
 	private JButton refreshButton;
 	private JButton exportButton;
 	private JButton logOutButton;
+	private JPanel issuePanel;
+	private JLabel issueIDLabel;
+	private JLabel issueTitleLabel;
+	private JLabel issueAuthorLabel;
+	private JLabel issueTypeLabel;
+	private JLabel issuePriorityLabel;
+	private JLabel issueStatusLabel;
+	private JComboBox<String> stateComboBox;
+	private JButton setStatusButton;
+	private JTextArea assigneesTextArea;
 
 	public MainView()
 	{
@@ -58,11 +71,11 @@ public class MainView extends JFrame
 		this.setVisible(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]
-		{ 0, 0 };
+		{ 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[]
 		{ 36, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[]
-		{ 1.0, Double.MIN_VALUE };
+		{ 1.0, 0.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[]
 		{ 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
 		this.getContentPane().setLayout(gridBagLayout);
@@ -102,25 +115,120 @@ public class MainView extends JFrame
 
 		scrollPane.setViewportView(table);
 
-		infoPanel = new JPanel();
-		GridBagConstraints gbc_infoPanel = new GridBagConstraints();
-		gbc_infoPanel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_infoPanel.insets = new Insets(5, 5, 5, 5);
-		gbc_infoPanel.gridx = 0;
-		gbc_infoPanel.gridy = 2;
-		getContentPane().add(infoPanel, gbc_infoPanel);
-		infoPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		issuePanel = new JPanel();
+		GridBagConstraints gbc_issuePanel = new GridBagConstraints();
+		gbc_issuePanel.insets = new Insets(0, 0, 5, 0);
+		gbc_issuePanel.fill = GridBagConstraints.BOTH;
+		gbc_issuePanel.gridx = 2;
+		gbc_issuePanel.gridy = 1;
+		getContentPane().add(issuePanel, gbc_issuePanel);
+		GridBagLayout gbl_issuePanel = new GridBagLayout();
+		gbl_issuePanel.columnWidths = new int[]
+		{ 0, 0, 0 };
+		gbl_issuePanel.rowHeights = new int[]
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gbl_issuePanel.columnWeights = new double[]
+		{ 0.0, 0.0, Double.MIN_VALUE };
+		gbl_issuePanel.rowWeights = new double[]
+		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		issuePanel.setLayout(gbl_issuePanel);
+
+		issueIDLabel = new JLabel(Messages.getString("MainView.lblNewLabel.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueIDLabel = new GridBagConstraints();
+		gbc_issueIDLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueIDLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueIDLabel.gridx = 0;
+		gbc_issueIDLabel.gridy = 0;
+		issuePanel.add(issueIDLabel, gbc_issueIDLabel);
+
+		issueTitleLabel = new JLabel(Messages.getString("MainView.lblTitle.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueTitleLabel = new GridBagConstraints();
+		gbc_issueTitleLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueTitleLabel.gridx = 0;
+		gbc_issueTitleLabel.gridy = 1;
+		issuePanel.add(issueTitleLabel, gbc_issueTitleLabel);
+
+		issueAuthorLabel = new JLabel(Messages.getString("MainView.lblAuthor.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueAuthorLabel = new GridBagConstraints();
+		gbc_issueAuthorLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueAuthorLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueAuthorLabel.gridx = 0;
+		gbc_issueAuthorLabel.gridy = 2;
+		issuePanel.add(issueAuthorLabel, gbc_issueAuthorLabel);
+
+		issueTypeLabel = new JLabel(Messages.getString("MainView.lblType.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueTypeLabel = new GridBagConstraints();
+		gbc_issueTypeLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueTypeLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueTypeLabel.gridx = 0;
+		gbc_issueTypeLabel.gridy = 3;
+		issuePanel.add(issueTypeLabel, gbc_issueTypeLabel);
+
+		issuePriorityLabel = new JLabel(Messages.getString("MainView.lblPriority.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issuePriorityLabel = new GridBagConstraints();
+		gbc_issuePriorityLabel.anchor = GridBagConstraints.WEST;
+		gbc_issuePriorityLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issuePriorityLabel.gridx = 0;
+		gbc_issuePriorityLabel.gridy = 4;
+		issuePanel.add(issuePriorityLabel, gbc_issuePriorityLabel);
+
+		assigneesTextArea = new JTextArea();
+		assigneesTextArea.setOpaque(false);
+		assigneesTextArea.setFont(issuePriorityLabel.getFont());
+		assigneesTextArea.setEditable(false);
+		assigneesTextArea.setText(Messages.getString("MainView.textArea.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_assigneesTextArea = new GridBagConstraints();
+		gbc_assigneesTextArea.insets = new Insets(0, 0, 5, 5);
+		gbc_assigneesTextArea.fill = GridBagConstraints.BOTH;
+		gbc_assigneesTextArea.gridx = 0;
+		gbc_assigneesTextArea.gridy = 5;
+		issuePanel.add(assigneesTextArea, gbc_assigneesTextArea);
+
+		issueStatusLabel = new JLabel(Messages.getString("MainView.lblStatus.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueStatusLabel = new GridBagConstraints();
+		gbc_issueStatusLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueStatusLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueStatusLabel.gridx = 0;
+		gbc_issueStatusLabel.gridy = 6;
+		issuePanel.add(issueStatusLabel, gbc_issueStatusLabel);
+
+		String[] states = new String[IssueState.values().length];
+		for (int i = 0; i < IssueState.values().length; i++)
+			states[i] = IssueState.values()[i].toString();
+		stateComboBox = new JComboBox<>(states);
+		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
+		gbc_stateComboBox.anchor = GridBagConstraints.WEST;
+		gbc_stateComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_stateComboBox.gridx = 0;
+		gbc_stateComboBox.gridy = 7;
+		issuePanel.add(stateComboBox, gbc_stateComboBox);
+
+		setStatusButton = new JButton(Messages.getString("MainView.btnSet.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_setStatusButton = new GridBagConstraints();
+		gbc_setStatusButton.gridx = 1;
+		gbc_setStatusButton.gridy = 7;
+		issuePanel.add(setStatusButton, gbc_setStatusButton);
+
+		userPanel = new JPanel();
+		GridBagConstraints gbc_userPanel = new GridBagConstraints();
+		gbc_userPanel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_userPanel.insets = new Insets(5, 5, 5, 5);
+		gbc_userPanel.gridx = 0;
+		gbc_userPanel.gridy = 2;
+		getContentPane().add(userPanel, gbc_userPanel);
+		userPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
 		refreshButton = new JButton(Messages.getString("MainView.btnRefresh.text"));
 		refreshButton.setHorizontalAlignment(SwingConstants.LEFT);
-		infoPanel.add(refreshButton);
+		userPanel.add(refreshButton);
 
 		logOutButton = new JButton(Messages.getString("MainView.btnLogout.text"));
-		infoPanel.add(logOutButton);
+		userPanel.add(logOutButton);
 
 		userNameLabel = new JLabel(Messages.getString("MainView.userNameLabel.text"));
 		userNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		infoPanel.add(userNameLabel);
+		userPanel.add(userNameLabel);
 
 		this.pack();
 	}
@@ -168,6 +276,26 @@ public class MainView extends JFrame
 	public JButton getLogOutButton()
 	{
 		return logOutButton;
+	}
+
+	public JButton getSetStatusButton()
+	{
+		return setStatusButton;
+	}
+
+	public String getSelectedState()
+	{
+		return stateComboBox.getSelectedItem().toString();
+	}
+
+	public JComboBox<String> getStateComboBox()
+	{
+		return stateComboBox;
+	}
+
+	public void setIssueState(String input)
+	{
+		issueStatusLabel.setText("State: " + input);
 	}
 
 	/**
@@ -231,6 +359,41 @@ public class MainView extends JFrame
 		return table;
 	}
 
+	public JLabel getIssueIDLabel()
+	{
+		return issueIDLabel;
+	}
+
+	public JLabel getIssueTitleLabel()
+	{
+		return issueTitleLabel;
+	}
+
+	public JLabel getIssueAuthorLabel()
+	{
+		return issueAuthorLabel;
+	}
+
+	public JLabel getIssueTypeLabel()
+	{
+		return issueTypeLabel;
+	}
+
+	public JLabel getIssuePriorityLabel()
+	{
+		return issuePriorityLabel;
+	}
+
+	public JTextArea getIssueAssigneesTextArea()
+	{
+		return assigneesTextArea;
+	}
+
+	public JLabel getIssueStatusLabel()
+	{
+		return issueStatusLabel;
+	}
+
 	/**
 	 * adds the given issue to the table.
 	 * 
@@ -271,4 +434,5 @@ public class MainView extends JFrame
 			}
 		}
 	}
+
 }

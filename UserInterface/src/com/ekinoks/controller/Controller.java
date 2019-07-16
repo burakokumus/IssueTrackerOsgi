@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -28,7 +27,6 @@ import com.ekinoks.model.IssueState;
 import com.ekinoks.model.User;
 import com.ekinoks.view.AddIssueDialogView;
 import com.ekinoks.view.AddUserDialogView;
-import com.ekinoks.view.IssueDetailsDialogView;
 import com.ekinoks.view.MainView;
 import com.ekinoks.view.Messages;
 
@@ -36,11 +34,13 @@ public class Controller
 {
 	private MainView view;
 	private String currentUserName;
+	private String currentTitle;
 
 	public Controller()
 	{
 		this.view = new MainView();
 		this.currentUserName = "";
+		this.currentTitle = "";
 	}
 
 	public void initController()
@@ -50,47 +50,84 @@ public class Controller
 		view.getRefreshButton().addActionListener(e -> refresh());
 		view.getExportButton().addActionListener(e -> exportToExcel());
 		view.getLogOutButton().addActionListener(e -> logout());
+		view.getSetStatusButton().addActionListener(e -> setStatus());
 		view.getTable().addMouseListener(new MouseAdapter()
 		{
 
 			@Override
 			public void mouseReleased(MouseEvent e)
 			{
+
+				int rowNo = view.getTable().rowAtPoint(e.getPoint());
+				String id = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 0));
+				String title = (String) view.getDefaultTableModel().getValueAt(rowNo, 1);
+				String type = (String) view.getDefaultTableModel().getValueAt(rowNo, 2);
+				String priority = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 3));
+				String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 4);
+				String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
+				IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 6).toString());
+				ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
+
+//				int rank = DatabaseManager.getInstance().getUserRank(currentUserName);
+
+				currentTitle = title;
+
+				if ((!currentUserName.equals(author)) && !(assignees.contains(currentUserName)))
+				{
+//					 assignComboBox.setVisible(false);
+//					 assignButton.setVisible(false);
+//					if (assignees.contains(currentUserName))
+//					{
+					view.getStateComboBox().setVisible(false);
+					view.getSetStatusButton().setVisible(false);
+//					}
+
+				}
+				else
+				{
+
+					view.getStateComboBox().setVisible(true);
+					view.getSetStatusButton().setVisible(true);
+				}
+
+				view.getIssueIDLabel().setText("ID: " + id);
+				view.getIssueTitleLabel().setText("Title: " + title);
+				view.getIssueTypeLabel().setText("Type: " + type);
+				view.getIssuePriorityLabel().setText("Priority: " + priority);
+				view.getIssueAuthorLabel().setText("Author: " + author);
+				view.getIssueStatusLabel().setText("State: " + state);
+				String currentAssignees = "Current Assignees: ";
+				for (String as : assignees)
+					currentAssignees = currentAssignees + as + ", ";
+				view.getIssueAssigneesTextArea().setText(currentAssignees.substring(0, currentAssignees.length() - 2));
 				super.mouseClicked(e);
 				if (e.getClickCount() % 2 == 0)
 				{
-					int rowNo = view.getTable().rowAtPoint(e.getPoint());
-					String id = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 0));
-					String title = (String) view.getDefaultTableModel().getValueAt(rowNo, 1);
-					String type = (String) view.getDefaultTableModel().getValueAt(rowNo, 2);
-					String priority = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 3));
-					String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 4);
-					String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
-					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 6).toString());
-					ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
-					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
+//					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
+//
+//					Vector<String> possibleAssignees = DatabaseManager.getInstance().getPossibleAssignees(title);
+//
+//					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName,
+//							DatabaseManager.getInstance().getUserRank(currentUserName), author, progressUser, state,
+//							assignees, possibleAssignees);
+//					issueDetailsDialogView.setIssueID(id);
+//					issueDetailsDialogView.setIssueTitle(title);
+//					issueDetailsDialogView.setIssueType(type);
+//					issueDetailsDialogView.setIssuePriority(priority);
+//					issueDetailsDialogView.setIssueAuthor(author);
+//					issueDetailsDialogView.setIssueDescription(description);
+//					issueDetailsDialogView.setIssueState(state.toString());
+//					issueDetailsDialogView.setIssueAssignees(assignees);
+//					issueDetailsDialogView.setVisible(true);
+//
+//					IssueDetailsDialogController issueDetailsDialogController = new IssueDetailsDialogController(
+//							issueDetailsDialogView, view, title, currentUserName, assignees);
+//					issueDetailsDialogController.initController();
 
-					Vector<String> possibleAssignees = DatabaseManager.getInstance().getPossibleAssignees(title);
-
-					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName,
-							DatabaseManager.getInstance().getUserRank(currentUserName), author, progressUser, state,
-							assignees, possibleAssignees);
-					issueDetailsDialogView.setIssueID(id);
-					issueDetailsDialogView.setIssueTitle(title);
-					issueDetailsDialogView.setIssueType(type);
-					issueDetailsDialogView.setIssuePriority(priority);
-					issueDetailsDialogView.setIssueAuthor(author);
-					issueDetailsDialogView.setIssueDescription(description);
-					issueDetailsDialogView.setIssueState(state.toString());
-					issueDetailsDialogView.showScreen();
-					issueDetailsDialogView.setIssueAssignees(assignees);
-
-					IssueDetailsDialogController issueDetailsDialogController = new IssueDetailsDialogController(
-							issueDetailsDialogView, view, title, currentUserName, assignees);
-					issueDetailsDialogController.initController();
-
-					issueDetailsDialogView.pack();
+//					issueDetailsDialogView.pack();
 				}
+
+				view.pack();
 			}
 		});
 
@@ -167,6 +204,33 @@ public class Controller
 		loginController.initController();
 		this.view.dispose();
 		LogManager.getInstance().log(currentUserName + " logged out!");
+	}
+
+	/**
+	 * Action Listener for the Set Status Button.
+	 */
+	private void setStatus()
+	{
+		String selectedState = view.getSelectedState();
+		DatabaseManager.getInstance().updateIssueState(currentTitle, selectedState);
+		view.setIssueState(selectedState);
+		if (selectedState.equals(IssueState.InProgress.toString()))
+		{
+			DatabaseManager.getInstance().setProgressUser(currentTitle, currentUserName);
+		}
+		else
+		{
+			DatabaseManager.getInstance().setProgressUser(currentTitle, null);
+		}
+		if (selectedState.equals(IssueState.VerifiedDone.toString()))
+		{
+			@SuppressWarnings("unused")
+			VerifiedDoneController verifiedDoneController = new VerifiedDoneController(currentTitle, view);
+		}
+		else
+		{
+			view.updateIssueStateOnJTable(currentTitle, selectedState);
+		}
 	}
 
 	private void exportToExcel()

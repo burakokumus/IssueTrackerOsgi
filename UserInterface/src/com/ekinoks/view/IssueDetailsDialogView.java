@@ -84,7 +84,8 @@ public class IssueDetailsDialogView extends JDialog
 			}
 			else
 			{
-				this.possibleStates = new IssueState[] {};
+				this.possibleStates = new IssueState[]
+				{};
 			}
 			return;
 		}
@@ -201,10 +202,9 @@ public class IssueDetailsDialogView extends JDialog
 			if (this.currentState.equals(IssueState.Pending))
 			{
 				this.possibleStates = new IssueState[]
-				{IssueState.InProgress, IssueState.Done, IssueState.Rejected };
+				{ IssueState.InProgress, IssueState.Done, IssueState.Rejected };
 			}
-			
-			
+
 			else if (this.currentState.equals(IssueState.Done))
 			{
 				this.possibleStates = new IssueState[]
@@ -365,7 +365,7 @@ public class IssueDetailsDialogView extends JDialog
 		getContentPane().add(currentAssigneeLabel, gbc_currentAssigneeLabel);
 
 		assignComboBox = new JComboBox<>(this.assignComboBoxModel);
-		//assignComboBox.setSelectedIndex(0);
+		// assignComboBox.setSelectedIndex(0);
 		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
 		gbc_assignComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_assignComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -428,14 +428,6 @@ public class IssueDetailsDialogView extends JDialog
 
 		}
 
-	}
-
-	/**
-	 * makes the screen visible.
-	 */
-	public void showScreen()
-	{
-		this.setVisible(true);
 	}
 
 	/**
@@ -523,7 +515,6 @@ public class IssueDetailsDialogView extends JDialog
 		if (result.length() <= 2)
 			this.currentAssigneeLabel.setText(result);
 		else
-
 			this.currentAssigneeLabel.setText(result.substring(0, result.length() - 2));
 	}
 

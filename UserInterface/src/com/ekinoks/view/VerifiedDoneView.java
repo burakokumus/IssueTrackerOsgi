@@ -5,11 +5,12 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
-import javax.swing.JButton;
+import javax.swing.SpinnerNumberModel;
 
 @SuppressWarnings("serial")
 public class VerifiedDoneView extends JDialog
@@ -27,7 +28,7 @@ public class VerifiedDoneView extends JDialog
 		gridBagLayout.rowHeights = new int[]
 		{ 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[]
-		{ 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[]
 		{ 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
@@ -40,6 +41,7 @@ public class VerifiedDoneView extends JDialog
 		getContentPane().add(timeSpentLabel, gbc_timeSpentLabel);
 
 		daySpinner = new JSpinner();
+		daySpinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_daySpinner = new GridBagConstraints();
 		gbc_daySpinner.anchor = GridBagConstraints.EAST;
 		gbc_daySpinner.insets = new Insets(0, 5, 5, 5);
@@ -61,6 +63,7 @@ public class VerifiedDoneView extends JDialog
 		getContentPane().add(dayLabel, gbc_dayLabel);
 
 		hourSpinner = new JSpinner();
+		hourSpinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_hourSpinner = new GridBagConstraints();
 		gbc_hourSpinner.anchor = GridBagConstraints.EAST;
 		gbc_hourSpinner.insets = new Insets(0, 5, 5, 5);
@@ -89,12 +92,12 @@ public class VerifiedDoneView extends JDialog
 	{
 		return (Integer) daySpinner.getValue();
 	}
-	
+
 	public int getHours()
 	{
 		return (Integer) hourSpinner.getValue();
 	}
-	
+
 	public JButton getConfirmButton()
 	{
 		return confirmButton;

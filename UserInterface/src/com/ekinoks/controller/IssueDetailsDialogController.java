@@ -56,16 +56,9 @@ public class IssueDetailsDialogController
 		{
 			DatabaseManager.getInstance().setProgressUser(title, null);
 		}
-		if (selectedState.equals(IssueState.VerifiedDone.toString()))
-		{
-			@SuppressWarnings("unused")
-			VerifiedDoneController verifiedDoneController = new VerifiedDoneController(title, issueDetailsDialogView);
-		}
-		else
-		{
-			mainView.updateIssueStateOnJTable(title, selectedState);
-			issueDetailsDialogView.setPossibleStates();
-		}
+
+		mainView.updateIssueStateOnJTable(title, selectedState);
+		issueDetailsDialogView.setPossibleStates();
 
 		LogManager.getInstance().log(
 				"State of the issue " + title + "is set to " + selectedState + " by " + mainView.getCurrentUserName());

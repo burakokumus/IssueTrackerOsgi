@@ -39,10 +39,10 @@ public class LoginController
 
 		if (DatabaseManager.getInstance().login(userName, password))
 		{
+			int rank = DatabaseManager.getInstance().getUserRank(userName);
 			mainController.setCurrentUserName(userName);
 			mainController.getCurrentView().setCurrentUserName(userName);
 			loginView.dispose();
-			int rank = DatabaseManager.getInstance().getUserRank(userName);
 			mainController.getCurrentView().setRank(rank);
 			mainController.getCurrentView().setCurrentUserName(userName);
 			mainController.getCurrentView().setVisible(true);
