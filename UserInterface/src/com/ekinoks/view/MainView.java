@@ -9,14 +9,14 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
 
 import com.ekinoks.model.Issue;
 import com.ekinoks.ui.components.listtable.ListTable;
 import com.ekinoks.ui.components.listtable.ListTableModel;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
 public class MainView extends JFrame
@@ -33,6 +33,7 @@ public class MainView extends JFrame
 	private int currentRank = -1;
 	private JButton refreshButton;
 	private JButton exportButton;
+	private JButton logOutButton;
 
 	public MainView()
 	{
@@ -114,6 +115,9 @@ public class MainView extends JFrame
 		refreshButton.setHorizontalAlignment(SwingConstants.LEFT);
 		infoPanel.add(refreshButton);
 
+		logOutButton = new JButton(Messages.getString("MainView.btnLogout.text"));
+		infoPanel.add(logOutButton);
+
 		userNameLabel = new JLabel(Messages.getString("MainView.userNameLabel.text"));
 		userNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		infoPanel.add(userNameLabel);
@@ -155,6 +159,15 @@ public class MainView extends JFrame
 	public JButton getExportButton()
 	{
 		return exportButton;
+	}
+
+	/**
+	 * 
+	 * @return the log out button
+	 */
+	public JButton getLogOutButton()
+	{
+		return logOutButton;
 	}
 
 	/**

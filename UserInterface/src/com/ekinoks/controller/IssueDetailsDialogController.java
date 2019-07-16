@@ -39,7 +39,8 @@ public class IssueDetailsDialogController
 		issueDetailsDialogView.getPossibleAssignees().remove(selectedUserName);
 		assignees.add(selectedUserName);
 		issueDetailsDialogView.setIssueAssignees(assignees);
-		LogManager.getInstance().log("Issue " + title + "is assigned to " + selectedUserName + " by " + mainView.getCurrentUserName());
+		LogManager.getInstance()
+				.log("Issue " + title + "is assigned to " + selectedUserName + " by " + mainView.getCurrentUserName());
 	}
 
 	private void stateSetButtonController()
@@ -57,12 +58,17 @@ public class IssueDetailsDialogController
 		}
 		if (selectedState.equals(IssueState.VerifiedDone.toString()))
 		{
-			DatabaseManager.getInstance().setFinishDate(title);
+			@SuppressWarnings("unused")
+			VerifiedDoneController verifiedDoneController = new VerifiedDoneController(title, issueDetailsDialogView);
 		}
-		mainView.updateIssueStateOnJTable(title, selectedState);
+		else
+		{
+			mainView.updateIssueStateOnJTable(title, selectedState);
+			issueDetailsDialogView.setPossibleStates();
+		}
 
-		issueDetailsDialogView.setPossibleStates();
-		LogManager.getInstance().log("State of the issue " + title + "is set to " + selectedState + " by " + mainView.getCurrentUserName());
+		LogManager.getInstance().log(
+				"State of the issue " + title + "is set to " + selectedState + " by " + mainView.getCurrentUserName());
 
 	}
 }

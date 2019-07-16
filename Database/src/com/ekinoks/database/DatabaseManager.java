@@ -195,7 +195,7 @@ public class DatabaseManager
 		{
 			pstmt.setString(1, userName);
 			pstmt.setString(2, password);
-			if (rank.equals("Admin"))
+			if (rank.equals("Manager"))
 			{
 				pstmt.setInt(3, 1);
 			}
@@ -207,7 +207,6 @@ public class DatabaseManager
 			{
 				pstmt.setInt(3, 3);
 			}
-
 			else if (rank.equals("Developer"))
 			{
 				pstmt.setInt(3, 4);
@@ -769,11 +768,27 @@ public class DatabaseManager
 			System.err.println(e.getMessage());
 		}
 	}
+
 	public String getCurrentDate()
 	{
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		Date date = new Date();
 		String s = dateFormat.format(date);
 		return s;
+	}
+
+	public void setTimeSpent(String title, int hours)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.SET_TIME_SPENT_STATEMENT))
+		{
+			pstmt.setInt(1, hours);
+			pstmt.setString(2, title);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 }

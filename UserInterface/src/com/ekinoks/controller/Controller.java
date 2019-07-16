@@ -49,6 +49,7 @@ public class Controller
 		view.getAddUserButton().addActionListener(e -> addUser());
 		view.getRefreshButton().addActionListener(e -> refresh());
 		view.getExportButton().addActionListener(e -> exportToExcel());
+		view.getLogOutButton().addActionListener(e -> logout());
 		view.getTable().addMouseListener(new MouseAdapter()
 		{
 
@@ -157,6 +158,17 @@ public class Controller
 		}
 	}
 
+	/**
+	 * Action Listener for the Log Out Button.
+	 */
+	private void logout()
+	{
+		LoginController loginController = new LoginController(this);
+		loginController.initController();
+		this.view.dispose();
+		LogManager.getInstance().log(currentUserName + " logged out!");
+	}
+
 	private void exportToExcel()
 	{
 		LogManager.getInstance().log("Export button is pressed by " + currentUserName);
@@ -169,7 +181,7 @@ public class Controller
 			issues.add(i);
 		}
 
-		Workbook workbook = new XSSFWorkbook(); 
+		Workbook workbook = new XSSFWorkbook();
 
 		Sheet sheet = workbook.createSheet("Issues");
 
@@ -218,14 +230,14 @@ public class Controller
 		int showSaveDialog = fileChooser.showSaveDialog(null);
 		File selectedFile = fileChooser.getSelectedFile();
 
-		try(FileOutputStream fileOut = new FileOutputStream(selectedFile.getPath()))
+		try (FileOutputStream fileOut = new FileOutputStream(selectedFile.getPath()))
 		{
 			// Write the output to a file
-			if(showSaveDialog == 0)
+			if (showSaveDialog == 0)
 			{
 				workbook.write(fileOut);
 			}
-			
+
 			// Closing the workbook
 			workbook.close();
 		}

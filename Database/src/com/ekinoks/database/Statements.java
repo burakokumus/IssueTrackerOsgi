@@ -29,7 +29,8 @@ public class Statements
 	public static final String UPDATE_ISSUE_STATE_STATEMENT =                "UPDATE issues SET state = ? WHERE title = ?";
 	public static final String URL =                                         "jdbc:sqlite:C:\\Users\\burak\\eclipse-workspace\\Database\\IssueTrackerDatabase.db";
 	public static final String USER_INSERT_STATEMENT =                       "INSERT INTO users(user_name, password, rank) VALUES(?, ?, ?)";
-
+	public static final String SET_TIME_SPENT_STATEMENT = 					 "UPDATE issues SET time_spent = ? WHERE title = ?";
+	
 	private Statements()
 	{
 
