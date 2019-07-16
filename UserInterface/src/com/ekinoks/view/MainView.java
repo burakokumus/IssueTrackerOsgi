@@ -76,10 +76,10 @@ public class MainView extends JFrame
 		gbc_buttonPanel.gridx = 0;
 		gbc_buttonPanel.gridy = 0;
 		this.getContentPane().add(buttonPanel, gbc_buttonPanel);
-		
-				addUserButton = new JButton(Messages.getString("manageUsers"));
-				buttonPanel.add(addUserButton);
-		
+
+		addUserButton = new JButton(Messages.getString("manageUsers"));
+		buttonPanel.add(addUserButton);
+
 		exportButton = new JButton(Messages.getString("MainView.btnExport.text")); //$NON-NLS-1$
 		buttonPanel.add(exportButton);
 
@@ -156,7 +156,7 @@ public class MainView extends JFrame
 	{
 		return exportButton;
 	}
-	
+
 	/**
 	 * 
 	 * @return the table model.
@@ -239,6 +239,7 @@ public class MainView extends JFrame
 	{
 		table.getModel().removeAllRows();
 	}
+
 	public void updateIssueStateOnJTable(String title, String newState)
 	{
 		List<Issue> temp = table.getModel().getRows();

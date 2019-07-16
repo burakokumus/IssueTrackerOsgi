@@ -5,20 +5,17 @@ import javax.swing.JOptionPane;
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.database.LogManager;
 import com.ekinoks.view.LoginView;
-import com.ekinoks.view.SignupView;
-import com.ekinoks.view.MainView;
 import com.ekinoks.view.Messages;
+import com.ekinoks.view.SignupView;
 
 public class LoginController
 {
-	private MainView mainView;
 	private LoginView loginView;
 	private Controller mainController;
 
-	public LoginController(LoginView loginViewInput, MainView mainViewInput, Controller mainControllerInput)
+	public LoginController(Controller mainControllerInput)
 	{
-		this.loginView = loginViewInput;
-		this.mainView = mainViewInput;
+		this.loginView = new LoginView();
 		this.mainController = mainControllerInput;
 	}
 
@@ -43,13 +40,13 @@ public class LoginController
 		if (DatabaseManager.getInstance().login(userName, password))
 		{
 			mainController.setCurrentUserName(userName);
-			mainView.setCurrentUserName(userName);
+			mainController.getCurrentView().setCurrentUserName(userName);
 			loginView.dispose();
 			int rank = DatabaseManager.getInstance().getUserRank(userName);
-			mainView.setRank(rank);
-			mainView.setCurrentUserName(userName);
-			mainView.setVisible(true);
-			mainView.pack();
+			mainController.getCurrentView().setRank(rank);
+			mainController.getCurrentView().setCurrentUserName(userName);
+			mainController.getCurrentView().setVisible(true);
+			mainController.getCurrentView().pack();
 
 			LogManager.getInstance().log(userName + " logged in!");
 		}

@@ -37,9 +37,9 @@ public class Controller
 	private MainView view;
 	private String currentUserName;
 
-	public Controller(MainView viewInput)
+	public Controller()
 	{
-		this.view = viewInput;
+		this.view = new MainView();
 		this.currentUserName = "";
 	}
 
@@ -256,4 +256,8 @@ public class Controller
 		return this.currentUserName;
 	}
 
+	public MainView getCurrentView()
+	{
+		return view;
+	}
 }
