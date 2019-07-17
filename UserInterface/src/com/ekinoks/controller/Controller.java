@@ -51,6 +51,7 @@ public class Controller
 		view.getExportButton().addActionListener(e -> exportToExcel());
 		view.getLogOutButton().addActionListener(e -> logout());
 		view.getSetStatusButton().addActionListener(e -> setStatus());
+		view.getAssignButton().addActionListener(e -> assign());
 		view.getTable().addMouseListener(new MouseAdapter()
 		{
 
@@ -59,53 +60,61 @@ public class Controller
 			{
 
 				int rowNo = view.getTable().rowAtPoint(e.getPoint());
-				String id = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 0));
-				String title = (String) view.getDefaultTableModel().getValueAt(rowNo, 1);
-				String type = (String) view.getDefaultTableModel().getValueAt(rowNo, 2);
-				String priority = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 3));
-				String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 4);
+				if (rowNo > -1)
+				{
+					String id = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 0));
+					String title = (String) view.getDefaultTableModel().getValueAt(rowNo, 1);
+					String type = (String) view.getDefaultTableModel().getValueAt(rowNo, 2);
+					String priority = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 3));
+					String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 4);
 //				String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
-				IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 6).toString());
-				ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
+					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 6).toString());
+					ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
 
 //				int rank = DatabaseManager.getInstance().getUserRank(currentUserName);
 
-				currentTitle = title;
+					currentTitle = title;
 
-				if ((!currentUserName.equals(author)) && !(assignees.contains(currentUserName)))
-				{
-//					 assignComboBox.setVisible(false);
-//					 assignButton.setVisible(false);
-//					if (assignees.contains(currentUserName))
-//					{
-					view.getStateComboBox().setVisible(false);
-					view.getSetStatusButton().setVisible(false);
-//					}
+					if ((!currentUserName.equals(author)) && !(assignees.contains(currentUserName)))
+					{
+						view.getAssignButton().setVisible(false);
+						view.getAssignComboBox().setVisible(false);
+						if (assignees.contains(currentUserName))
+						{
+							view.getStateComboBox().setVisible(false);
+							view.getSetStatusButton().setVisible(false);
+						}
 
-				}
-				else
-				{
+					}
+					else
+					{
 
+						view.getStateComboBox().setVisible(true);
+						view.getSetStatusButton().setVisible(true);
+					}
+
+					view.getIssueIDLabel().setText("ID: " + id);
+					view.getIssueTitleLabel().setText("Title: " + title);
+					view.getIssueTypeLabel().setText("Type: " + type);
+					view.getIssuePriorityLabel().setText("Priority: " + priority);
+					view.getIssueAuthorLabel().setText("Author: " + author);
+					view.getIssueStatusLabel().setText("State: " + state);
+					view.setCurrentState(state);
+					view.setProgressUser(DatabaseManager.getInstance().getProgressUser(title));
+					view.setCurrentTitle(title);
+					view.getSetStatusButton().setEnabled(true);
 					view.getStateComboBox().setVisible(true);
-					view.getSetStatusButton().setVisible(true);
-				}
-
-				view.getIssueIDLabel().setText("ID: " + id);
-				view.getIssueTitleLabel().setText("Title: " + title);
-				view.getIssueTypeLabel().setText("Type: " + type);
-				view.getIssuePriorityLabel().setText("Priority: " + priority);
-				view.getIssueAuthorLabel().setText("Author: " + author);
-				view.getIssueStatusLabel().setText("State: " + state);
-				view.setCurrentState(state.toString());
-				view.setProgressUser(DatabaseManager.getInstance().getProgressUser(title));
-				String currentAssignees = "Current Assignees: ";
-				for (String as : assignees)
-					currentAssignees = currentAssignees + as + ", ";
-				view.getIssueAssigneesTextArea().setText(currentAssignees.substring(0, currentAssignees.length() - 2));
-				view.setPossibleStates();
-				super.mouseClicked(e);
-				if (e.getClickCount() % 2 == 0)
-				{
+					view.getAssignButton().setEnabled(true);
+					view.getAssignButton().setVisible(true);
+					String currentAssignees = "Current Assignees: ";
+					for (String as : assignees)
+						currentAssignees = currentAssignees + as + ", ";
+					view.getIssueAssigneesTextArea()
+							.setText(currentAssignees.substring(0, currentAssignees.length() - 2));
+					view.setPossibleStates();
+					super.mouseClicked(e);
+					if (e.getClickCount() % 2 == 0)
+					{
 //					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
 //
 //					Vector<String> possibleAssignees = DatabaseManager.getInstance().getPossibleAssignees(title);
@@ -128,9 +137,10 @@ public class Controller
 //					issueDetailsDialogController.initController();
 
 //					issueDetailsDialogView.pack();
-				}
+					}
 
-				view.pack();
+					view.pack();
+				}
 			}
 		});
 
@@ -214,10 +224,10 @@ public class Controller
 	 */
 	private void setStatus()
 	{
-		String selectedState = view.getSelectedState();
+		IssueState selectedState = view.getSelectedState();
 		DatabaseManager.getInstance().updateIssueState(currentTitle, selectedState);
 		view.setIssueState(selectedState);
-		if (selectedState.equals(IssueState.InProgress.toString()))
+		if (selectedState.equals(IssueState.InProgress))
 		{
 			DatabaseManager.getInstance().setProgressUser(currentTitle, currentUserName);
 		}
@@ -225,7 +235,7 @@ public class Controller
 		{
 			DatabaseManager.getInstance().setProgressUser(currentTitle, null);
 		}
-		if (selectedState.equals(IssueState.VerifiedDone.toString()))
+		if (selectedState.equals(IssueState.VerifiedDone))
 		{
 			@SuppressWarnings("unused")
 			VerifiedDoneController verifiedDoneController = new VerifiedDoneController(currentTitle, view);
@@ -233,7 +243,24 @@ public class Controller
 		else
 		{
 			view.updateIssueStateOnJTable(currentTitle, selectedState);
+			view.setCurrentState(selectedState);
+			view.setPossibleStates();
 		}
+
+	}
+
+	/**
+	 * Action Listener for the Assign Button.
+	 */
+	private void assign()
+	{
+		String assignee = view.getSelectedUser();
+		DatabaseManager.getInstance().addRelation(assignee, currentTitle);
+		view.getPossibleAssignees().remove(assignee);
+		String temp = view.getIssueAssigneesTextArea().getText();
+		temp += ", " + assignee;
+		view.getIssueAssigneesTextArea().setText(temp);
+		LogManager.getInstance().log("Issue " + currentTitle + "is assigned to " + assignee + " by " + currentUserName);
 	}
 
 	private void exportToExcel()
@@ -339,4 +366,5 @@ public class Controller
 	{
 		return view;
 	}
+
 }

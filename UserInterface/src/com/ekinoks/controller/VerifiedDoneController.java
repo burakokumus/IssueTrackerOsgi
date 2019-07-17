@@ -1,6 +1,7 @@
 package com.ekinoks.controller;
 
 import com.ekinoks.database.DatabaseManager;
+import com.ekinoks.model.IssueState;
 import com.ekinoks.view.MainView;
 import com.ekinoks.view.VerifiedDoneView;
 
@@ -31,6 +32,9 @@ public class VerifiedDoneController
 		int hours = verifiedDoneView.getHours() + (verifiedDoneView.getDays() * 24);
 		DatabaseManager.getInstance().setFinishDate(title);
 		DatabaseManager.getInstance().setTimeSpent(title, hours);
+		DatabaseManager.getInstance().updateIssueState(title, IssueState.VerifiedDone);
+		DatabaseManager.getInstance().setProgressUser(title, null);
+		view.updateIssueStateOnJTable(title, IssueState.VerifiedDone);
 		verifiedDoneView.dispose();
 
 	}

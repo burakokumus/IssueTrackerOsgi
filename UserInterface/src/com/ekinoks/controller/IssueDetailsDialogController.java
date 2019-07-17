@@ -45,7 +45,7 @@ public class IssueDetailsDialogController
 
 	private void stateSetButtonController()
 	{
-		String selectedState = issueDetailsDialogView.getSelectedState();
+		IssueState selectedState = issueDetailsDialogView.getSelectedState();
 		DatabaseManager.getInstance().updateIssueState(title, selectedState);
 		issueDetailsDialogView.setIssueState(selectedState);
 		if (selectedState.equals(IssueState.InProgress.toString()))

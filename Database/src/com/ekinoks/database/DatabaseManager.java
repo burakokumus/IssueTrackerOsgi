@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Vector;
 
 import com.ekinoks.model.Issue;
+import com.ekinoks.model.IssueState;
 import com.ekinoks.model.User;
 
 public class DatabaseManager
@@ -164,12 +165,12 @@ public class DatabaseManager
 		return result;
 	}
 
-	public void updateIssueState(String title, String newState)
+	public void updateIssueState(String title, IssueState newState)
 	{
 		try (Connection conn = this.connect();
 				PreparedStatement pstmt = conn.prepareStatement(Statements.UPDATE_ISSUE_STATE_STATEMENT))
 		{
-			pstmt.setString(1, newState);
+			pstmt.setString(1, newState.toString());
 			pstmt.setString(2, title);
 
 			pstmt.executeUpdate();

@@ -495,9 +495,9 @@ public class IssueDetailsDialogView extends JDialog
 	 * 
 	 * @param status
 	 */
-	public void setIssueState(String status)
+	public void setIssueState(IssueState status)
 	{
-		this.statusLabel.setText(status);
+		this.statusLabel.setText(status.toString());
 	}
 
 	/**
@@ -540,9 +540,9 @@ public class IssueDetailsDialogView extends JDialog
 	 * 
 	 * @return get selected state
 	 */
-	public String getSelectedState()
+	public IssueState getSelectedState()
 	{
-		return (String) stateComboBox.getSelectedItem();
+		return (IssueState) stateComboBox.getSelectedItem();
 	}
 
 	/**
