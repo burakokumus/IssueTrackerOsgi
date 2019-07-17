@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -24,7 +25,13 @@ import com.ekinoks.ui.components.listtable.ListTableModel;
 @SuppressWarnings("serial")
 public class MainView extends JFrame
 {
+	private int currentRank = -1;
 	private String currentUserName;
+	private String progressUser;
+	private String currentState;
+	private String[] possibleStates;
+
+	private DefaultComboBoxModel<String> comboBoxModel;
 
 	public JDialog addIssueDialog;
 	private ListTable<Issue> table;
@@ -33,7 +40,6 @@ public class MainView extends JFrame
 	private JButton addUserButton;
 	private JPanel userPanel;
 	private JLabel userNameLabel;
-	private int currentRank = -1;
 	private JButton refreshButton;
 	private JButton exportButton;
 	private JButton logOutButton;
@@ -51,6 +57,8 @@ public class MainView extends JFrame
 	public MainView()
 	{
 		this.currentUserName = "";
+		this.possibleStates = new String[]
+		{};
 		initialize();
 	}
 
@@ -193,10 +201,10 @@ public class MainView extends JFrame
 		gbc_issueStatusLabel.gridy = 6;
 		issuePanel.add(issueStatusLabel, gbc_issueStatusLabel);
 
-		String[] states = new String[IssueState.values().length];
-		for (int i = 0; i < IssueState.values().length; i++)
-			states[i] = IssueState.values()[i].toString();
-		stateComboBox = new JComboBox<>(states);
+		// STATES
+		comboBoxModel = new DefaultComboBoxModel<>(possibleStates);
+		stateComboBox = new JComboBox<>(comboBoxModel);
+
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.anchor = GridBagConstraints.WEST;
 		gbc_stateComboBox.insets = new Insets(0, 0, 0, 5);
@@ -231,6 +239,194 @@ public class MainView extends JFrame
 		userPanel.add(userNameLabel);
 
 		this.pack();
+	}
+
+	public void setPossibleStates()
+	{
+		// currentUserName
+		// currentState
+		// currentRank
+		// progressUser
+		if (progressUser != null)
+		{
+			if (currentUserName.equals(progressUser))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.InProgress.toString(), IssueState.Done.toString(),
+						IssueState.Rejected.toString(), IssueState.Reopen.toString(),
+						IssueState.VerifiedDone.toString() };
+			}
+			else
+			{
+				possibleStates = new String[]
+				{};
+			}
+
+			comboBoxModel = new DefaultComboBoxModel<>(possibleStates);
+			stateComboBox = new JComboBox<>(comboBoxModel);
+			return;
+		}
+
+		if (currentRank == 1)
+		{
+			if (currentState.equals(IssueState.Pending.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.InProgress.toString(), IssueState.Done.toString(), IssueState.Rejected.toString(),
+						IssueState.Reopen.toString(), IssueState.VerifiedDone.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Done.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.InProgress.toString(), IssueState.Rejected.toString(),
+						IssueState.Reopen.toString(), IssueState.VerifiedDone.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Rejected.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.InProgress.toString(), IssueState.Done.toString(),
+						IssueState.Reopen.toString(), IssueState.VerifiedDone.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Reopen.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.InProgress.toString(), IssueState.Done.toString(),
+						IssueState.Rejected.toString(), IssueState.VerifiedDone.toString() };
+			}
+
+			else if (currentState.equals(IssueState.VerifiedDone.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.InProgress.toString(), IssueState.Done.toString(),
+						IssueState.Rejected.toString(), IssueState.Reopen.toString() };
+			}
+
+		}
+		else if (currentRank == 2)
+		{
+			if (currentState.equals(IssueState.Pending.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Done.toString(), IssueState.Rejected.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Done.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Rejected.toString(), IssueState.Reopen.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Rejected.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Reopen.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Reopen.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Done.toString(), IssueState.Rejected.toString() };
+			}
+
+			else if (currentState.equals(IssueState.VerifiedDone.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Reopen.toString() };
+			}
+		}
+		else if (currentRank == 3)
+		{
+
+			if (currentState.equals(IssueState.Pending.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Done.toString(), IssueState.InProgress.toString(), IssueState.Rejected.toString(),
+						IssueState.Reopen.toString(), IssueState.VerifiedDone.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Done.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.InProgress.toString(), IssueState.Rejected.toString(),
+						IssueState.Reopen.toString(), IssueState.VerifiedDone.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Rejected.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.InProgress.toString(), IssueState.Done.toString(),
+						IssueState.Reopen.toString(), IssueState.VerifiedDone.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Reopen.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.InProgress.toString(), IssueState.Done.toString(),
+						IssueState.Rejected.toString(), IssueState.VerifiedDone.toString() };
+			}
+
+			else if (currentState.equals(IssueState.VerifiedDone.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.InProgress.toString(), IssueState.Done.toString(),
+						IssueState.Rejected.toString(), IssueState.Reopen.toString() };
+			}
+
+		}
+		else if (currentRank == 4)
+		{
+			if (currentState.equals(IssueState.Pending.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.InProgress.toString(), IssueState.Done.toString(), IssueState.Rejected.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Done.toString()))
+			{
+				possibleStates = new String[]
+				{};
+				// this.stateSetButton.setEnabled(false); // TODO
+				// this.assignButton.setEnabled(false);
+			}
+
+			else if (currentState.equals(IssueState.Rejected.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Pending.toString(), IssueState.Reopen.toString() };
+			}
+
+			else if (currentState.equals(IssueState.Reopen.toString()))
+			{
+				possibleStates = new String[]
+				{ IssueState.Done.toString() };
+			}
+
+			else if (currentState.equals(IssueState.VerifiedDone.toString()))
+			{
+				possibleStates = new String[]
+				{};
+				// this.stateSetButton.setEnabled(false); // TODO
+			}
+
+			comboBoxModel.removeAllElements();
+			for (String state : possibleStates)
+			{
+				comboBoxModel.addElement(state);
+			}
+		}
+	}
+
+	public void setCurrentState(String newState)
+	{
+		this.currentState = newState;
+	}
+
+	public void setProgressUser(String newProgressUser)
+	{
+		this.progressUser = newProgressUser;
 	}
 
 	/**

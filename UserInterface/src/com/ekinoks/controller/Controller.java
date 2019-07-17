@@ -64,7 +64,7 @@ public class Controller
 				String type = (String) view.getDefaultTableModel().getValueAt(rowNo, 2);
 				String priority = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 3));
 				String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 4);
-				String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
+//				String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
 				IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 6).toString());
 				ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
 
@@ -96,10 +96,13 @@ public class Controller
 				view.getIssuePriorityLabel().setText("Priority: " + priority);
 				view.getIssueAuthorLabel().setText("Author: " + author);
 				view.getIssueStatusLabel().setText("State: " + state);
+				view.setCurrentState(state.toString());
+				view.setProgressUser(DatabaseManager.getInstance().getProgressUser(title));
 				String currentAssignees = "Current Assignees: ";
 				for (String as : assignees)
 					currentAssignees = currentAssignees + as + ", ";
 				view.getIssueAssigneesTextArea().setText(currentAssignees.substring(0, currentAssignees.length() - 2));
+				view.setPossibleStates();
 				super.mouseClicked(e);
 				if (e.getClickCount() % 2 == 0)
 				{
