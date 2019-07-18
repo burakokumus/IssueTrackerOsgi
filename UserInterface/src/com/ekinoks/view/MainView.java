@@ -60,6 +60,7 @@ public class MainView extends JFrame
 	private JTextArea assigneesTextArea;
 	private JComboBox<String> assignComboBox;
 	private JButton assignButton;
+	private JLabel progressUserLabel;
 
 	/**
 	 * Default constructor
@@ -136,11 +137,11 @@ public class MainView extends JFrame
 		gbl_issuePanel.columnWidths = new int[]
 		{ 0, 0, 0 };
 		gbl_issuePanel.rowHeights = new int[]
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_issuePanel.columnWeights = new double[]
 		{ 0.0, 0.0, Double.MIN_VALUE };
 		gbl_issuePanel.rowWeights = new double[]
-		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		issuePanel.setLayout(gbl_issuePanel);
 
 		issueIDLabel = new JLabel(Messages.getString("MainView.lblNewLabel.text")); //$NON-NLS-1$
@@ -205,36 +206,44 @@ public class MainView extends JFrame
 
 		// STATES
 		comboBoxModel = new DefaultComboBoxModel<>(possibleStates);
+
+		possibleAssignees = DatabaseManager.getInstance().getPossibleAssignees(currentTitle);
+		assignComboBoxModel = new DefaultComboBoxModel<String>(possibleAssignees);
+
+		progressUserLabel = new JLabel(Messages.getString("MainView.lblProgressUser.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_progressUserLabel = new GridBagConstraints();
+		gbc_progressUserLabel.anchor = GridBagConstraints.WEST;
+		gbc_progressUserLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_progressUserLabel.gridx = 0;
+		gbc_progressUserLabel.gridy = 7;
+		issuePanel.add(progressUserLabel, gbc_progressUserLabel);
 		stateComboBox = new JComboBox<>(comboBoxModel);
 
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.anchor = GridBagConstraints.WEST;
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_stateComboBox.gridx = 0;
-		gbc_stateComboBox.gridy = 7;
+		gbc_stateComboBox.gridy = 8;
 		issuePanel.add(stateComboBox, gbc_stateComboBox);
 
 		setStatusButton = new JButton(Messages.getString("MainView.btnSet.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_setStatusButton = new GridBagConstraints();
 		gbc_setStatusButton.insets = new Insets(0, 0, 5, 0);
 		gbc_setStatusButton.gridx = 1;
-		gbc_setStatusButton.gridy = 7;
+		gbc_setStatusButton.gridy = 8;
 		issuePanel.add(setStatusButton, gbc_setStatusButton);
-
-		possibleAssignees = DatabaseManager.getInstance().getPossibleAssignees(currentTitle);
-		assignComboBoxModel = new DefaultComboBoxModel<String>(possibleAssignees);
 		assignComboBox = new JComboBox<>(assignComboBoxModel);
 		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
 		gbc_assignComboBox.anchor = GridBagConstraints.WEST;
 		gbc_assignComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_assignComboBox.gridx = 0;
-		gbc_assignComboBox.gridy = 8;
+		gbc_assignComboBox.gridy = 9;
 		issuePanel.add(assignComboBox, gbc_assignComboBox);
 
 		assignButton = new JButton(Messages.getString("MainView.btnAssing.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
 		gbc_assignButton.gridx = 1;
-		gbc_assignButton.gridy = 8;
+		gbc_assignButton.gridy = 9;
 		issuePanel.add(assignButton, gbc_assignButton);
 
 		userPanel = new JPanel();
@@ -398,8 +407,6 @@ public class MainView extends JFrame
 			{
 				possibleStates = new IssueState[]
 				{};
-				this.setStatusButton.setVisible(false);
-				this.stateComboBox.setVisible(false);
 			}
 
 		}
@@ -435,8 +442,6 @@ public class MainView extends JFrame
 			{
 				possibleStates = new IssueState[]
 				{};
-				this.setStatusButton.setVisible(false);
-				this.stateComboBox.setVisible(false);
 			}
 
 		}
@@ -688,6 +693,11 @@ public class MainView extends JFrame
 	public JLabel getIssuePriorityLabel()
 	{
 		return issuePriorityLabel;
+	}
+
+	public JLabel getIssueProgressUserLabel()
+	{
+		return progressUserLabel;
 	}
 
 	/**
