@@ -71,11 +71,25 @@ public class Controller
 					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 6).toString());
 					ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
 
-//				int rank = DatabaseManager.getInstance().getUserRank(currentUserName);
+					int rank = DatabaseManager.getInstance().getUserRank(currentUserName);
 
 					currentTitle = title;
 
-					if (currentUserName.equals(author) || currentUserName.equals(progressUser))
+					if (rank == 1)
+					{
+						view.getAssignComboBox().setVisible(true);
+						view.getAssignButton().setVisible(true);
+						view.getStateComboBox().setVisible(true);
+						view.getSetStatusButton().setVisible(true);
+					}
+					else if (state.toString().equals(IssueState.VerifiedDone.toString()))
+					{
+						view.getAssignComboBox().setVisible(false);
+						view.getAssignButton().setVisible(false);
+						view.getStateComboBox().setVisible(false);
+						view.getSetStatusButton().setVisible(false);
+					}
+					else if (currentUserName.equals(author) || currentUserName.equals(progressUser))
 					{
 						view.getAssignComboBox().setVisible(true);
 						view.getAssignButton().setVisible(true);
@@ -205,8 +219,6 @@ public class Controller
 	private void setStatus()
 	{
 		IssueState selectedState = view.getSelectedState();
-		DatabaseManager.getInstance().updateIssueState(currentTitle, selectedState);
-		view.setIssueState(selectedState);
 		if (selectedState.equals(IssueState.InProgress))
 		{
 			DatabaseManager.getInstance().setProgressUser(currentTitle, currentUserName);
@@ -215,16 +227,18 @@ public class Controller
 		{
 			DatabaseManager.getInstance().setProgressUser(currentTitle, null);
 		}
-		if (selectedState.equals(IssueState.VerifiedDone))
+		if (selectedState.equals(IssueState.Done))
 		{
 			@SuppressWarnings("unused")
-			VerifiedDoneController verifiedDoneController = new VerifiedDoneController(currentTitle, view);
+			DoneConfirmationController verifiedDoneController = new DoneConfirmationController(currentTitle, view);
 		}
 		else
 		{
+			DatabaseManager.getInstance().updateIssueState(currentTitle, selectedState);
 			view.updateIssueStateOnJTable(currentTitle, selectedState);
 			view.setCurrentState(selectedState);
 			view.setPossibleStates();
+			view.setIssueState(selectedState);
 		}
 
 	}

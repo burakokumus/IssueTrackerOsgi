@@ -2,20 +2,20 @@ package com.ekinoks.controller;
 
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.model.IssueState;
+import com.ekinoks.view.DoneConfirmationView;
 import com.ekinoks.view.MainView;
-import com.ekinoks.view.VerifiedDoneView;
 
-public class VerifiedDoneController
+public class DoneConfirmationController
 {
 	MainView view;
-	VerifiedDoneView verifiedDoneView;
+	DoneConfirmationView verifiedDoneView;
 	String title;
 
-	public VerifiedDoneController(String title, MainView view)
+	public DoneConfirmationController(String title, MainView view)
 	{
 		this.title = title;
 		this.view = view;
-		this.verifiedDoneView = new VerifiedDoneView();
+		this.verifiedDoneView = new DoneConfirmationView();
 		this.verifiedDoneView.pack();
 		this.verifiedDoneView.setVisible(true);
 		this.initController();
@@ -32,9 +32,10 @@ public class VerifiedDoneController
 		int hours = verifiedDoneView.getHours() + (verifiedDoneView.getDays() * 24);
 		DatabaseManager.getInstance().setFinishDate(title);
 		DatabaseManager.getInstance().setTimeSpent(title, hours);
-		DatabaseManager.getInstance().updateIssueState(title, IssueState.VerifiedDone);
+		DatabaseManager.getInstance().updateIssueState(title, IssueState.Done);
 		DatabaseManager.getInstance().setProgressUser(title, null);
-		view.updateIssueStateOnJTable(title, IssueState.VerifiedDone);
+		view.updateIssueStateOnJTable(title, IssueState.Done);
+		view.setIssueState(IssueState.Done);
 		verifiedDoneView.dispose();
 
 	}
