@@ -2,5 +2,5 @@ package com.ekinoks.model;
 
 public enum IssueType
 {
-	Defect, Requirement, Task, TestCase, ChangeRequest, UserStory;
+	Defect, Requirement, Task, TestCase, ChangeRequest, UserStory, Improvement;
 }

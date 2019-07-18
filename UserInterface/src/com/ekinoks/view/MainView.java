@@ -1,6 +1,9 @@
 package com.ekinoks.view;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -15,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
@@ -83,13 +87,13 @@ public class MainView extends JFrame
 		this.setVisible(false);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]
-		{ 0, 0, 0, 0 };
+		{ 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[]
-		{ 36, 0, 0, 0, 0 };
+		{ 36, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[]
-		{ 1.0, 0.0, 1.0, Double.MIN_VALUE };
+		{ 1.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[]
-		{ 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		{ 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		this.getContentPane().setLayout(gridBagLayout);
 
 		buttonPanel = new JPanel();
@@ -112,27 +116,48 @@ public class MainView extends JFrame
 		addIssueButton = new JButton(Messages.getString("addIssue"));
 		buttonPanel.add(addIssueButton);
 
-		JScrollPane scrollPane = new JScrollPane();
+		table = new ListTable<Issue>(Issue.class);
+		table.setFilterable(true);
+		table.setSortable(true);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setRowHeight(40);
+		Font tableFont = new Font("Times New Roman", Font.PLAIN, 16);
+		table.setGridColor(new Color(30, 20, 120));
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setFont(tableFont);
+
+		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setPreferredSize(new Dimension(560, 400));
+		scrollPane.setMinimumSize(new Dimension(560, 400));
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(5, 5, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		this.getContentPane().add(scrollPane, gbc_scrollPane);
+//		scrollPane.getViewport().setMinimumSize(table.getSize());
 
-		table = new ListTable<Issue>(Issue.class);
-		table.setFilterable(true);
-		table.setSortable(true);
-		table.getTableHeader().setReorderingAllowed(false);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+//		table.setDefaultRenderer(String.class, new DefaultTableCellRenderer()
+//		{
+//			@Override
+//			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+//					boolean hasFocus, int row, int column)
+//			{
+//				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+//				c.setForeground(Color.RED);
+//				return c;
+//			}
+//		});
 
-		scrollPane.setViewportView(table);
+//		scrollPane.setViewportView(table);
 
 		issuePanel = new JPanel();
 		GridBagConstraints gbc_issuePanel = new GridBagConstraints();
+		gbc_issuePanel.anchor = GridBagConstraints.EAST;
 		gbc_issuePanel.insets = new Insets(0, 0, 5, 0);
-		gbc_issuePanel.fill = GridBagConstraints.BOTH;
-		gbc_issuePanel.gridx = 2;
+		gbc_issuePanel.fill = GridBagConstraints.VERTICAL;
+		gbc_issuePanel.gridx = 1;
 		gbc_issuePanel.gridy = 1;
 		getContentPane().add(issuePanel, gbc_issuePanel);
 		GridBagLayout gbl_issuePanel = new GridBagLayout();
@@ -250,8 +275,9 @@ public class MainView extends JFrame
 
 		userPanel = new JPanel();
 		GridBagConstraints gbc_userPanel = new GridBagConstraints();
+		gbc_userPanel.anchor = GridBagConstraints.SOUTH;
 		gbc_userPanel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_userPanel.insets = new Insets(5, 5, 5, 5);
+		gbc_userPanel.insets = new Insets(5, 5, 0, 5);
 		gbc_userPanel.gridx = 0;
 		gbc_userPanel.gridy = 2;
 		getContentPane().add(userPanel, gbc_userPanel);
