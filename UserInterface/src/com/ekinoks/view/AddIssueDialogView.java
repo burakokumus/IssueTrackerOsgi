@@ -11,6 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import com.ekinoks.model.IssueType;
+
 @SuppressWarnings("serial")
 public class AddIssueDialogView extends JDialog
 {
@@ -82,8 +84,12 @@ public class AddIssueDialogView extends JDialog
 		gbc_typeLabel.gridy = 1;
 		getContentPane().add(typeLabel, gbc_typeLabel);
 
-		typeComboBox = new JComboBox<>(new String[]
-		{ "Type1", "Type2", "Type3" });
+		String issueTypes[] = new String[IssueType.values().length];
+		for (int i = 0; i < IssueType.values().length; i++)
+		{
+			issueTypes[i] = IssueType.values()[i].toString();
+		}
+		typeComboBox = new JComboBox<>(issueTypes);
 		gbc_typeComboBox = new GridBagConstraints();
 		gbc_typeComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;

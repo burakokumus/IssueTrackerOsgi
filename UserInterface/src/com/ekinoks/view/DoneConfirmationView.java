@@ -36,13 +36,10 @@ public class DoneConfirmationView extends JDialog
 		daySpinner = new JSpinner();
 		daySpinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_daySpinner = new GridBagConstraints();
-		gbc_daySpinner.gridwidth = 2;
 		gbc_daySpinner.anchor = GridBagConstraints.EAST;
 		gbc_daySpinner.insets = new Insets(0, 5, 5, 5);
 		gbc_daySpinner.gridx = 0;
 		gbc_daySpinner.gridy = 1;
-
-		JComponent field = ((JSpinner.DefaultEditor) daySpinner.getEditor());
 
 		JLabel timeSpentLabel = new JLabel("Time Spent:");
 		GridBagConstraints gbc_timeSpentLabel = new GridBagConstraints();
@@ -52,35 +49,40 @@ public class DoneConfirmationView extends JDialog
 		gbc_timeSpentLabel.gridy = 0;
 		getContentPane().add(timeSpentLabel, gbc_timeSpentLabel);
 
+		// Size
+		JComponent dayField = ((JSpinner.DefaultEditor) daySpinner.getEditor());
 		getContentPane().add(daySpinner, gbc_daySpinner);
-		Dimension prefSize = field.getPreferredSize();
-		prefSize = new Dimension(200, prefSize.height);
-		field.setPreferredSize(prefSize);
+		Dimension prefSize = dayField.getPreferredSize();
+		prefSize = new Dimension(80, prefSize.height);
+		dayField.setPreferredSize(prefSize);
 
 		JLabel dayLabel = new JLabel("days");
 		GridBagConstraints gbc_dayLabel = new GridBagConstraints();
 		gbc_dayLabel.anchor = GridBagConstraints.WEST;
 		gbc_dayLabel.insets = new Insets(0, 5, 5, 5);
-		gbc_dayLabel.gridx = 2;
+		gbc_dayLabel.gridx = 1;
 		gbc_dayLabel.gridy = 1;
 		getContentPane().add(dayLabel, gbc_dayLabel);
 
 		hourSpinner = new JSpinner();
 		hourSpinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_hourSpinner = new GridBagConstraints();
-		gbc_hourSpinner.gridwidth = 2;
 		gbc_hourSpinner.anchor = GridBagConstraints.EAST;
 		gbc_hourSpinner.insets = new Insets(0, 5, 5, 5);
 		gbc_hourSpinner.gridx = 0;
 		gbc_hourSpinner.gridy = 2;
 		getContentPane().add(hourSpinner, gbc_hourSpinner);
 
+		// Size
+		JComponent hourField = ((JSpinner.DefaultEditor) hourSpinner.getEditor());
+		hourField.setPreferredSize(prefSize);
+
 		JLabel hourLabel = new JLabel("hours");
 		GridBagConstraints gbc_hourLabel = new GridBagConstraints();
 		gbc_hourLabel.gridwidth = 2;
 		gbc_hourLabel.anchor = GridBagConstraints.WEST;
 		gbc_hourLabel.insets = new Insets(0, 5, 5, 5);
-		gbc_hourLabel.gridx = 2;
+		gbc_hourLabel.gridx = 1;
 		gbc_hourLabel.gridy = 2;
 		getContentPane().add(hourLabel, gbc_hourLabel);
 
