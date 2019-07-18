@@ -234,17 +234,19 @@ public class DatabaseManager
 	 * @param description
 	 * @return
 	 */
-	public boolean addIssue(String title, String type, int priority, String author, String description)
+	public boolean addIssue(String projectName, String title, String type, int priority, String author,
+			String description)
 	{
 		try (Connection conn = this.connect();
 				PreparedStatement pstmt = conn.prepareStatement(Statements.ISSUE_INSERT_STATEMENT))
 		{
-			pstmt.setString(1, title);
-			pstmt.setString(2, type);
-			pstmt.setInt(3, priority);
-			pstmt.setString(4, author);
-			pstmt.setString(5, description);
-			pstmt.setString(6, getCurrentDate());
+			pstmt.setString(1, projectName);
+			pstmt.setString(2, title);
+			pstmt.setString(3, type);
+			pstmt.setInt(4, priority);
+			pstmt.setString(5, author);
+			pstmt.setString(6, description);
+			pstmt.setString(7, getCurrentDate());
 			pstmt.executeUpdate();
 			return true;
 

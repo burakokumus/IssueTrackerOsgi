@@ -4,13 +4,16 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.model.IssueType;
 
 @SuppressWarnings("serial")
@@ -25,7 +28,6 @@ public class AddIssueDialogView extends JDialog
 	private GridBagConstraints gbc_typeLabel;
 	private GridBagConstraints gbc_typeComboBox;
 	private JLabel typeLabel;
-	private JComboBox<String> typeComboBox;
 	private JLabel priorityLabel;
 	private GridBagConstraints gbc_priorityLabel;
 	private GridBagConstraints gbc_priorityTextField;
@@ -36,7 +38,11 @@ public class AddIssueDialogView extends JDialog
 	private GridBagConstraints gbc_descriptionTextField;
 	private GridBagConstraints gbc_addIssueButton;
 	private JLabel projectLabel;
+
+	private JComboBox<String> typeComboBox;
+
 	private JComboBox<String> projectComboBox;
+	private DefaultComboBoxModel<String> projectComboBoxModel;
 
 	public AddIssueDialogView()
 	{
@@ -74,7 +80,16 @@ public class AddIssueDialogView extends JDialog
 		gbc_projectLabel.gridy = 0;
 		getContentPane().add(projectLabel, gbc_projectLabel);
 
-		projectComboBox = new JComboBox<>();
+		// Set Combo Box
+		ArrayList<String> allProjects = DatabaseManager.getInstance().getAllProjectNames();
+		String allProjectsArray[] = new String[allProjects.size()];
+		for (int i = 0; i < allProjects.size(); i++)
+		{
+			allProjectsArray[i] = allProjects.get(i);
+		}
+		projectComboBoxModel = new DefaultComboBoxModel<>(allProjectsArray);
+		projectComboBox = new JComboBox<>(projectComboBoxModel);
+
 		GridBagConstraints gbc_projectComboBox = new GridBagConstraints();
 		gbc_projectComboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_projectComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -107,7 +122,7 @@ public class AddIssueDialogView extends JDialog
 		gbc_typeLabel.gridx = 0;
 		gbc_typeLabel.gridy = 2;
 		getContentPane().add(typeLabel, gbc_typeLabel);
-		typeComboBox = new JComboBox<>(/* issueTypes */);
+		typeComboBox = new JComboBox<>(issueTypes);
 		gbc_typeComboBox = new GridBagConstraints();
 		gbc_typeComboBox.insets = new Insets(5, 5, 5, 0);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -169,6 +184,15 @@ public class AddIssueDialogView extends JDialog
 	public JButton getAddIssueButton()
 	{
 		return addIssueButton;
+	}
+
+	/**
+	 * 
+	 * @return the selected project name.
+	 */
+	public String getSelectedProject()
+	{
+		return projectComboBox.getSelectedItem().toString();
 	}
 
 	/**

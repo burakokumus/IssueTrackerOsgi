@@ -38,8 +38,8 @@ public class AddIssueDialogController
 				if ((input < '0' || input > '9') && input != '\b')
 				{
 					e.consume();
-					JOptionPane.showOptionDialog(addIssueDialogView, Messages.getString("Priority has to be integer!"), "", JOptionPane.DEFAULT_OPTION,
-							JOptionPane.INFORMATION_MESSAGE, null, null, null);
+					JOptionPane.showOptionDialog(addIssueDialogView, Messages.getString("Priority has to be integer!"),
+							"", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
 				}
 			}
 		});
@@ -51,6 +51,7 @@ public class AddIssueDialogController
 	 */
 	private void addIssue()
 	{
+		String projectName = addIssueDialogView.getSelectedProject();
 		String title = addIssueDialogView.getIssueTitle();
 		String type = addIssueDialogView.getIssueType();
 		int priority = addIssueDialogView.getIssuePriority();
@@ -62,7 +63,7 @@ public class AddIssueDialogController
 		}
 
 		String author = mainView.getCurrentUserName();
-		boolean added = DatabaseManager.getInstance().addIssue(title, type, priority, author, description);
+		boolean added = DatabaseManager.getInstance().addIssue(projectName, title, type, priority, author, description);
 		String message = "";
 		if (added)
 		{
