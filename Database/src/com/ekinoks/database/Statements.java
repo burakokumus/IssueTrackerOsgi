@@ -5,6 +5,8 @@ public class Statements
 	public static final String ADD_RELATION_STATEMENT = "INSERT INTO relation(user_id, issue_id) SELECT usr.user_id, iss.issue_id FROM users usr JOIN issues iss WHERE user_name = ? and title = ?";
 	public static final String CHECK_USER_EXISTS_STATEMENT = "SELECT * FROM users WHERE user_name = ?";
 	public static final String GET_ALL_ISSUES_STATEMENT = "SELECT * from issues";
+	public static final String GET_ALL_ISSUES_OF_PROJECT_STATEMENT = "SELECT * from issues WHERE project_name = ?";
+	public static final String GET_ALL_PROJECTS_STATEMENT = "SELECT project_name FROM projects";
 	public static final String GET_ALL_REQUESTS_STATEMENT = "SELECT * FROM requests";
 	public static final String GET_ALL_USERS_STATEMENT = "SELECT * from users";
 	public static final String GET_AUTHOR_BY_ISSUE_TITLE_STATEMENT = "SELECT author FROM issues WHERE title = ?";

@@ -35,18 +35,21 @@ public class Controller
 	private MainView view;
 	private String currentUserName;
 	private String currentTitle;
+	private String currentProjectName;
 
 	public Controller()
 	{
 		this.view = new MainView();
 		this.currentUserName = "";
 		this.currentTitle = "";
+		this.currentProjectName = "prj1";
 	}
 
 	public void initController()
 	{
 		view.getAddIssueButton().addActionListener(e -> addIssue());
 		view.getAddUserButton().addActionListener(e -> addUser());
+		view.getSelectProjectButton().addActionListener(e -> selectProject());
 		view.getRefreshButton().addActionListener(e -> refresh());
 		view.getExportButton().addActionListener(e -> exportToExcel());
 		view.getLogOutButton().addActionListener(e -> logout());
@@ -61,14 +64,15 @@ public class Controller
 				int rowNo = view.getTable().getSelectedRow();
 				if (rowNo > -1)
 				{
-					String id = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 0));
-					String title = (String) view.getDefaultTableModel().getValueAt(rowNo, 1);
-					String type = (String) view.getDefaultTableModel().getValueAt(rowNo, 2);
-					String priority = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 3));
-					String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 4);
+					String projectName = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 0));
+					String id = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 1));
+					String title = (String) view.getDefaultTableModel().getValueAt(rowNo, 2);
+					String type = (String) view.getDefaultTableModel().getValueAt(rowNo, 3);
+					String priority = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 4));
+					String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
 					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
-//				String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
-					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 6).toString());
+//				String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 6);
+					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 7).toString());
 					ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
 
 					int rank = DatabaseManager.getInstance().getUserRank(currentUserName);
@@ -112,6 +116,7 @@ public class Controller
 						view.getSetStatusButton().setVisible(false);
 					}
 
+					view.getIssueProjectNameLabel().setText("Project Name: " + projectName);
 					view.getIssueIDLabel().setText("ID: " + id);
 					view.getIssueTitleLabel().setText("Title: " + title);
 					view.getIssueTypeLabel().setText("Type: " + type);
@@ -138,7 +143,7 @@ public class Controller
 			}
 		});
 
-		ArrayList<Issue> issueList = DatabaseManager.getInstance().getAllIssues();
+		ArrayList<Issue> issueList = DatabaseManager.getInstance().getAllIssuesOfProject(currentProjectName);
 
 		for (Issue issue : issueList)
 		{
@@ -154,7 +159,7 @@ public class Controller
 	{
 		LogManager.getInstance().log("Add Issue button is pressed by " + currentUserName);
 		AddIssueDialogView addIssueDialogView = new AddIssueDialogView();
-		addIssueDialogView.showScreen();
+		addIssueDialogView.setVisible(true);
 		AddIssueDialogController addIssueDialogController = new AddIssueDialogController(addIssueDialogView, view);
 		addIssueDialogController.initController();
 	}
@@ -188,13 +193,24 @@ public class Controller
 	}
 
 	/**
+	 * Action Listener for the Select Project Button
+	 */
+	private void selectProject()
+	{
+		LogManager.getInstance().log("Select Project button is pressed by " + currentUserName);
+		@SuppressWarnings("unused")
+		SelectProjectDialogController selectProjectDialogController = new SelectProjectDialogController(view, this,
+				view.getAllProjects());
+	}
+
+	/**
 	 * Action Listener for the Refresh Button.
 	 */
 	private void refresh()
 	{
 		LogManager.getInstance().log("Refresh button is pressed by " + currentUserName);
 		view.clearJTable();
-		ArrayList<Issue> issueList = DatabaseManager.getInstance().getAllIssues();
+		ArrayList<Issue> issueList = DatabaseManager.getInstance().getAllIssuesOfProject(currentProjectName);
 
 		for (Issue issue : issueList)
 		{
@@ -361,4 +377,13 @@ public class Controller
 		return view;
 	}
 
+	public String getCurrentProjectName()
+	{
+		return currentProjectName;
+	}
+
+	public void setCurrentProjectName(String projectName)
+	{
+		this.currentProjectName = projectName;
+	}
 }

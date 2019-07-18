@@ -288,6 +288,7 @@ public class DatabaseManager
 	 */
 	public Issue getIssue(String title)
 	{
+		String projectName = "";
 		int issueID = -1;
 		String issueTitle = "";
 		String issueType = "";
@@ -304,6 +305,7 @@ public class DatabaseManager
 			ResultSet executeQuery = pstmt.executeQuery();
 			if (executeQuery.next())
 			{
+				projectName = executeQuery.getString("project_name");
 				issueID = executeQuery.getInt("issue_id");
 				issueTitle = executeQuery.getString("title");
 				issueType = executeQuery.getString("type");
@@ -313,8 +315,8 @@ public class DatabaseManager
 				issueState = executeQuery.getString("state");
 			}
 
-			Issue result = new Issue(issueID, issueTitle, issueType, issuePriority, issueAuthor, issueDescription,
-					issueState);
+			Issue result = new Issue(projectName, issueID, issueTitle, issueType, issuePriority, issueAuthor,
+					issueDescription, issueState);
 			return result;
 
 		}
@@ -359,6 +361,7 @@ public class DatabaseManager
 	 */
 	public ArrayList<Issue> getAllIssues()
 	{
+		String projectName = "";
 		int issueID = -1;
 		String issueTitle = "";
 		String issueType = "";
@@ -376,6 +379,7 @@ public class DatabaseManager
 			ResultSet executeQuery = pstmt.executeQuery();
 			while (executeQuery.next())
 			{
+				projectName = executeQuery.getString("project_name");
 				issueID = executeQuery.getInt("issue_id");
 				issueTitle = executeQuery.getString("title");
 				issueType = executeQuery.getString("type");
@@ -383,8 +387,8 @@ public class DatabaseManager
 				issueAuthor = executeQuery.getString("author");
 				issueDescription = executeQuery.getString("description");
 				issueState = executeQuery.getString("state");
-				Issue temp = new Issue(issueID, issueTitle, issueType, issuePriority, issueAuthor, issueDescription,
-						issueState);
+				Issue temp = new Issue(projectName, issueID, issueTitle, issueType, issuePriority, issueAuthor,
+						issueDescription, issueState);
 				result.add(temp);
 			}
 
@@ -754,6 +758,11 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * Sets the finish date of the issue.
+	 * 
+	 * @param title
+	 */
 	public void setFinishDate(String title)
 	{
 		try (Connection conn = this.connect();
@@ -790,6 +799,67 @@ public class DatabaseManager
 		catch (SQLException e)
 		{
 			System.err.println(e.getMessage());
+		}
+	}
+
+	public ArrayList<String> getAllProjectNames()
+	{
+		ArrayList<String> result = new ArrayList<>();
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_PROJECTS_STATEMENT))
+		{
+			ResultSet executeQuery = pstmt.executeQuery();
+			while (executeQuery.next())
+			{
+				result.add(executeQuery.getString("project_name"));
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
+	public ArrayList<Issue> getAllIssuesOfProject(String projectName)
+	{
+		int issueID = -1;
+		String issueTitle = "";
+		String issueType = "";
+		int issuePriority = -1;
+		String issueAuthor = "";
+		String issueDescription = "";
+		String issueState = "";
+
+		ArrayList<Issue> result = new ArrayList<>();
+
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_ISSUES_OF_PROJECT_STATEMENT))
+		{
+
+			pstmt.setString(1, projectName);
+			ResultSet executeQuery = pstmt.executeQuery();
+			while (executeQuery.next())
+			{
+				issueID = executeQuery.getInt("issue_id");
+				issueTitle = executeQuery.getString("title");
+				issueType = executeQuery.getString("type");
+				issuePriority = executeQuery.getInt("priority");
+				issueAuthor = executeQuery.getString("author");
+				issueDescription = executeQuery.getString("description");
+				issueState = executeQuery.getString("state");
+				Issue temp = new Issue(projectName, issueID, issueTitle, issueType, issuePriority, issueAuthor,
+						issueDescription, issueState);
+				result.add(temp);
+			}
+
+			return result;
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+			return null;
 		}
 	}
 }

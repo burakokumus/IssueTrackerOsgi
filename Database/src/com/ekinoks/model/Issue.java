@@ -1,8 +1,8 @@
 package com.ekinoks.model;
 
-
 public class Issue
 {
+	private String projectName;
 	private int id;
 	private String title;
 	private String type;
@@ -13,11 +13,13 @@ public class Issue
 
 	public Issue()
 	{
-		
+
 	}
-	
-	public Issue(int id, String title, String type, int priority, String author, String description, String state)
+
+	public Issue(String projectName, int id, String title, String type, int priority, String author, String description,
+			String state)
 	{
+		this.projectName = projectName;
 		this.id = id;
 		this.title = title;
 		this.type = type;
@@ -27,6 +29,10 @@ public class Issue
 		this.state = state;
 	}
 
+	public String getProjectName()
+	{
+		return projectName;
+	}
 
 	public int getId()
 	{

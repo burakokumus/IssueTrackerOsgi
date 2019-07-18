@@ -35,6 +35,8 @@ public class AddIssueDialogView extends JDialog
 	private GridBagConstraints gbc_descriptionLabel;
 	private GridBagConstraints gbc_descriptionTextField;
 	private GridBagConstraints gbc_addIssueButton;
+	private JLabel projectLabel;
+	private JComboBox<String> projectComboBox;
 
 	public AddIssueDialogView()
 	{
@@ -58,12 +60,34 @@ public class AddIssueDialogView extends JDialog
 		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
+		String issueTypes[] = new String[IssueType.values().length];
+		for (int i = 0; i < IssueType.values().length; i++)
+		{
+			issueTypes[i] = IssueType.values()[i].toString();
+		}
+
+		projectLabel = new JLabel(Messages.getString("AddIssueDialogView.lblProject.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_projectLabel = new GridBagConstraints();
+		gbc_projectLabel.anchor = GridBagConstraints.EAST;
+		gbc_projectLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_projectLabel.gridx = 0;
+		gbc_projectLabel.gridy = 0;
+		getContentPane().add(projectLabel, gbc_projectLabel);
+
+		projectComboBox = new JComboBox<>();
+		GridBagConstraints gbc_projectComboBox = new GridBagConstraints();
+		gbc_projectComboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_projectComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_projectComboBox.gridx = 1;
+		gbc_projectComboBox.gridy = 0;
+		getContentPane().add(projectComboBox, gbc_projectComboBox);
+
 		issueNameLabel = new JLabel(Messages.getString("AddIssueDialog.lblIssueName.text")); //$NON-NLS-1$
 		gbc_issueNameLabel = new GridBagConstraints();
 		gbc_issueNameLabel.anchor = GridBagConstraints.EAST;
 		gbc_issueNameLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_issueNameLabel.gridx = 0;
-		gbc_issueNameLabel.gridy = 0;
+		gbc_issueNameLabel.gridy = 1;
 		getContentPane().add(issueNameLabel, gbc_issueNameLabel);
 
 		titleTextField = new JTextField();
@@ -72,7 +96,7 @@ public class AddIssueDialogView extends JDialog
 		gbc_titleTextField.insets = new Insets(5, 5, 5, 0);
 		gbc_titleTextField.anchor = GridBagConstraints.WEST;
 		gbc_titleTextField.gridx = 1;
-		gbc_titleTextField.gridy = 0;
+		gbc_titleTextField.gridy = 1;
 		getContentPane().add(titleTextField, gbc_titleTextField);
 		titleTextField.setColumns(10);
 
@@ -81,20 +105,14 @@ public class AddIssueDialogView extends JDialog
 		gbc_typeLabel.anchor = GridBagConstraints.EAST;
 		gbc_typeLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_typeLabel.gridx = 0;
-		gbc_typeLabel.gridy = 1;
+		gbc_typeLabel.gridy = 2;
 		getContentPane().add(typeLabel, gbc_typeLabel);
-
-		String issueTypes[] = new String[IssueType.values().length];
-		for (int i = 0; i < IssueType.values().length; i++)
-		{
-			issueTypes[i] = IssueType.values()[i].toString();
-		}
-		typeComboBox = new JComboBox<>(issueTypes);
+		typeComboBox = new JComboBox<>(/* issueTypes */);
 		gbc_typeComboBox = new GridBagConstraints();
-		gbc_typeComboBox.insets = new Insets(5, 5, 5, 5);
+		gbc_typeComboBox.insets = new Insets(5, 5, 5, 0);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_typeComboBox.gridx = 1;
-		gbc_typeComboBox.gridy = 1;
+		gbc_typeComboBox.gridy = 2;
 		getContentPane().add(typeComboBox, gbc_typeComboBox);
 
 		priorityLabel = new JLabel(Messages.getString("AddIssueDialogView.lblPriority.text")); //$NON-NLS-1$
@@ -102,16 +120,16 @@ public class AddIssueDialogView extends JDialog
 		gbc_priorityLabel.anchor = GridBagConstraints.EAST;
 		gbc_priorityLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_priorityLabel.gridx = 0;
-		gbc_priorityLabel.gridy = 2;
+		gbc_priorityLabel.gridy = 3;
 		getContentPane().add(priorityLabel, gbc_priorityLabel);
 
 		priorityTextField = new JTextField();
 		priorityTextField.setText(Messages.getString("AddIssueDialogView.textField_1.text")); //$NON-NLS-1$
 		gbc_priorityTextField = new GridBagConstraints();
-		gbc_priorityTextField.insets = new Insets(5, 5, 5, 5);
+		gbc_priorityTextField.insets = new Insets(5, 5, 5, 0);
 		gbc_priorityTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_priorityTextField.gridx = 1;
-		gbc_priorityTextField.gridy = 2;
+		gbc_priorityTextField.gridy = 3;
 		getContentPane().add(priorityTextField, gbc_priorityTextField);
 		priorityTextField.setColumns(10);
 
@@ -142,14 +160,6 @@ public class AddIssueDialogView extends JDialog
 
 		this.getRootPane().setDefaultButton(addIssueButton);
 		this.pack();
-	}
-
-	/**
-	 * makes the screen visible
-	 */
-	public void showScreen()
-	{
-		this.setVisible(true);
 	}
 
 	/**

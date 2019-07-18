@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -37,7 +38,9 @@ public class MainView extends JFrame
 	private String progressUser;
 	private IssueState currentState;
 	private String currentTitle;
+	private String currentProject;
 	private IssueState[] possibleStates;
+	private String[] allProjects;
 	private Vector<String> possibleAssignees;
 
 	private DefaultComboBoxModel<IssueState> comboBoxModel;
@@ -66,6 +69,8 @@ public class MainView extends JFrame
 	private JComboBox<String> assignComboBox;
 	private JButton assignButton;
 	private JLabel progressUserLabel;
+	private JLabel projectNameLabel;
+	private JButton selectProjectButton;
 
 	/**
 	 * Default constructor
@@ -75,6 +80,12 @@ public class MainView extends JFrame
 		this.currentUserName = "";
 		this.possibleStates = new IssueState[]
 		{};
+		ArrayList<String> allProjects = DatabaseManager.getInstance().getAllProjectNames();
+		this.allProjects = new String[allProjects.size()];
+		for (int i = 0; i < allProjects.size(); i++)
+		{
+			this.allProjects[i] = allProjects.get(i);
+		}
 		initialize();
 	}
 
@@ -107,6 +118,9 @@ public class MainView extends JFrame
 		gbc_buttonPanel.gridy = 0;
 		this.getContentPane().add(buttonPanel, gbc_buttonPanel);
 
+		selectProjectButton = new JButton(Messages.getString("MainView.btnSelectProject.text")); //$NON-NLS-1$
+		buttonPanel.add(selectProjectButton);
+
 		addUserButton = new JButton(Messages.getString("manageUsers"));
 		buttonPanel.add(addUserButton);
 
@@ -128,29 +142,14 @@ public class MainView extends JFrame
 		table.setFont(tableFont);
 
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setPreferredSize(new Dimension(560, 400));
-		scrollPane.setMinimumSize(new Dimension(560, 400));
+		scrollPane.setPreferredSize(new Dimension(800, 600));
+		scrollPane.setMinimumSize(new Dimension(800, 600));
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(5, 5, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		this.getContentPane().add(scrollPane, gbc_scrollPane);
-//		scrollPane.getViewport().setMinimumSize(table.getSize());
-
-//		table.setDefaultRenderer(String.class, new DefaultTableCellRenderer()
-//		{
-//			@Override
-//			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-//					boolean hasFocus, int row, int column)
-//			{
-//				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-//				c.setForeground(Color.RED);
-//				return c;
-//			}
-//		});
-
-//		scrollPane.setViewportView(table);
 
 		issuePanel = new JPanel();
 		GridBagConstraints gbc_issuePanel = new GridBagConstraints();
@@ -164,72 +163,12 @@ public class MainView extends JFrame
 		gbl_issuePanel.columnWidths = new int[]
 		{ 0, 0, 0 };
 		gbl_issuePanel.rowHeights = new int[]
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_issuePanel.columnWeights = new double[]
 		{ 0.0, 0.0, Double.MIN_VALUE };
 		gbl_issuePanel.rowWeights = new double[]
-		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		issuePanel.setLayout(gbl_issuePanel);
-
-		issueIDLabel = new JLabel(Messages.getString("MainView.lblNewLabel.text")); //$NON-NLS-1$
-		GridBagConstraints gbc_issueIDLabel = new GridBagConstraints();
-		gbc_issueIDLabel.anchor = GridBagConstraints.WEST;
-		gbc_issueIDLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_issueIDLabel.gridx = 0;
-		gbc_issueIDLabel.gridy = 0;
-		issuePanel.add(issueIDLabel, gbc_issueIDLabel);
-
-		issueTitleLabel = new JLabel(Messages.getString("MainView.lblTitle.text")); //$NON-NLS-1$
-		GridBagConstraints gbc_issueTitleLabel = new GridBagConstraints();
-		gbc_issueTitleLabel.anchor = GridBagConstraints.WEST;
-		gbc_issueTitleLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_issueTitleLabel.gridx = 0;
-		gbc_issueTitleLabel.gridy = 1;
-		issuePanel.add(issueTitleLabel, gbc_issueTitleLabel);
-
-		issueAuthorLabel = new JLabel(Messages.getString("MainView.lblAuthor.text")); //$NON-NLS-1$
-		GridBagConstraints gbc_issueAuthorLabel = new GridBagConstraints();
-		gbc_issueAuthorLabel.anchor = GridBagConstraints.WEST;
-		gbc_issueAuthorLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_issueAuthorLabel.gridx = 0;
-		gbc_issueAuthorLabel.gridy = 2;
-		issuePanel.add(issueAuthorLabel, gbc_issueAuthorLabel);
-
-		issueTypeLabel = new JLabel(Messages.getString("MainView.lblType.text")); //$NON-NLS-1$
-		GridBagConstraints gbc_issueTypeLabel = new GridBagConstraints();
-		gbc_issueTypeLabel.anchor = GridBagConstraints.WEST;
-		gbc_issueTypeLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_issueTypeLabel.gridx = 0;
-		gbc_issueTypeLabel.gridy = 3;
-		issuePanel.add(issueTypeLabel, gbc_issueTypeLabel);
-
-		issuePriorityLabel = new JLabel(Messages.getString("MainView.lblPriority.text")); //$NON-NLS-1$
-		GridBagConstraints gbc_issuePriorityLabel = new GridBagConstraints();
-		gbc_issuePriorityLabel.anchor = GridBagConstraints.WEST;
-		gbc_issuePriorityLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_issuePriorityLabel.gridx = 0;
-		gbc_issuePriorityLabel.gridy = 4;
-		issuePanel.add(issuePriorityLabel, gbc_issuePriorityLabel);
-
-		assigneesTextArea = new JTextArea();
-		assigneesTextArea.setOpaque(false);
-		assigneesTextArea.setFont(issuePriorityLabel.getFont());
-		assigneesTextArea.setEditable(false);
-		assigneesTextArea.setText(Messages.getString("MainView.textArea.text")); //$NON-NLS-1$
-		GridBagConstraints gbc_assigneesTextArea = new GridBagConstraints();
-		gbc_assigneesTextArea.insets = new Insets(0, 0, 5, 5);
-		gbc_assigneesTextArea.fill = GridBagConstraints.BOTH;
-		gbc_assigneesTextArea.gridx = 0;
-		gbc_assigneesTextArea.gridy = 5;
-		issuePanel.add(assigneesTextArea, gbc_assigneesTextArea);
-
-		issueStatusLabel = new JLabel(Messages.getString("MainView.lblStatus.text")); //$NON-NLS-1$
-		GridBagConstraints gbc_issueStatusLabel = new GridBagConstraints();
-		gbc_issueStatusLabel.anchor = GridBagConstraints.WEST;
-		gbc_issueStatusLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_issueStatusLabel.gridx = 0;
-		gbc_issueStatusLabel.gridy = 6;
-		issuePanel.add(issueStatusLabel, gbc_issueStatusLabel);
 
 		// STATES
 		comboBoxModel = new DefaultComboBoxModel<>(possibleStates);
@@ -237,12 +176,80 @@ public class MainView extends JFrame
 		possibleAssignees = DatabaseManager.getInstance().getPossibleAssignees(currentTitle);
 		assignComboBoxModel = new DefaultComboBoxModel<String>(possibleAssignees);
 
+		projectNameLabel = new JLabel(Messages.getString("MainView.lblProjectName.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_projectNameLabel = new GridBagConstraints();
+		gbc_projectNameLabel.anchor = GridBagConstraints.WEST;
+		gbc_projectNameLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_projectNameLabel.gridx = 0;
+		gbc_projectNameLabel.gridy = 0;
+		issuePanel.add(projectNameLabel, gbc_projectNameLabel);
+
+		issueIDLabel = new JLabel(Messages.getString("MainView.lblNewLabel.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueIDLabel = new GridBagConstraints();
+		gbc_issueIDLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueIDLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueIDLabel.gridx = 0;
+		gbc_issueIDLabel.gridy = 1;
+		issuePanel.add(issueIDLabel, gbc_issueIDLabel);
+
+		issueTitleLabel = new JLabel(Messages.getString("MainView.lblTitle.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueTitleLabel = new GridBagConstraints();
+		gbc_issueTitleLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueTitleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueTitleLabel.gridx = 0;
+		gbc_issueTitleLabel.gridy = 2;
+		issuePanel.add(issueTitleLabel, gbc_issueTitleLabel);
+
+		issueAuthorLabel = new JLabel(Messages.getString("MainView.lblAuthor.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueAuthorLabel = new GridBagConstraints();
+		gbc_issueAuthorLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueAuthorLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueAuthorLabel.gridx = 0;
+		gbc_issueAuthorLabel.gridy = 3;
+		issuePanel.add(issueAuthorLabel, gbc_issueAuthorLabel);
+
+		issueTypeLabel = new JLabel(Messages.getString("MainView.lblType.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueTypeLabel = new GridBagConstraints();
+		gbc_issueTypeLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueTypeLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueTypeLabel.gridx = 0;
+		gbc_issueTypeLabel.gridy = 4;
+		issuePanel.add(issueTypeLabel, gbc_issueTypeLabel);
+
+		issuePriorityLabel = new JLabel(Messages.getString("MainView.lblPriority.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issuePriorityLabel = new GridBagConstraints();
+		gbc_issuePriorityLabel.anchor = GridBagConstraints.WEST;
+		gbc_issuePriorityLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issuePriorityLabel.gridx = 0;
+		gbc_issuePriorityLabel.gridy = 5;
+		issuePanel.add(issuePriorityLabel, gbc_issuePriorityLabel);
+
+		assigneesTextArea = new JTextArea();
+		assigneesTextArea.setFont(issuePriorityLabel.getFont());
+		assigneesTextArea.setOpaque(false);
+		assigneesTextArea.setEditable(false);
+		assigneesTextArea.setText(Messages.getString("MainView.textArea.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_assigneesTextArea = new GridBagConstraints();
+		gbc_assigneesTextArea.insets = new Insets(0, 0, 5, 5);
+		gbc_assigneesTextArea.fill = GridBagConstraints.BOTH;
+		gbc_assigneesTextArea.gridx = 0;
+		gbc_assigneesTextArea.gridy = 6;
+		issuePanel.add(assigneesTextArea, gbc_assigneesTextArea);
+
+		issueStatusLabel = new JLabel(Messages.getString("MainView.lblStatus.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_issueStatusLabel = new GridBagConstraints();
+		gbc_issueStatusLabel.anchor = GridBagConstraints.WEST;
+		gbc_issueStatusLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_issueStatusLabel.gridx = 0;
+		gbc_issueStatusLabel.gridy = 7;
+		issuePanel.add(issueStatusLabel, gbc_issueStatusLabel);
+
 		progressUserLabel = new JLabel(Messages.getString("MainView.lblProgressUser.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_progressUserLabel = new GridBagConstraints();
 		gbc_progressUserLabel.anchor = GridBagConstraints.WEST;
 		gbc_progressUserLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_progressUserLabel.gridx = 0;
-		gbc_progressUserLabel.gridy = 7;
+		gbc_progressUserLabel.gridy = 8;
 		issuePanel.add(progressUserLabel, gbc_progressUserLabel);
 		stateComboBox = new JComboBox<>(comboBoxModel);
 
@@ -250,27 +257,27 @@ public class MainView extends JFrame
 		gbc_stateComboBox.anchor = GridBagConstraints.WEST;
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_stateComboBox.gridx = 0;
-		gbc_stateComboBox.gridy = 8;
+		gbc_stateComboBox.gridy = 9;
 		issuePanel.add(stateComboBox, gbc_stateComboBox);
 
 		setStatusButton = new JButton(Messages.getString("MainView.btnSet.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_setStatusButton = new GridBagConstraints();
 		gbc_setStatusButton.insets = new Insets(0, 0, 5, 0);
 		gbc_setStatusButton.gridx = 1;
-		gbc_setStatusButton.gridy = 8;
+		gbc_setStatusButton.gridy = 9;
 		issuePanel.add(setStatusButton, gbc_setStatusButton);
 		assignComboBox = new JComboBox<>(assignComboBoxModel);
 		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
 		gbc_assignComboBox.anchor = GridBagConstraints.WEST;
 		gbc_assignComboBox.insets = new Insets(0, 0, 0, 5);
 		gbc_assignComboBox.gridx = 0;
-		gbc_assignComboBox.gridy = 9;
+		gbc_assignComboBox.gridy = 10;
 		issuePanel.add(assignComboBox, gbc_assignComboBox);
 
 		assignButton = new JButton(Messages.getString("MainView.btnAssing.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
 		gbc_assignButton.gridx = 1;
-		gbc_assignButton.gridy = 9;
+		gbc_assignButton.gridy = 10;
 		issuePanel.add(assignButton, gbc_assignButton);
 
 		userPanel = new JPanel();
@@ -572,6 +579,15 @@ public class MainView extends JFrame
 
 	/**
 	 * 
+	 * @return select project button
+	 */
+	public JButton getSelectProjectButton()
+	{
+		return selectProjectButton;
+	}
+
+	/**
+	 * 
 	 * @return the selected user on the JComboBox
 	 */
 	public String getSelectedUser()
@@ -652,6 +668,16 @@ public class MainView extends JFrame
 	}
 
 	/**
+	 * setter for the current project.
+	 * 
+	 * @param project
+	 */
+	public void setCurrentProjectName(String project)
+	{
+		this.currentProject = project;
+	}
+
+	/**
 	 * 
 	 * @param rank
 	 */
@@ -671,11 +697,25 @@ public class MainView extends JFrame
 
 	/**
 	 * 
+	 * @return the current project.
+	 */
+	public String getCurrentProject()
+	{
+		return currentProject;
+	}
+
+	/**
+	 * 
 	 * @return the table.
 	 */
 	public ListTable<Issue> getTable()
 	{
 		return table;
+	}
+
+	public JLabel getIssueProjectNameLabel()
+	{
+		return projectNameLabel;
 	}
 
 	/**
@@ -723,6 +763,10 @@ public class MainView extends JFrame
 		return issuePriorityLabel;
 	}
 
+	/**
+	 * 
+	 * @return issue progress user label
+	 */
 	public JLabel getIssueProgressUserLabel()
 	{
 		return progressUserLabel;
@@ -753,11 +797,7 @@ public class MainView extends JFrame
 	 */
 	public void addIssueToJTable(Issue issue)
 	{
-
 		table.getModel().addRow(issue);
-
-//		defaultTableModel.addRow(new String[]
-//		{ Integer.toString(issueID), title, type, Integer.toString(priority), author, description, state });
 	}
 
 	/**
@@ -782,8 +822,9 @@ public class MainView extends JFrame
 		{
 			if (issue.getTitle().equals(title))
 			{
-				table.getModel().setRow(count, new Issue(issue.getId(), issue.getTitle(), issue.getType(),
-						issue.getPriority(), issue.getAuthor(), issue.getDescription(), newState.toString()));
+				table.getModel().setRow(count,
+						new Issue(issue.getProjectName(), issue.getId(), issue.getTitle(), issue.getType(),
+								issue.getPriority(), issue.getAuthor(), issue.getDescription(), newState.toString()));
 				break;
 			}
 			else
@@ -801,5 +842,10 @@ public class MainView extends JFrame
 	public JComboBox<String> getAssignComboBox()
 	{
 		return assignComboBox;
+	}
+
+	public String[] getAllProjects()
+	{
+		return allProjects;
 	}
 }
