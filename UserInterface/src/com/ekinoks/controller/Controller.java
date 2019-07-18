@@ -1,8 +1,6 @@
 package com.ekinoks.controller;
 
 import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -10,6 +8,8 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -52,14 +52,13 @@ public class Controller
 		view.getLogOutButton().addActionListener(e -> logout());
 		view.getSetStatusButton().addActionListener(e -> setStatus());
 		view.getAssignButton().addActionListener(e -> assign());
-		view.getTable().addMouseListener(new MouseAdapter()
+		view.getTable().getSelectionModel().addListSelectionListener(new ListSelectionListener()
 		{
 
 			@Override
-			public void mouseReleased(MouseEvent e)
+			public void valueChanged(ListSelectionEvent e)
 			{
-
-				int rowNo = view.getTable().rowAtPoint(e.getPoint());
+				int rowNo = view.getTable().getSelectedRow();
 				if (rowNo > -1)
 				{
 					String id = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 0));
@@ -99,23 +98,6 @@ public class Controller
 						view.getSetStatusButton().setVisible(false);
 					}
 
-//					if ((!currentUserName.equals(author)) && (!currentUserName.equals(progressUser))
-//							&& !(assignees.contains(currentUserName)))
-//					{
-//						view.getAssignButton().setVisible(false);
-//						view.getAssignComboBox().setVisible(false);
-//						view.getStateComboBox().setVisible(false);
-//						view.getSetStatusButton().setVisible(false);
-//
-//					}
-//					else
-//					{
-//						view.getAssignComboBox().setVisible(true);
-//						view.getAssignButton().setVisible(true);
-//						view.getStateComboBox().setVisible(true);
-//						view.getSetStatusButton().setVisible(true);
-//					}
-
 					view.getIssueIDLabel().setText("ID: " + id);
 					view.getIssueTitleLabel().setText("Title: " + title);
 					view.getIssueTypeLabel().setText("Type: " + type);
@@ -135,35 +117,10 @@ public class Controller
 					view.getIssueAssigneesTextArea()
 							.setText(currentAssignees.substring(0, currentAssignees.length() - 2));
 					view.setPossibleStates();
-					super.mouseClicked(e);
-					if (e.getClickCount() % 2 == 0)
-					{
-//					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
-//
-//					Vector<String> possibleAssignees = DatabaseManager.getInstance().getPossibleAssignees(title);
-//
-//					IssueDetailsDialogView issueDetailsDialogView = new IssueDetailsDialogView(currentUserName,
-//							DatabaseManager.getInstance().getUserRank(currentUserName), author, progressUser, state,
-//							assignees, possibleAssignees);
-//					issueDetailsDialogView.setIssueID(id);
-//					issueDetailsDialogView.setIssueTitle(title);
-//					issueDetailsDialogView.setIssueType(type);
-//					issueDetailsDialogView.setIssuePriority(priority);
-//					issueDetailsDialogView.setIssueAuthor(author);
-//					issueDetailsDialogView.setIssueDescription(description);
-//					issueDetailsDialogView.setIssueState(state.toString());
-//					issueDetailsDialogView.setIssueAssignees(assignees);
-//					issueDetailsDialogView.setVisible(true);
-//
-//					IssueDetailsDialogController issueDetailsDialogController = new IssueDetailsDialogController(
-//							issueDetailsDialogView, view, title, currentUserName, assignees);
-//					issueDetailsDialogController.initController();
-
-//					issueDetailsDialogView.pack();
-					}
 
 					view.pack();
 				}
+
 			}
 		});
 
