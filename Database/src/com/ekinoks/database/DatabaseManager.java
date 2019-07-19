@@ -165,6 +165,12 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * Updates the state of the issue
+	 * 
+	 * @param title
+	 * @param newState
+	 */
 	public void updateIssueState(String title, IssueState newState)
 	{
 		try (Connection conn = this.connect();
@@ -238,7 +244,7 @@ public class DatabaseManager
 			String description)
 	{
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(Statements.ISSUE_INSERT_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_ISSUE_STATEMENT))
 		{
 			pstmt.setString(1, projectName);
 			pstmt.setString(2, title);
@@ -254,6 +260,21 @@ public class DatabaseManager
 		catch (SQLException e)
 		{
 			System.err.println(e.getMessage());
+			return false;
+		}
+	}
+
+	public boolean addProject(String projectName)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_PROJECT_STATEMENT))
+		{
+			pstmt.setString(1, projectName);
+			pstmt.executeUpdate();
+			return true;
+		}
+		catch (SQLException e)
+		{
 			return false;
 		}
 	}

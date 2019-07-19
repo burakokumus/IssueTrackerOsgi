@@ -50,7 +50,7 @@ public class MainView extends JFrame
 	private ListTable<Issue> table;
 	private JPanel buttonPanel;
 	private JButton addIssueButton;
-	private JButton addUserButton;
+	private JButton manageUsersButton;
 	private JPanel userPanel;
 	private JLabel userNameLabel;
 	private JButton refreshButton;
@@ -71,6 +71,7 @@ public class MainView extends JFrame
 	private JLabel progressUserLabel;
 	private JLabel projectNameLabel;
 	private JButton selectProjectButton;
+	private JButton addProjectButton;
 
 	/**
 	 * Default constructor
@@ -118,11 +119,14 @@ public class MainView extends JFrame
 		gbc_buttonPanel.gridy = 0;
 		this.getContentPane().add(buttonPanel, gbc_buttonPanel);
 
+		addProjectButton = new JButton(Messages.getString("MainView.btnAddProject.text")); //$NON-NLS-1$
+		buttonPanel.add(addProjectButton);
+
 		selectProjectButton = new JButton(Messages.getString("MainView.btnSelectProject.text")); //$NON-NLS-1$
 		buttonPanel.add(selectProjectButton);
 
-		addUserButton = new JButton(Messages.getString("manageUsers"));
-		buttonPanel.add(addUserButton);
+		manageUsersButton = new JButton(Messages.getString("manageUsers"));
+		buttonPanel.add(manageUsersButton);
 
 		exportButton = new JButton(Messages.getString("MainView.btnExport.text")); //$NON-NLS-1$
 		buttonPanel.add(exportButton);
@@ -527,9 +531,18 @@ public class MainView extends JFrame
 	 * 
 	 * @return the add user button.
 	 */
-	public JButton getAddUserButton()
+	public JButton getManagerUsersButton()
 	{
-		return addUserButton;
+		return manageUsersButton;
+	}
+
+	/**
+	 * 
+	 * @return the add project button
+	 */
+	public JButton getAddProjectButton()
+	{
+		return addProjectButton;
 	}
 
 	/**
@@ -663,7 +676,10 @@ public class MainView extends JFrame
 		this.userNameLabel.setText("User: " + userName + ",  " + rankName);
 
 		if (currentRank > 1)
-			addUserButton.setVisible(false);
+		{
+			manageUsersButton.setVisible(false);
+			addProjectButton.setVisible(false);
+		}
 
 	}
 

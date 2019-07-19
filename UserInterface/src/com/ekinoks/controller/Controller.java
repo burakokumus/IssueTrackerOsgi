@@ -48,7 +48,8 @@ public class Controller
 	public void initController()
 	{
 		view.getAddIssueButton().addActionListener(e -> addIssue());
-		view.getAddUserButton().addActionListener(e -> addUser());
+		view.getManagerUsersButton().addActionListener(e -> manageUsers());
+		view.getAddProjectButton().addActionListener(e -> addProject());
 		view.getSelectProjectButton().addActionListener(e -> selectProject());
 		view.getRefreshButton().addActionListener(e -> refresh());
 		view.getExportButton().addActionListener(e -> exportToExcel());
@@ -168,9 +169,9 @@ public class Controller
 	 * Action Listener for the Add User Button
 	 */
 	@SuppressWarnings("unused")
-	private void addUser()
+	private void manageUsers()
 	{
-		LogManager.getInstance().log("Add User button is pressed by " + currentUserName);
+		LogManager.getInstance().log("Manage Users button is pressed by " + currentUserName);
 		if (DatabaseManager.getInstance().getUserRank(currentUserName) > 1)
 		{
 			JOptionPane.showOptionDialog(view, Messages.getString("cannotAddUser"), "", JOptionPane.DEFAULT_OPTION,
@@ -190,6 +191,16 @@ public class Controller
 			addUserDialogView.setVisible(true);
 		}
 
+	}
+
+	/**
+	 * Action Listener for the Add Project Button
+	 */
+	private void addProject()
+	{
+		LogManager.getInstance().log("Add Project button is pressed by " + currentUserName);
+		@SuppressWarnings("unused")
+		AddProjectDialogController addProjectDialogController = new AddProjectDialogController();
 	}
 
 	/**

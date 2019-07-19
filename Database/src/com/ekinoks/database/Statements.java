@@ -2,6 +2,8 @@ package com.ekinoks.database;
 
 public class Statements
 {
+	public static final String ADD_ISSUE_STATEMENT = "INSERT INTO issues(project_name, title, type, priority, author, description, create_date) VALUES(?, ?, ?, ?, ?, ?, ?)";
+	public static final String ADD_PROJECT_STATEMENT = "INSERT INTO projects(project_name) VALUES (?)";
 	public static final String ADD_RELATION_STATEMENT = "INSERT INTO relation(user_id, issue_id) SELECT usr.user_id, iss.issue_id FROM users usr JOIN issues iss WHERE user_name = ? and title = ?";
 	public static final String CHECK_USER_EXISTS_STATEMENT = "SELECT * FROM users WHERE user_name = ?";
 	public static final String GET_ALL_ISSUES_STATEMENT = "SELECT * from issues";
@@ -20,7 +22,6 @@ public class Statements
 	public static final String GET_USERS_BY_ISSUE_STATEMENT = "SELECT * FROM relation WHERE issue_id = ?";
 	public static final String GET_USER_ID_BY_NAME_STATEMENT = "SELECT user_id FROM users WHERE user_name = ?";
 	public static final String GET_USER_NAME_BY_ID_STATEMENT = "SELECT user_name FROM users WHERE user_id = ?";
-	public static final String ISSUE_INSERT_STATEMENT = "INSERT INTO issues(project_name, title, type, priority, author, description, create_date) VALUES(?, ?, ?, ?, ?, ?, ?)";
 	public static final String LOGIN_CHECK_STATEMENT = "SELECT * FROM users WHERE user_name = ? AND password = ?";
 	public static final String REMOVE_REQUEST_STATEMENT = "DELETE FROM requests WHERE user_name = ?";
 	public static final String REMOVE_USER_STATEMENT = "DELETE FROM users WHERE user_name = ?";
