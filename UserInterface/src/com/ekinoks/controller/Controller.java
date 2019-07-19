@@ -51,6 +51,7 @@ public class Controller
 		view.getManagerUsersButton().addActionListener(e -> manageUsers());
 		view.getAddProjectButton().addActionListener(e -> addProject());
 		view.getSelectProjectButton().addActionListener(e -> selectProject());
+		view.getSettingsButton().addActionListener(e -> settings());
 		view.getRefreshButton().addActionListener(e -> refresh());
 		view.getExportButton().addActionListener(e -> exportToExcel());
 		view.getLogOutButton().addActionListener(e -> logout());
@@ -282,6 +283,16 @@ public class Controller
 		temp += ", " + assignee;
 		view.getIssueAssigneesTextArea().setText(temp);
 		LogManager.getInstance().log("Issue " + currentTitle + "is assigned to " + assignee + " by " + currentUserName);
+	}
+
+	/**
+	 * Action Listener for the Settings Button.
+	 */
+	private void settings()
+	{
+		LogManager.getInstance().log("Settings button is pressed by " + currentUserName);
+		@SuppressWarnings("unused")
+		SettingsDialogController settingsDialogController = new SettingsDialogController();
 	}
 
 	private void exportToExcel()

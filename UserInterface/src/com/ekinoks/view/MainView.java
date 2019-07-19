@@ -72,6 +72,7 @@ public class MainView extends JFrame
 	private JLabel projectNameLabel;
 	private JButton selectProjectButton;
 	private JButton addProjectButton;
+	private JButton settingsButton;
 
 	/**
 	 * Default constructor
@@ -119,20 +120,23 @@ public class MainView extends JFrame
 		gbc_buttonPanel.gridy = 0;
 		this.getContentPane().add(buttonPanel, gbc_buttonPanel);
 
+		manageUsersButton = new JButton(Messages.getString("manageUsers"));
+		buttonPanel.add(manageUsersButton);
+
 		addProjectButton = new JButton(Messages.getString("MainView.btnAddProject.text")); //$NON-NLS-1$
 		buttonPanel.add(addProjectButton);
 
 		selectProjectButton = new JButton(Messages.getString("MainView.btnSelectProject.text")); //$NON-NLS-1$
 		buttonPanel.add(selectProjectButton);
 
-		manageUsersButton = new JButton(Messages.getString("manageUsers"));
-		buttonPanel.add(manageUsersButton);
-
 		exportButton = new JButton(Messages.getString("MainView.btnExport.text")); //$NON-NLS-1$
 		buttonPanel.add(exportButton);
 
 		addIssueButton = new JButton(Messages.getString("addIssue"));
 		buttonPanel.add(addIssueButton);
+
+		settingsButton = new JButton(Messages.getString("MainView.btnSettings.text")); //$NON-NLS-1$
+		buttonPanel.add(settingsButton);
 
 		table = new ListTable<Issue>(Issue.class);
 		table.setFilterable(true);
@@ -461,8 +465,6 @@ public class MainView extends JFrame
 			{
 				possibleStates = new IssueState[]
 				{};
-//				this.setStatusButton.setEnabled(false); // TODO
-//				this.assignButton.setEnabled(false);
 			}
 
 			else if (currentState.equals(IssueState.Rejected))
@@ -552,6 +554,15 @@ public class MainView extends JFrame
 	public JButton getRefreshButton()
 	{
 		return refreshButton;
+	}
+
+	/**
+	 * 
+	 * @return the settings button.
+	 */
+	public JButton getSettingsButton()
+	{
+		return settingsButton;
 	}
 
 	/**
@@ -679,6 +690,11 @@ public class MainView extends JFrame
 		{
 			manageUsersButton.setVisible(false);
 			addProjectButton.setVisible(false);
+		}
+		else
+		{
+			manageUsersButton.setVisible(true);
+			addProjectButton.setVisible(true);
 		}
 
 	}
