@@ -53,6 +53,7 @@ public class Controller
 		view.getSelectProjectButton().addActionListener(e -> selectProject());
 		view.getSettingsButton().addActionListener(e -> settings());
 		view.getRefreshButton().addActionListener(e -> refresh());
+		view.getEditButton().addActionListener(e -> editIssue());
 		view.getExportButton().addActionListener(e -> exportToExcel());
 		view.getLogOutButton().addActionListener(e -> logout());
 		view.getSetStatusButton().addActionListener(e -> setStatus());
@@ -72,9 +73,9 @@ public class Controller
 					String type = (String) view.getDefaultTableModel().getValueAt(rowNo, 3);
 					String priority = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 4));
 					String author = (String) view.getDefaultTableModel().getValueAt(rowNo, 5);
-					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
-//				String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 6);
+					String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 6);
 					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 7).toString());
+					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
 					ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
 
 					int rank = DatabaseManager.getInstance().getUserRank(currentUserName);
@@ -87,6 +88,7 @@ public class Controller
 						view.getAssignButton().setVisible(true);
 						view.getStateComboBox().setVisible(true);
 						view.getSetStatusButton().setVisible(true);
+						view.getEditButton().setVisible(true);
 					}
 					else if (state.toString().equals(IssueState.VerifiedDone.toString()))
 					{
@@ -94,6 +96,7 @@ public class Controller
 						view.getAssignButton().setVisible(false);
 						view.getStateComboBox().setVisible(false);
 						view.getSetStatusButton().setVisible(false);
+						view.getEditButton().setVisible(false);
 					}
 					else if (currentUserName.equals(author) || currentUserName.equals(progressUser))
 					{
@@ -101,6 +104,7 @@ public class Controller
 						view.getAssignButton().setVisible(true);
 						view.getStateComboBox().setVisible(true);
 						view.getSetStatusButton().setVisible(true);
+						view.getEditButton().setVisible(true);
 					}
 
 					else if (assignees.contains(currentUserName))
@@ -109,6 +113,7 @@ public class Controller
 						view.getAssignButton().setVisible(false);
 						view.getStateComboBox().setVisible(true);
 						view.getSetStatusButton().setVisible(true);
+						view.getEditButton().setVisible(true);
 					}
 					else
 					{
@@ -116,6 +121,7 @@ public class Controller
 						view.getAssignButton().setVisible(false);
 						view.getStateComboBox().setVisible(false);
 						view.getSetStatusButton().setVisible(false);
+						view.getEditButton().setVisible(false);
 					}
 
 					view.getIssueProjectNameLabel().setText("Project Name: " + projectName);
@@ -125,6 +131,7 @@ public class Controller
 					view.getIssuePriorityLabel().setText("Priority: " + priority);
 					view.getIssueAuthorLabel().setText("Author: " + author);
 					view.getIssueStatusLabel().setText("State: " + state);
+					view.getIssueDescriptionLabel().setText("Description: " + description);
 					if (progressUser != null)
 						view.getIssueProgressUserLabel().setText("Progress User: " + progressUser);
 					else
@@ -213,6 +220,15 @@ public class Controller
 		@SuppressWarnings("unused")
 		SelectProjectDialogController selectProjectDialogController = new SelectProjectDialogController(view, this,
 				view.getAllProjects());
+	}
+
+	/**
+	 * Action Listener for the Edit Issue Button
+	 */
+	private void editIssue()
+	{
+		@SuppressWarnings("unused")
+		EditIssueDialogController editIssueDialogController = new EditIssueDialogController(view, currentTitle);
 	}
 
 	/**

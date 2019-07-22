@@ -73,6 +73,8 @@ public class MainView extends JFrame
 	private JButton selectProjectButton;
 	private JButton addProjectButton;
 	private JButton settingsButton;
+	private JButton editButton;
+	private JLabel descriptionLabel;
 
 	/**
 	 * Default constructor
@@ -89,6 +91,7 @@ public class MainView extends JFrame
 			this.allProjects[i] = allProjects.get(i);
 		}
 		initialize();
+		this.setTitle("Issue Tracker");
 	}
 
 	/**
@@ -171,11 +174,11 @@ public class MainView extends JFrame
 		gbl_issuePanel.columnWidths = new int[]
 		{ 0, 0, 0 };
 		gbl_issuePanel.rowHeights = new int[]
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_issuePanel.columnWeights = new double[]
 		{ 0.0, 0.0, Double.MIN_VALUE };
 		gbl_issuePanel.rowWeights = new double[]
-		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		issuePanel.setLayout(gbl_issuePanel);
 
 		// STATES
@@ -259,34 +262,48 @@ public class MainView extends JFrame
 		gbc_progressUserLabel.gridx = 0;
 		gbc_progressUserLabel.gridy = 8;
 		issuePanel.add(progressUserLabel, gbc_progressUserLabel);
+
+		descriptionLabel = new JLabel(Messages.getString("MainView.lblDescription.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_descriptionLabel = new GridBagConstraints();
+		gbc_descriptionLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_descriptionLabel.gridx = 0;
+		gbc_descriptionLabel.gridy = 9;
+		issuePanel.add(descriptionLabel, gbc_descriptionLabel);
 		stateComboBox = new JComboBox<>(comboBoxModel);
 
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.anchor = GridBagConstraints.WEST;
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_stateComboBox.gridx = 0;
-		gbc_stateComboBox.gridy = 9;
+		gbc_stateComboBox.gridy = 10;
 		issuePanel.add(stateComboBox, gbc_stateComboBox);
 
 		setStatusButton = new JButton(Messages.getString("MainView.btnSet.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_setStatusButton = new GridBagConstraints();
 		gbc_setStatusButton.insets = new Insets(0, 0, 5, 0);
 		gbc_setStatusButton.gridx = 1;
-		gbc_setStatusButton.gridy = 9;
+		gbc_setStatusButton.gridy = 10;
 		issuePanel.add(setStatusButton, gbc_setStatusButton);
 		assignComboBox = new JComboBox<>(assignComboBoxModel);
 		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
 		gbc_assignComboBox.anchor = GridBagConstraints.WEST;
-		gbc_assignComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_assignComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_assignComboBox.gridx = 0;
-		gbc_assignComboBox.gridy = 10;
+		gbc_assignComboBox.gridy = 11;
 		issuePanel.add(assignComboBox, gbc_assignComboBox);
 
 		assignButton = new JButton(Messages.getString("MainView.btnAssing.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
+		gbc_assignButton.insets = new Insets(0, 0, 5, 0);
 		gbc_assignButton.gridx = 1;
-		gbc_assignButton.gridy = 10;
+		gbc_assignButton.gridy = 11;
 		issuePanel.add(assignButton, gbc_assignButton);
+
+		editButton = new JButton(Messages.getString("MainView.btnEdit.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_editButton = new GridBagConstraints();
+		gbc_editButton.gridx = 1;
+		gbc_editButton.gridy = 12;
+		issuePanel.add(editButton, gbc_editButton);
 
 		userPanel = new JPanel();
 		GridBagConstraints gbc_userPanel = new GridBagConstraints();
@@ -567,6 +584,15 @@ public class MainView extends JFrame
 
 	/**
 	 * 
+	 * @return the edit button.
+	 */
+	public JButton getEditButton()
+	{
+		return editButton;
+	}
+
+	/**
+	 * 
 	 * @return the export button.
 	 */
 	public JButton getExportButton()
@@ -685,6 +711,11 @@ public class MainView extends JFrame
 			rankName = "Developer";
 
 		this.userNameLabel.setText("User: " + userName + ",  " + rankName);
+		editButton.setVisible(false);
+		setStatusButton.setVisible(false);
+		assignButton.setVisible(false);
+		stateComboBox.setVisible(false);
+		assignComboBox.setVisible(false);
 
 		if (currentRank > 1)
 		{
@@ -820,6 +851,15 @@ public class MainView extends JFrame
 	public JLabel getIssueStatusLabel()
 	{
 		return issueStatusLabel;
+	}
+
+	/**
+	 * 
+	 * @return issue description label
+	 */
+	public JLabel getIssueDescriptionLabel()
+	{
+		return descriptionLabel;
 	}
 
 	/**
