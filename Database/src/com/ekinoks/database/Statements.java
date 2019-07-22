@@ -6,6 +6,7 @@ public class Statements
 	public static final String ADD_PROJECT_STATEMENT = "INSERT INTO projects(project_name) VALUES (?)";
 	public static final String ADD_RELATION_STATEMENT = "INSERT INTO relation(user_id, issue_id) SELECT usr.user_id, iss.issue_id FROM users usr JOIN issues iss WHERE user_name = ? and title = ?";
 	public static final String CHECK_USER_EXISTS_STATEMENT = "SELECT * FROM users WHERE user_name = ?";
+	public static final String EDIT_ISSUE_STATEMENT = "UPDATE issues SET description = ?, title = ?, state = ? WHERE issue_id = ?";
 	public static final String GET_ALL_ISSUES_STATEMENT = "SELECT * from issues";
 	public static final String GET_ALL_ISSUES_OF_PROJECT_STATEMENT = "SELECT * from issues WHERE project_name = ?";
 	public static final String GET_ALL_PROJECTS_STATEMENT = "SELECT project_name FROM projects";

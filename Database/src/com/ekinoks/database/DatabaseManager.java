@@ -264,6 +264,27 @@ public class DatabaseManager
 		}
 	}
 
+	public boolean editIssue(int id, String description, String title, String state)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.EDIT_ISSUE_STATEMENT))
+		{
+			pstmt.setString(1, description);
+			pstmt.setString(2, title);
+			pstmt.setString(3, state);
+			pstmt.setInt(4, id);
+			pstmt.executeUpdate();
+
+			return true;
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+			return false;
+		}
+
+	}
+
 	public boolean addProject(String projectName)
 	{
 		try (Connection conn = this.connect();

@@ -92,6 +92,7 @@ public class MainView extends JFrame
 		}
 		initialize();
 		this.setTitle("Issue Tracker");
+		this.setCurrentProjectName("prj1");
 	}
 
 	/**
@@ -265,6 +266,7 @@ public class MainView extends JFrame
 
 		descriptionLabel = new JLabel(Messages.getString("MainView.lblDescription.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_descriptionLabel = new GridBagConstraints();
+		gbc_descriptionLabel.anchor = GridBagConstraints.WEST;
 		gbc_descriptionLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_descriptionLabel.gridx = 0;
 		gbc_descriptionLabel.gridy = 9;
@@ -680,6 +682,14 @@ public class MainView extends JFrame
 	public ListTableModel<Issue> getDefaultTableModel()
 	{
 		return table.getModel();
+	}
+
+	/**
+	 * @return the table
+	 */
+	public ListTable<Issue> getListTable()
+	{
+		return table;
 	}
 
 	/**

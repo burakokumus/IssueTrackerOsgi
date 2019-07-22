@@ -1,5 +1,9 @@
 package com.ekinoks.controller;
 
+import java.util.ArrayList;
+
+import com.ekinoks.database.DatabaseManager;
+import com.ekinoks.model.Issue;
 import com.ekinoks.view.EditIssueDialogView;
 import com.ekinoks.view.MainView;
 
@@ -7,10 +11,12 @@ public class EditIssueDialogController
 {
 	String title;
 	EditIssueDialogView editIssueDialogView;
+	MainView mainView;
 
 	public EditIssueDialogController(MainView mainView, String title)
 	{
 		this.title = title;
+		this.mainView = mainView;
 		editIssueDialogView = new EditIssueDialogView();
 		editIssueDialogView.getProjectNameTextField()
 				.setText(mainView.getIssueProjectNameLabel().getText().substring(14));
@@ -32,6 +38,20 @@ public class EditIssueDialogController
 
 	private void apply()
 	{
+		int id = Integer.parseInt(editIssueDialogView.getIssueIDTextField().getText());
+		String description = editIssueDialogView.getDescriptionTextField().getText();
+		String state = editIssueDialogView.getStateTextfield().getText();
+		title = editIssueDialogView.getTitleTextField().getText();
+		System.out.println(title);
+
+		DatabaseManager.getInstance().editIssue(id, description, title, state);
+		mainView.clearJTable();
+		ArrayList<Issue> issueList = DatabaseManager.getInstance().getAllIssuesOfProject(mainView.getCurrentProject());
+
+		for (Issue issue : issueList)
+		{
+			mainView.addIssueToJTable(issue);
+		}
 
 	}
 }
