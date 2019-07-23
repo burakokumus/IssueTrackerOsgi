@@ -308,7 +308,7 @@ public class Controller
 	{
 		LogManager.getInstance().log("Settings button is pressed by " + currentUserName);
 		@SuppressWarnings("unused")
-		SettingsDialogController settingsDialogController = new SettingsDialogController();
+		SettingsDialogController settingsDialogController = new SettingsDialogController(view);
 	}
 
 	private void exportToExcel()

@@ -7,8 +7,11 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -27,6 +30,7 @@ import javax.swing.SwingConstants;
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.model.Issue;
 import com.ekinoks.model.IssueState;
+import com.ekinoks.ui.components.common.fieldGenerator.FieldConfiguration;
 import com.ekinoks.ui.components.listtable.ListTable;
 import com.ekinoks.ui.components.listtable.ListTableModel;
 
@@ -45,6 +49,8 @@ public class MainView extends JFrame
 
 	private DefaultComboBoxModel<IssueState> comboBoxModel;
 	private DefaultComboBoxModel<String> assignComboBoxModel;
+
+	private String storeURL = "C:\\Users\\burak\\Desktop\\config.properties";
 
 	public JDialog addIssueDialog;
 	private ListTable<Issue> table;
@@ -98,6 +104,7 @@ public class MainView extends JFrame
 	/**
 	 * initializes the UI.
 	 */
+	@SuppressWarnings("unchecked")
 	private void initialize()
 	{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -162,6 +169,27 @@ public class MainView extends JFrame
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		this.getContentPane().add(scrollPane, gbc_scrollPane);
+
+		Properties properties = new Properties();
+		try
+		{
+			properties.load(new FileInputStream(storeURL));
+		}
+		catch (IOException ex)
+		{
+			ex.printStackTrace();
+		}
+
+		table.setContextMenuVisible(true);
+		List<? extends FieldConfiguration> columnPreferences = table.getColumnPreferences();
+		columnPreferences.forEach(e ->
+		{
+			int i = e.getName().lastIndexOf('.');
+			String temp = e.getName().substring(i + 1);
+			e.setVisible(properties.getProperty(temp).equals("true"));
+		});
+
+		table.setColumnPreferences((List<FieldConfiguration>) columnPreferences);
 
 		issuePanel = new JPanel();
 		GridBagConstraints gbc_issuePanel = new GridBagConstraints();
@@ -916,6 +944,14 @@ public class MainView extends JFrame
 		}
 	}
 
+	/**
+	 * Sets the panel on the right side visible or not
+	 */
+	public void setDetailPanelVisible(boolean isVisible)
+	{
+		issuePanel.setVisible(isVisible);
+	}
+
 	public Vector<String> getPossibleAssignees()
 	{
 		return possibleAssignees;
@@ -929,5 +965,18 @@ public class MainView extends JFrame
 	public String[] getAllProjects()
 	{
 		return allProjects;
+	}
+
+	public void setColumnView(Properties properties)
+	{
+
+		table.setContextMenuVisible(true);
+		List<? extends FieldConfiguration> columnPreferences = table.getColumnPreferences();
+		columnPreferences.forEach(e ->
+		{
+			int i = e.getName().lastIndexOf('.');
+			String temp = e.getName().substring(i + 1);
+			e.setVisible(properties.getProperty(temp).equals("true"));
+		});
 	}
 }

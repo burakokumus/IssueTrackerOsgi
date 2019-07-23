@@ -23,6 +23,7 @@ public class SettingsDialogView extends JDialog
 	private JCheckBox stateCheckbox;
 	private JButton applyButton;
 	private String storeURL = "C:\\Users\\burak\\Desktop\\config.properties";
+	private JCheckBox typeCheckBox;
 
 	public SettingsDialogView()
 	{
@@ -111,6 +112,14 @@ public class SettingsDialogView extends JDialog
 
 		this.getRootPane().setDefaultButton(applyButton);
 
+		typeCheckBox = new JCheckBox("Type");
+		GridBagConstraints gbc_typeCheckBox = new GridBagConstraints();
+		gbc_typeCheckBox.anchor = GridBagConstraints.WEST;
+		gbc_typeCheckBox.insets = new Insets(0, 0, 5, 5);
+		gbc_typeCheckBox.gridx = 0;
+		gbc_typeCheckBox.gridy = 5;
+		getContentPane().add(typeCheckBox, gbc_typeCheckBox);
+
 		this.pack();
 	}
 
@@ -126,10 +135,11 @@ public class SettingsDialogView extends JDialog
 			ex.printStackTrace();
 		}
 
-		projectNameCheckbox.setSelected(properties.getProperty("project_name").equals("true"));
-		issueIDCheckbox.setSelected(properties.getProperty("issue_ID").equals("true"));
+		projectNameCheckbox.setSelected(properties.getProperty("projectName").equals("true"));
+		issueIDCheckbox.setSelected(properties.getProperty("id").equals("true"));
 		priorityCheckbox.setSelected(properties.getProperty("priority").equals("true"));
 		authorCheckbox.setSelected(properties.getProperty("author").equals("true"));
+		typeCheckBox.setSelected(properties.getProperty("type").equals("true"));
 		descriptionCheckbox.setSelected(properties.getProperty("description").equals("true"));
 		stateCheckbox.setSelected(properties.getProperty("state").equals("true"));
 		titleCheckBox.setSelected(properties.getProperty("title").equals("true"));
@@ -176,5 +186,11 @@ public class SettingsDialogView extends JDialog
 	public boolean isStateSelected()
 	{
 		return stateCheckbox.isSelected();
+	}
+
+	public boolean isTypeSelected()
+	{
+		return typeCheckBox.isSelected();
+
 	}
 }

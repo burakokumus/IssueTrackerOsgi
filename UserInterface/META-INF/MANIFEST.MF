@@ -14,7 +14,8 @@ Export-Package: com.ekinoks.controller,
  com.ekinoks.view,
  userinterface
 Require-Bundle: Database,
- Zemin;bundle-version="1.0.0"
+ Zemin;bundle-version="1.0.0",
+ ekinoks.ui
 Bundle-ClassPath: .,
  lib/poi-4.1.0.jar,
  lib/poi-ooxml-4.1.0.jar,
