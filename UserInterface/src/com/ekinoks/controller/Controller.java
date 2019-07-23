@@ -23,8 +23,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.database.LogManager;
 import com.ekinoks.model.Issue;
+import com.ekinoks.model.IssueConfiguration;
 import com.ekinoks.model.IssueState;
 import com.ekinoks.model.User;
+import com.ekinoks.ui.components.common.fieldGenerator.FieldConfiguration;
 import com.ekinoks.view.AddIssueDialogView;
 import com.ekinoks.view.AddUserDialogView;
 import com.ekinoks.view.MainView;
@@ -37,12 +39,30 @@ public class Controller
 	private String currentTitle;
 	private String currentProjectName;
 
+	@SuppressWarnings("unchecked")
 	public Controller()
 	{
 		this.view = new MainView();
 		this.currentUserName = "";
 		this.currentTitle = "";
 		this.currentProjectName = "prj1";
+
+		IssueConfiguration configuration = new IssueConfiguration();
+
+		if (configuration.columnPreferences != null)
+		{
+
+			view.getTable().setColumnPreferences(configuration.columnPreferences);
+		}
+
+		view.getTable().addColumnPreferencesChangedListener(l ->
+		{
+
+			configuration.columnPreferences = (List<FieldConfiguration>) view.getTable().getColumnPreferences();
+
+			configuration.save();
+
+		});
 	}
 
 	public void initController()
@@ -51,7 +71,6 @@ public class Controller
 		view.getManagerUsersButton().addActionListener(e -> manageUsers());
 		view.getAddProjectButton().addActionListener(e -> addProject());
 		view.getSelectProjectButton().addActionListener(e -> selectProject());
-		view.getSettingsButton().addActionListener(e -> settings());
 		view.getRefreshButton().addActionListener(e -> refresh());
 		view.getEditButton().addActionListener(e -> editIssue());
 		view.getExportButton().addActionListener(e -> exportToExcel());
@@ -343,16 +362,6 @@ public class Controller
 		temp += ", " + assignee;
 		view.getIssueAssigneesTextArea().setText(temp);
 		LogManager.getInstance().log("Issue " + currentTitle + "is assigned to " + assignee + " by " + currentUserName);
-	}
-
-	/**
-	 * Action Listener for the Settings Button.
-	 */
-	private void settings()
-	{
-		LogManager.getInstance().log("Settings button is pressed by " + currentUserName);
-		@SuppressWarnings("unused")
-		SettingsDialogController settingsDialogController = new SettingsDialogController(view);
 	}
 
 	private void exportToExcel()

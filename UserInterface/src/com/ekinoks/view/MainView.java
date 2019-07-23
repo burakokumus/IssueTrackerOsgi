@@ -7,11 +7,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
@@ -30,7 +27,6 @@ import javax.swing.SwingConstants;
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.model.Issue;
 import com.ekinoks.model.IssueState;
-import com.ekinoks.ui.components.common.fieldGenerator.FieldConfiguration;
 import com.ekinoks.ui.components.listtable.ListTable;
 import com.ekinoks.ui.components.listtable.ListTableModel;
 
@@ -49,8 +45,6 @@ public class MainView extends JFrame
 
 	private DefaultComboBoxModel<IssueState> comboBoxModel;
 	private DefaultComboBoxModel<String> assignComboBoxModel;
-
-	private String storeURL = "C:\\Users\\burak\\Desktop\\config.properties";
 
 	public JDialog addIssueDialog;
 	private ListTable<Issue> table;
@@ -78,13 +72,13 @@ public class MainView extends JFrame
 	private JLabel projectNameLabel;
 	private JButton selectProjectButton;
 	private JButton addProjectButton;
-	private JButton settingsButton;
 	private JButton editButton;
 	private JLabel descriptionLabel;
 	private JLabel createDateLabel;
 	private JLabel startDateLabel;
 	private JLabel finishDateLabel;
 	private JLabel timeSpentLabel;
+	private JButton commentsButton;
 
 	/**
 	 * Default constructor
@@ -108,7 +102,6 @@ public class MainView extends JFrame
 	/**
 	 * initializes the UI.
 	 */
-	@SuppressWarnings("unchecked")
 	private void initialize()
 	{
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -150,9 +143,6 @@ public class MainView extends JFrame
 		addIssueButton = new JButton(Messages.getString("addIssue"));
 		buttonPanel.add(addIssueButton);
 
-		settingsButton = new JButton(Messages.getString("MainView.btnSettings.text")); //$NON-NLS-1$
-		buttonPanel.add(settingsButton);
-
 		table = new ListTable<Issue>(Issue.class);
 		table.setFilterable(true);
 		table.setSortable(true);
@@ -163,6 +153,7 @@ public class MainView extends JFrame
 		table.setGridColor(new Color(30, 20, 120));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setFont(tableFont);
+		table.setContextMenuVisible(true);
 
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setPreferredSize(new Dimension(800, 600));
@@ -173,27 +164,6 @@ public class MainView extends JFrame
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 1;
 		this.getContentPane().add(scrollPane, gbc_scrollPane);
-
-		Properties properties = new Properties();
-		try
-		{
-			properties.load(new FileInputStream(storeURL));
-		}
-		catch (IOException ex)
-		{
-			ex.printStackTrace();
-		}
-
-		table.setContextMenuVisible(true);
-		List<? extends FieldConfiguration> columnPreferences = table.getColumnPreferences();
-		columnPreferences.forEach(e ->
-		{
-			int i = e.getName().lastIndexOf('.');
-			String temp = e.getName().substring(i + 1);
-			e.setVisible(properties.getProperty(temp).equals("true"));
-		});
-
-		table.setColumnPreferences((List<FieldConfiguration>) columnPreferences);
 
 		issuePanel = new JPanel();
 		setDetailPanelVisible(false);
@@ -208,11 +178,11 @@ public class MainView extends JFrame
 		gbl_issuePanel.columnWidths = new int[]
 		{ 0, 0, 0 };
 		gbl_issuePanel.rowHeights = new int[]
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_issuePanel.columnWeights = new double[]
 		{ 0.0, 0.0, Double.MIN_VALUE };
 		gbl_issuePanel.rowWeights = new double[]
-		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		issuePanel.setLayout(gbl_issuePanel);
 
@@ -348,6 +318,7 @@ public class MainView extends JFrame
 
 		setStatusButton = new JButton(Messages.getString("MainView.btnSet.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_setStatusButton = new GridBagConstraints();
+		gbc_setStatusButton.anchor = GridBagConstraints.EAST;
 		gbc_setStatusButton.insets = new Insets(0, 0, 5, 0);
 		gbc_setStatusButton.gridx = 1;
 		gbc_setStatusButton.gridy = 16;
@@ -362,6 +333,7 @@ public class MainView extends JFrame
 
 		assignButton = new JButton(Messages.getString("MainView.btnAssing.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
+		gbc_assignButton.anchor = GridBagConstraints.EAST;
 		gbc_assignButton.insets = new Insets(0, 0, 5, 0);
 		gbc_assignButton.gridx = 1;
 		gbc_assignButton.gridy = 17;
@@ -369,9 +341,18 @@ public class MainView extends JFrame
 
 		editButton = new JButton(Messages.getString("MainView.btnEdit.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_editButton = new GridBagConstraints();
+		gbc_editButton.insets = new Insets(0, 0, 5, 0);
+		gbc_editButton.anchor = GridBagConstraints.EAST;
 		gbc_editButton.gridx = 1;
 		gbc_editButton.gridy = 18;
 		issuePanel.add(editButton, gbc_editButton);
+
+		commentsButton = new JButton(Messages.getString("MainView.btnComments.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_commentsButton = new GridBagConstraints();
+		gbc_commentsButton.anchor = GridBagConstraints.WEST;
+		gbc_commentsButton.gridx = 1;
+		gbc_commentsButton.gridy = 19;
+		issuePanel.add(commentsButton, gbc_commentsButton);
 
 		userPanel = new JPanel();
 		GridBagConstraints gbc_userPanel = new GridBagConstraints();
@@ -393,7 +374,6 @@ public class MainView extends JFrame
 		userNameLabel = new JLabel(Messages.getString("MainView.userNameLabel.text"));
 		userNameLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		userPanel.add(userNameLabel);
-
 		this.pack();
 	}
 
@@ -639,15 +619,6 @@ public class MainView extends JFrame
 	public JButton getRefreshButton()
 	{
 		return refreshButton;
-	}
-
-	/**
-	 * 
-	 * @return the settings button.
-	 */
-	public JButton getSettingsButton()
-	{
-		return settingsButton;
 	}
 
 	/**
@@ -1041,16 +1012,4 @@ public class MainView extends JFrame
 		return allProjects;
 	}
 
-	public void setColumnView(Properties properties)
-	{
-
-		table.setContextMenuVisible(true);
-		List<? extends FieldConfiguration> columnPreferences = table.getColumnPreferences();
-		columnPreferences.forEach(e ->
-		{
-			int i = e.getName().lastIndexOf('.');
-			String temp = e.getName().substring(i + 1);
-			e.setVisible(properties.getProperty(temp).equals("true"));
-		});
-	}
 }

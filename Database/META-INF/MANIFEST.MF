@@ -13,3 +13,5 @@ Export-Package: com.ekinoks.database,
  database
 Bundle-ClassPath: lib/sqlite-jdbc-3.27.2.1.jar,
  .
+Require-Bundle: Zemin,
+ ekinoks.ui
