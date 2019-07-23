@@ -906,4 +906,85 @@ public class DatabaseManager
 			return null;
 		}
 	}
+
+	public String getIssueCreateDate(int id)
+	{
+		String result = null;
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_CREATE_DATE_BY_ID_STATEMENT))
+		{
+			pstmt.setInt(1, id);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if (executeQuery.next())
+			{
+				result = executeQuery.getString("create_date");
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
+	public String getIssueStartDate(int id)
+	{
+		String result = null;
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_START_DATE_BY_ID_STATEMENT))
+		{
+			pstmt.setInt(1, id);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if (executeQuery.next())
+			{
+				result = executeQuery.getString("start_date");
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
+	public String getIssueFinishDate(int id)
+	{
+		String result = null;
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_FINISH_DATE_BY_ID_STATEMENT))
+		{
+			pstmt.setInt(1, id);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if (executeQuery.next())
+			{
+				result = executeQuery.getString("finish_date");
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
+	public int getIssueTimeSpent(int id)
+	{
+		int result = 0;
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_TIME_SPENT_BY_ID_STATEMENT))
+		{
+			pstmt.setInt(1, id);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if (executeQuery.next())
+			{
+				result = executeQuery.getInt("time_spent");
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
 }

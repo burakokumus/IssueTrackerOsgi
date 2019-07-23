@@ -81,6 +81,10 @@ public class MainView extends JFrame
 	private JButton settingsButton;
 	private JButton editButton;
 	private JLabel descriptionLabel;
+	private JLabel createDateLabel;
+	private JLabel startDateLabel;
+	private JLabel finishDateLabel;
+	private JLabel timeSpentLabel;
 
 	/**
 	 * Default constructor
@@ -155,7 +159,7 @@ public class MainView extends JFrame
 		table.getTableHeader().setReorderingAllowed(false);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setRowHeight(40);
-		Font tableFont = new Font("Times New Roman", Font.PLAIN, 16);
+		Font tableFont = new Font("Times New Roman", Font.PLAIN, 17);
 		table.setGridColor(new Color(30, 20, 120));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setFont(tableFont);
@@ -192,6 +196,7 @@ public class MainView extends JFrame
 		table.setColumnPreferences((List<FieldConfiguration>) columnPreferences);
 
 		issuePanel = new JPanel();
+		setDetailPanelVisible(false);
 		GridBagConstraints gbc_issuePanel = new GridBagConstraints();
 		gbc_issuePanel.anchor = GridBagConstraints.EAST;
 		gbc_issuePanel.insets = new Insets(0, 0, 5, 0);
@@ -203,11 +208,12 @@ public class MainView extends JFrame
 		gbl_issuePanel.columnWidths = new int[]
 		{ 0, 0, 0 };
 		gbl_issuePanel.rowHeights = new int[]
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_issuePanel.columnWeights = new double[]
 		{ 0.0, 0.0, Double.MIN_VALUE };
 		gbl_issuePanel.rowWeights = new double[]
-		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				Double.MIN_VALUE };
 		issuePanel.setLayout(gbl_issuePanel);
 
 		// STATES
@@ -299,40 +305,72 @@ public class MainView extends JFrame
 		gbc_descriptionLabel.gridx = 0;
 		gbc_descriptionLabel.gridy = 9;
 		issuePanel.add(descriptionLabel, gbc_descriptionLabel);
+
+		createDateLabel = new JLabel(Messages.getString("MainView.lblCreateDate.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_createDateLabel = new GridBagConstraints();
+		gbc_createDateLabel.anchor = GridBagConstraints.WEST;
+		gbc_createDateLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_createDateLabel.gridx = 0;
+		gbc_createDateLabel.gridy = 10;
+		issuePanel.add(createDateLabel, gbc_createDateLabel);
+
+		startDateLabel = new JLabel(Messages.getString("MainView.lblStartDate.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_startDateLabel = new GridBagConstraints();
+		gbc_startDateLabel.anchor = GridBagConstraints.WEST;
+		gbc_startDateLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_startDateLabel.gridx = 0;
+		gbc_startDateLabel.gridy = 11;
+		issuePanel.add(startDateLabel, gbc_startDateLabel);
+
+		finishDateLabel = new JLabel(Messages.getString("MainView.lblFinishDate.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_finishDateLabel = new GridBagConstraints();
+		gbc_finishDateLabel.anchor = GridBagConstraints.WEST;
+		gbc_finishDateLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_finishDateLabel.gridx = 0;
+		gbc_finishDateLabel.gridy = 12;
+		issuePanel.add(finishDateLabel, gbc_finishDateLabel);
+
+		timeSpentLabel = new JLabel(Messages.getString("MainView.lblTimeSpent.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_timeSpentLabel = new GridBagConstraints();
+		gbc_timeSpentLabel.anchor = GridBagConstraints.WEST;
+		gbc_timeSpentLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_timeSpentLabel.gridx = 0;
+		gbc_timeSpentLabel.gridy = 13;
+		issuePanel.add(timeSpentLabel, gbc_timeSpentLabel);
 		stateComboBox = new JComboBox<>(comboBoxModel);
 
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
 		gbc_stateComboBox.anchor = GridBagConstraints.WEST;
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_stateComboBox.gridx = 0;
-		gbc_stateComboBox.gridy = 10;
+		gbc_stateComboBox.gridy = 16;
 		issuePanel.add(stateComboBox, gbc_stateComboBox);
 
 		setStatusButton = new JButton(Messages.getString("MainView.btnSet.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_setStatusButton = new GridBagConstraints();
 		gbc_setStatusButton.insets = new Insets(0, 0, 5, 0);
 		gbc_setStatusButton.gridx = 1;
-		gbc_setStatusButton.gridy = 10;
+		gbc_setStatusButton.gridy = 16;
 		issuePanel.add(setStatusButton, gbc_setStatusButton);
 		assignComboBox = new JComboBox<>(assignComboBoxModel);
 		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
 		gbc_assignComboBox.anchor = GridBagConstraints.WEST;
 		gbc_assignComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_assignComboBox.gridx = 0;
-		gbc_assignComboBox.gridy = 11;
+		gbc_assignComboBox.gridy = 17;
 		issuePanel.add(assignComboBox, gbc_assignComboBox);
 
 		assignButton = new JButton(Messages.getString("MainView.btnAssing.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
 		gbc_assignButton.insets = new Insets(0, 0, 5, 0);
 		gbc_assignButton.gridx = 1;
-		gbc_assignButton.gridy = 11;
+		gbc_assignButton.gridy = 17;
 		issuePanel.add(assignButton, gbc_assignButton);
 
 		editButton = new JButton(Messages.getString("MainView.btnEdit.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_editButton = new GridBagConstraints();
 		gbc_editButton.gridx = 1;
-		gbc_editButton.gridy = 12;
+		gbc_editButton.gridy = 18;
 		issuePanel.add(editButton, gbc_editButton);
 
 		userPanel = new JPanel();
@@ -898,6 +936,42 @@ public class MainView extends JFrame
 	public JLabel getIssueDescriptionLabel()
 	{
 		return descriptionLabel;
+	}
+
+	/**
+	 * 
+	 * @return create date label
+	 */
+	public JLabel getCreateDateLabel()
+	{
+		return createDateLabel;
+	}
+
+	/**
+	 * 
+	 * @return start date label
+	 */
+	public JLabel getStartDateLabel()
+	{
+		return startDateLabel;
+	}
+
+	/**
+	 * 
+	 * @return finish date label
+	 */
+	public JLabel getFinishDateLabel()
+	{
+		return finishDateLabel;
+	}
+
+	/**
+	 * 
+	 * @return time spent label
+	 */
+	public JLabel getTimeSpentLabel()
+	{
+		return timeSpentLabel;
 	}
 
 	/**

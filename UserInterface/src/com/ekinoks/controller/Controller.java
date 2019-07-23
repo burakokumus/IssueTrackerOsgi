@@ -67,6 +67,7 @@ public class Controller
 				int rowNo = view.getTable().getSelectedRow();
 				if (rowNo > -1)
 				{
+					view.setDetailPanelVisible(true);
 					String projectName = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 0));
 					String id = String.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 1));
 					String title = (String) view.getDefaultTableModel().getValueAt(rowNo, 2);
@@ -77,6 +78,10 @@ public class Controller
 					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 7).toString());
 					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
 					ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
+					String createDate = DatabaseManager.getInstance().getIssueCreateDate(Integer.parseInt(id));
+					String startDate = DatabaseManager.getInstance().getIssueStartDate(Integer.parseInt(id));
+					String finishDate = DatabaseManager.getInstance().getIssueFinishDate(Integer.parseInt(id));
+					int timeSpent = DatabaseManager.getInstance().getIssueTimeSpent(Integer.parseInt(id));
 
 					int rank = DatabaseManager.getInstance().getUserRank(currentUserName);
 
@@ -132,10 +137,49 @@ public class Controller
 					view.getIssueAuthorLabel().setText("Author: " + author);
 					view.getIssueStatusLabel().setText("State: " + state);
 					view.getIssueDescriptionLabel().setText("Description: " + description);
-					if (progressUser != null)
-						view.getIssueProgressUserLabel().setText("Progress User: " + progressUser);
+					view.getCreateDateLabel().setText("Create Date: " + createDate);
+					if (progressUser == null)
+					{
+						view.getIssueProgressUserLabel().setVisible(false);
+					}
+
 					else
-						view.getIssueProgressUserLabel().setText("Progress User: None");
+					{
+						view.getIssueProgressUserLabel().setText("Progress User: " + progressUser);
+						view.getIssueProgressUserLabel().setVisible(true);
+					}
+
+					if (startDate == null)
+					{
+						view.getStartDateLabel().setVisible(false);
+					}
+
+					else
+					{
+						view.getStartDateLabel().setText("Start Date: " + startDate);
+						view.getStartDateLabel().setVisible(true);
+					}
+
+					if (finishDate == null)
+					{
+						view.getFinishDateLabel().setVisible(false);
+					}
+					else
+					{
+						view.getFinishDateLabel().setText("Finish Date: " + finishDate);
+						view.getFinishDateLabel().setVisible(true);
+					}
+
+					if (timeSpent == 0)
+					{
+						view.getTimeSpentLabel().setVisible(false);
+					}
+					else
+					{
+						view.getTimeSpentLabel().setText("Time Spent: " + timeSpent);
+						view.getTimeSpentLabel().setVisible(true);
+					}
+
 					view.setCurrentState(state);
 					view.setProgressUser(DatabaseManager.getInstance().getProgressUser(title));
 					view.setCurrentTitle(title);

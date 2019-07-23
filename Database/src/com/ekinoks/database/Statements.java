@@ -13,6 +13,8 @@ public class Statements
 	public static final String GET_ALL_REQUESTS_STATEMENT = "SELECT * FROM requests";
 	public static final String GET_ALL_USERS_STATEMENT = "SELECT * from users";
 	public static final String GET_AUTHOR_BY_ISSUE_TITLE_STATEMENT = "SELECT author FROM issues WHERE title = ?";
+	public static final String GET_CREATE_DATE_BY_ID_STATEMENT = "SELECT create_date FROM issues WHERE issue_id = ?";
+	public static final String GET_FINISH_DATE_BY_ID_STATEMENT = "SELECT finish_date FROM issues WHERE issue_id = ?";
 	public static final String GET_IF_USER_AND_ISSUE_RELATED_STATEMENT = "SELECT * FROM relation WHERE user_id = ? AND issue_id = ?";
 	public static final String GET_ISSUE_ID_FROM_TITLE_STATEMENT = "SELECT issue_id FROM issues WHERE title = ?";
 	public static final String GET_ISSUE_STATEMENT = "SELECT * FROM issues WHERE title = ?";
@@ -20,6 +22,8 @@ public class Statements
 	public static final String GET_PROGRESS_USER_STATEMENT = "SELECT progress_user FROM issues WHERE title = ?";
 	public static final String GET_RANK_STATEMENT = "SELECT rank FROM users WHERE user_name = ?";
 	public static final String GET_REQUEST_PASSWORD_BY_USER_NAME_STATEMENT = "SELECT password FROM requests WHERE user_name = ?";
+	public static final String GET_START_DATE_BY_ID_STATEMENT = "SELECT start_date FROM issues WHERE issue_id = ?";
+	public static final String GET_TIME_SPENT_BY_ID_STATEMENT = "SELECT time_spent FROM issues WHERE issue_id = ?";
 	public static final String GET_USERS_BY_ISSUE_STATEMENT = "SELECT * FROM relation WHERE issue_id = ?";
 	public static final String GET_USER_ID_BY_NAME_STATEMENT = "SELECT user_id FROM users WHERE user_name = ?";
 	public static final String GET_USER_NAME_BY_ID_STATEMENT = "SELECT user_name FROM users WHERE user_id = ?";
