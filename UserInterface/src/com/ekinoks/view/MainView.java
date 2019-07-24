@@ -79,6 +79,7 @@ public class MainView extends JFrame
 	private JLabel finishDateLabel;
 	private JLabel timeSpentLabel;
 	private JButton commentsButton;
+	private JButton manageAssigneesButton;
 
 	/**
 	 * Default constructor
@@ -178,11 +179,11 @@ public class MainView extends JFrame
 		gbl_issuePanel.columnWidths = new int[]
 		{ 0, 0, 0 };
 		gbl_issuePanel.rowHeights = new int[]
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gbl_issuePanel.columnWeights = new double[]
 		{ 0.0, 0.0, Double.MIN_VALUE };
 		gbl_issuePanel.rowWeights = new double[]
-		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				Double.MIN_VALUE };
 		issuePanel.setLayout(gbl_issuePanel);
 
@@ -310,7 +311,7 @@ public class MainView extends JFrame
 		stateComboBox = new JComboBox<>(comboBoxModel);
 
 		GridBagConstraints gbc_stateComboBox = new GridBagConstraints();
-		gbc_stateComboBox.anchor = GridBagConstraints.WEST;
+		gbc_stateComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_stateComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_stateComboBox.gridx = 0;
 		gbc_stateComboBox.gridy = 16;
@@ -318,14 +319,14 @@ public class MainView extends JFrame
 
 		setStatusButton = new JButton(Messages.getString("MainView.btnSet.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_setStatusButton = new GridBagConstraints();
-		gbc_setStatusButton.anchor = GridBagConstraints.EAST;
+		gbc_setStatusButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_setStatusButton.insets = new Insets(0, 0, 5, 0);
 		gbc_setStatusButton.gridx = 1;
 		gbc_setStatusButton.gridy = 16;
 		issuePanel.add(setStatusButton, gbc_setStatusButton);
 		assignComboBox = new JComboBox<>(assignComboBoxModel);
 		GridBagConstraints gbc_assignComboBox = new GridBagConstraints();
-		gbc_assignComboBox.anchor = GridBagConstraints.WEST;
+		gbc_assignComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_assignComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_assignComboBox.gridx = 0;
 		gbc_assignComboBox.gridy = 17;
@@ -333,7 +334,7 @@ public class MainView extends JFrame
 
 		assignButton = new JButton(Messages.getString("MainView.btnAssing.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_assignButton = new GridBagConstraints();
-		gbc_assignButton.anchor = GridBagConstraints.EAST;
+		gbc_assignButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_assignButton.insets = new Insets(0, 0, 5, 0);
 		gbc_assignButton.gridx = 1;
 		gbc_assignButton.gridy = 17;
@@ -341,18 +342,26 @@ public class MainView extends JFrame
 
 		editButton = new JButton(Messages.getString("MainView.btnEdit.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_editButton = new GridBagConstraints();
+		gbc_editButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_editButton.insets = new Insets(0, 0, 5, 0);
-		gbc_editButton.anchor = GridBagConstraints.EAST;
 		gbc_editButton.gridx = 1;
 		gbc_editButton.gridy = 18;
 		issuePanel.add(editButton, gbc_editButton);
 
 		commentsButton = new JButton(Messages.getString("MainView.btnComments.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_commentsButton = new GridBagConstraints();
-		gbc_commentsButton.anchor = GridBagConstraints.WEST;
+		gbc_commentsButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_commentsButton.insets = new Insets(0, 0, 5, 0);
 		gbc_commentsButton.gridx = 1;
 		gbc_commentsButton.gridy = 19;
 		issuePanel.add(commentsButton, gbc_commentsButton);
+
+		manageAssigneesButton = new JButton(Messages.getString("MainView.btnManageAssignees.text")); //$NON-NLS-1$
+		GridBagConstraints gbc_manageAssigneesButton = new GridBagConstraints();
+		gbc_manageAssigneesButton.anchor = GridBagConstraints.EAST;
+		gbc_manageAssigneesButton.gridx = 1;
+		gbc_manageAssigneesButton.gridy = 20;
+		issuePanel.add(manageAssigneesButton, gbc_manageAssigneesButton);
 
 		userPanel = new JPanel();
 		GridBagConstraints gbc_userPanel = new GridBagConstraints();
@@ -664,6 +673,15 @@ public class MainView extends JFrame
 	public JButton getCommentsButton()
 	{
 		return commentsButton;
+	}
+
+	/**
+	 * 
+	 * @return the manage assignees button
+	 */
+	public JButton getManageAssigneesButton()
+	{
+		return manageAssigneesButton;
 	}
 
 	/**

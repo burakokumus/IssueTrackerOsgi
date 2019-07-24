@@ -76,6 +76,7 @@ public class Controller
 		view.getExportButton().addActionListener(e -> exportToExcel());
 		view.getLogOutButton().addActionListener(e -> logout());
 		view.getCommentsButton().addActionListener(e -> comments());
+		view.getManageAssigneesButton().addActionListener(e -> manageAssignees());
 		view.getSetStatusButton().addActionListener(e -> setStatus());
 		view.getAssignButton().addActionListener(e -> assign());
 		view.getTable().getSelectionModel().addListSelectionListener(new ListSelectionListener()
@@ -97,7 +98,7 @@ public class Controller
 					String description = (String) view.getDefaultTableModel().getValueAt(rowNo, 6);
 					IssueState state = IssueState.valueOf(view.getDefaultTableModel().getValueAt(rowNo, 7).toString());
 					String progressUser = DatabaseManager.getInstance().getProgressUser(title);
-					ArrayList<String> assignees = DatabaseManager.getInstance().getUsersByIssueTitle(title);
+					ArrayList<String> assignees = DatabaseManager.getInstance().getAssigneesByIssueTitle(title);
 					String createDate = DatabaseManager.getInstance().getIssueCreateDate(Integer.parseInt(id));
 					String startDate = DatabaseManager.getInstance().getIssueStartDate(Integer.parseInt(id));
 					String finishDate = DatabaseManager.getInstance().getIssueFinishDate(Integer.parseInt(id));
@@ -196,7 +197,7 @@ public class Controller
 					}
 					else
 					{
-						view.getTimeSpentLabel().setText("Time Spent: " + timeSpent);
+						view.getTimeSpentLabel().setText("Time Spent: " + timeSpent + " hours");
 						view.getTimeSpentLabel().setVisible(true);
 					}
 
@@ -294,6 +295,16 @@ public class Controller
 		int id = DatabaseManager.getInstance().getIssueID(currentTitle);
 		@SuppressWarnings("unused")
 		CommentsController commentsController = new CommentsController(id, currentUserName);
+	}
+
+	/**
+	 * Action Listener for the Manage Assignees Button
+	 */
+	private void manageAssignees()
+	{
+		int id = DatabaseManager.getInstance().getIssueID(currentTitle);
+		@SuppressWarnings("unused")
+		ManageAssigneesController manageAssigneesController = new ManageAssigneesController(id);
 	}
 
 	/**

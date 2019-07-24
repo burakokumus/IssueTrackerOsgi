@@ -490,7 +490,7 @@ public class DatabaseManager
 	 * @param issueTitle
 	 * @return
 	 */
-	public ArrayList<String> getUsersByIssueTitle(String issueTitle)
+	public ArrayList<String> getAssigneesByIssueTitle(String issueTitle)
 	{
 		ArrayList<String> result = new ArrayList<>();
 
@@ -753,6 +753,25 @@ public class DatabaseManager
 		catch (SQLException e)
 		{
 			System.err.println(e.getMessage());
+		}
+	}
+
+	public boolean removeRelation(String userName, String issueTitle)
+	{
+		int userId = getUserIdByName(userName);
+		int issueId = getIssueID(issueTitle);
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.REMOVE_RELATION_STATEMENT))
+		{
+			pstmt.setInt(1, userId);
+			pstmt.setInt(2, issueId);
+			pstmt.executeUpdate();
+			return true;
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+			return false;
 		}
 	}
 
