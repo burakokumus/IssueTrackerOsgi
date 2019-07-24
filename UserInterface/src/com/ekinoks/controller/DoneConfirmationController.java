@@ -36,6 +36,7 @@ public class DoneConfirmationController
 		DatabaseManager.getInstance().setProgressUser(title, null);
 		view.updateIssueStateOnJTable(title, IssueState.Done);
 		view.setIssueState(IssueState.Done);
+		view.setPossibleStates();
 		verifiedDoneView.dispose();
 
 	}

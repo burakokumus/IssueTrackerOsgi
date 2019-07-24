@@ -378,12 +378,15 @@ public class Controller
 	private void assign()
 	{
 		String assignee = view.getSelectedUser();
-		DatabaseManager.getInstance().addRelation(assignee, currentTitle);
-		view.getPossibleAssignees().remove(assignee);
-		String temp = view.getIssueAssigneesTextArea().getText();
-		temp += ", " + assignee;
-		view.getIssueAssigneesTextArea().setText(temp);
-		LogManager.getInstance().log("Issue " + currentTitle + "is assigned to " + assignee + " by " + currentUserName);
+		if (DatabaseManager.getInstance().addRelation(assignee, currentTitle))
+		{
+			view.getPossibleAssignees().remove(assignee);
+			String temp = view.getIssueAssigneesTextArea().getText();
+			temp += ", " + assignee;
+			view.getIssueAssigneesTextArea().setText(temp);
+			LogManager.getInstance()
+					.log("Issue " + currentTitle + "is assigned to " + assignee + " by " + currentUserName);
+		}
 	}
 
 	private void exportToExcel()

@@ -106,4 +106,13 @@ public class ManageAssigneesView extends JDialog
 	{
 		return inviteUserComboBox.getSelectedItem().toString();
 	}
+
+	public void setRemovableAssignees()
+	{
+		removeAssigneeModel.removeAllElements();
+		for (String assignee : removeAssigneeVector)
+		{
+			removeAssigneeModel.addElement(assignee);
+		}
+	}
 }

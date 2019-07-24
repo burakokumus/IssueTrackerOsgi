@@ -758,13 +758,11 @@ public class DatabaseManager
 
 	public boolean removeRelation(String userName, String issueTitle)
 	{
-		int userId = getUserIdByName(userName);
-		int issueId = getIssueID(issueTitle);
 		try (Connection conn = this.connect();
 				PreparedStatement pstmt = conn.prepareStatement(Statements.REMOVE_RELATION_STATEMENT))
 		{
-			pstmt.setInt(1, userId);
-			pstmt.setInt(2, issueId);
+			pstmt.setString(1, userName);
+			pstmt.setString(2, issueTitle);
 			pstmt.executeUpdate();
 			return true;
 		}

@@ -30,7 +30,7 @@ public class ManageAssigneesController
 	{
 		String name = this.manageAssigneesView.getRemoveAssigneeName();
 		DatabaseManager.getInstance().removeRelation(name, issueTitle);
-		this.manageAssigneesView.removeAssigneeVector.remove(name);
+		manageAssigneesView.removeAssigneeVector.remove(name);
 	}
 
 	private void inviteUser()
