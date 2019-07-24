@@ -75,6 +75,7 @@ public class Controller
 		view.getEditButton().addActionListener(e -> editIssue());
 		view.getExportButton().addActionListener(e -> exportToExcel());
 		view.getLogOutButton().addActionListener(e -> logout());
+		view.getCommentsButton().addActionListener(e -> comments());
 		view.getSetStatusButton().addActionListener(e -> setStatus());
 		view.getAssignButton().addActionListener(e -> assign());
 		view.getTable().getSelectionModel().addListSelectionListener(new ListSelectionListener()
@@ -283,6 +284,16 @@ public class Controller
 		@SuppressWarnings("unused")
 		SelectProjectDialogController selectProjectDialogController = new SelectProjectDialogController(view, this,
 				view.getAllProjects());
+	}
+
+	/**
+	 * Action Listener for the Comments Button
+	 */
+	private void comments()
+	{
+		int id = DatabaseManager.getInstance().getIssueID(currentTitle);
+		@SuppressWarnings("unused")
+		CommentsController commentsController = new CommentsController(id);
 	}
 
 	/**

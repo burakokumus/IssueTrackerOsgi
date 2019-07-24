@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Vector;
 
+import com.ekinoks.model.Comment;
 import com.ekinoks.model.Issue;
 import com.ekinoks.model.IssueState;
 import com.ekinoks.model.User;
@@ -545,7 +546,7 @@ public class DatabaseManager
 	 * @param issueTitle
 	 * @return
 	 */
-	private int getIssueID(String issueTitle)
+	public int getIssueID(String issueTitle)
 	{
 		int result = -1;
 		try (Connection conn = this.connect();
@@ -987,4 +988,48 @@ public class DatabaseManager
 		return result;
 	}
 
+	public void addComment(int issueID, String userName, String comment)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_ISSUE_STATEMENT))
+		{
+			pstmt.setInt(1, issueID);
+			pstmt.setString(2, userName);
+			pstmt.setString(3, comment);
+			pstmt.setString(4, getCurrentDate());
+			pstmt.executeUpdate();
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
+
+	// FIX
+	public ArrayList<Comment> getAllCommentsOfIssue(int issueID)
+	{
+		ArrayList<Comment> result = new ArrayList<>();
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_COMMENTS_OF_ISSUE_STATEMENT))
+		{
+			pstmt.setInt(1, issueID);
+			ResultSet executeQuery = pstmt.executeQuery();
+			while (executeQuery.next())
+			{
+				int commentID = executeQuery.getInt("comment_id");
+				String userName = executeQuery.getString("user_name");
+				String comment = executeQuery.getString("comment");
+				String date = executeQuery.getString("date");
+				Comment temp = new Comment(commentID, issueID, userName, comment, date);
+				result.add(temp);
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+
+		return result;
+	}
 }

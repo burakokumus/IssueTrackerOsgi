@@ -659,6 +659,15 @@ public class MainView extends JFrame
 
 	/**
 	 * 
+	 * @return the comments button
+	 */
+	public JButton getCommentsButton()
+	{
+		return commentsButton;
+	}
+
+	/**
+	 * 
 	 * @return assign button
 	 */
 	public JButton getAssignButton()
