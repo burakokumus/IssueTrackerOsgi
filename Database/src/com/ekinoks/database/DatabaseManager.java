@@ -540,6 +540,27 @@ public class DatabaseManager
 		return result;
 	}
 
+	public String getIssueNameById(int id)
+	{
+		String result = "";
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ISSUE_TITLE_FROM_ID_STATEMENT))
+		{
+			pstmt.setInt(1, id);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if (executeQuery.next())
+			{
+				result = executeQuery.getString("title");
+			}
+
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
 	/**
 	 * returns the id of the issue whose title is given
 	 * 
@@ -991,7 +1012,7 @@ public class DatabaseManager
 	public void addComment(int issueID, String userName, String comment)
 	{
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_ISSUE_STATEMENT))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_COMMENT_STATEMENT))
 		{
 			pstmt.setInt(1, issueID);
 			pstmt.setString(2, userName);
@@ -1006,7 +1027,6 @@ public class DatabaseManager
 		}
 	}
 
-	// FIX
 	public ArrayList<Comment> getAllCommentsOfIssue(int issueID)
 	{
 		ArrayList<Comment> result = new ArrayList<>();

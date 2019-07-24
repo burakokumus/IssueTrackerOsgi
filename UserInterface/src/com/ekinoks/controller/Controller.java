@@ -293,7 +293,7 @@ public class Controller
 	{
 		int id = DatabaseManager.getInstance().getIssueID(currentTitle);
 		@SuppressWarnings("unused")
-		CommentsController commentsController = new CommentsController(id);
+		CommentsController commentsController = new CommentsController(id, currentUserName);
 	}
 
 	/**

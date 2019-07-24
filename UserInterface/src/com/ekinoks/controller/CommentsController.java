@@ -8,20 +8,44 @@ import com.ekinoks.view.CommentsView;
 
 public class CommentsController
 {
-	CommentsView commentsView;
-	int issueID;
+	private CommentsView commentsView;
+	private int issueID;
+	private String currentUserName;
 
-	public CommentsController(int id)
+	public CommentsController(int id, String currentUserName)
 	{
 		this.issueID = id;
+		this.currentUserName = currentUserName;
 		this.commentsView = new CommentsView();
+		this.addAllCommentsToJTable();
+		this.commentsView.setVisible(true);
+		this.initController();
+	}
+
+	private void initController()
+	{
+		commentsView.getNewCommentButton().addActionListener(e -> addComment());
+	}
+
+	private void addComment()
+	{
+		String issueTitle = DatabaseManager.getInstance().getIssueNameById(issueID);
+		@SuppressWarnings("unused")
+		AddCommentDialogController addCommentDialogController = new AddCommentDialogController(issueTitle,
+				currentUserName, this);
+	}
+
+	public void addAllCommentsToJTable()
+	{
 		ArrayList<Comment> comments = DatabaseManager.getInstance().getAllCommentsOfIssue(issueID);
 		for (Comment com : comments)
 		{
 			this.commentsView.addRowToTable(com);
-			System.out.println(com.getComment());
 		}
-		this.commentsView.setVisible(true);
+	}
 
+	public void clearJTable()
+	{
+		commentsView.clearJTable();
 	}
 }
