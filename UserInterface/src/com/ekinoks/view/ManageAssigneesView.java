@@ -115,4 +115,13 @@ public class ManageAssigneesView extends JDialog
 			removeAssigneeModel.addElement(assignee);
 		}
 	}
+
+	public void setInvitableUsers()
+	{
+		inviteUserModel.removeAllElements();
+		for (String user : inviteUserVector)
+		{
+			inviteUserModel.addElement(user);
+		}
+	}
 }

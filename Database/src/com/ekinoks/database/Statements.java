@@ -3,6 +3,7 @@ package com.ekinoks.database;
 public class Statements
 {
 	// @formatter:off
+	public static final String ADD_INVITATION =                              "INSERT INTO invitations(user_id, issue_id) VALUES (?, ?)";
 	public static final String ADD_ISSUE_STATEMENT =                         "INSERT INTO issues(project_name, title, type, priority, author, description, create_date) VALUES(?, ?, ?, ?, ?, ?, ?)";
 	public static final String ADD_COMMENT_STATEMENT =                       "INSERT INTO comments(issue_id, user_name, comment, date) VALUES (?, ?, ?, ?)";
 	public static final String ADD_PROJECT_STATEMENT =                       "INSERT INTO projects(project_name) VALUES (?)";

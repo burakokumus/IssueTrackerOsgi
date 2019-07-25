@@ -65,6 +65,9 @@ public class Controller
 		});
 	}
 
+	/**
+	 * Initializes the controller
+	 */
 	public void initController()
 	{
 		view.getAddIssueButton().addActionListener(e -> addIssue());
@@ -212,6 +215,11 @@ public class Controller
 					view.setPossibleStates();
 
 					view.pack();
+				}
+
+				else
+				{
+					view.setDetailPanelVisible(false);
 				}
 
 			}
@@ -389,6 +397,9 @@ public class Controller
 		}
 	}
 
+	/**
+	 * Exports issues to an excel file
+	 */
 	private void exportToExcel()
 	{
 		LogManager.getInstance().log("Export button is pressed by " + currentUserName);
@@ -488,16 +499,29 @@ public class Controller
 		return this.currentUserName;
 	}
 
+	/**
+	 * 
+	 * @return the main view
+	 */
 	public MainView getCurrentView()
 	{
 		return view;
 	}
 
+	/**
+	 * 
+	 * @return the current project name
+	 */
 	public String getCurrentProjectName()
 	{
 		return currentProjectName;
 	}
 
+	/**
+	 * Updates the current project name
+	 * 
+	 * @param projectName
+	 */
 	public void setCurrentProjectName(String projectName)
 	{
 		this.currentProjectName = projectName;

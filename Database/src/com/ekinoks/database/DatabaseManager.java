@@ -862,6 +862,10 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * 
+	 * @return current date taken from the computer.
+	 */
 	public String getCurrentDate()
 	{
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -870,6 +874,12 @@ public class DatabaseManager
 		return s;
 	}
 
+	/**
+	 * Sets the time spent on an issue when its being set to done / verified done
+	 * 
+	 * @param title
+	 * @param hours
+	 */
 	public void setTimeSpent(String title, int hours)
 	{
 		try (Connection conn = this.connect();
@@ -885,6 +895,10 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * 
+	 * @return all the project names
+	 */
 	public ArrayList<String> getAllProjectNames()
 	{
 		ArrayList<String> result = new ArrayList<>();
@@ -904,6 +918,11 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param projectName
+	 * @return all issues of a given project
+	 */
 	public ArrayList<Issue> getAllIssuesOfProject(String projectName)
 	{
 		int issueID = -1;
@@ -946,6 +965,11 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return the date that given issue is created
+	 */
 	public String getIssueCreateDate(int id)
 	{
 		String result = null;
@@ -966,6 +990,11 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return the date that given issue is set to in progress
+	 */
 	public String getIssueStartDate(int id)
 	{
 		String result = null;
@@ -986,6 +1015,11 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return the date that given issue is set to verified done
+	 */
 	public String getIssueFinishDate(int id)
 	{
 		String result = null;
@@ -1006,6 +1040,12 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * 
+	 * @param id
+	 * @return the time that is entered by the user who sets the issue to done /
+	 *         verified done
+	 */
 	public int getIssueTimeSpent(int id)
 	{
 		int result = 0;
@@ -1026,6 +1066,13 @@ public class DatabaseManager
 		return result;
 	}
 
+	/**
+	 * Adds a new comment to an issue
+	 * 
+	 * @param issueID
+	 * @param userName
+	 * @param comment
+	 */
 	public void addComment(int issueID, String userName, String comment)
 	{
 		try (Connection conn = this.connect();
@@ -1044,6 +1091,11 @@ public class DatabaseManager
 		}
 	}
 
+	/**
+	 * 
+	 * @param issueID
+	 * @return all the comments of a given issue
+	 */
 	public ArrayList<Comment> getAllCommentsOfIssue(int issueID)
 	{
 		ArrayList<Comment> result = new ArrayList<>();
@@ -1068,5 +1120,29 @@ public class DatabaseManager
 		}
 
 		return result;
+	}
+
+	/**
+	 * Adds an invitation to a user for an issue
+	 * 
+	 * @param userName
+	 * @param issueTitle
+	 */
+	public void addInvitation(String userName, String issueTitle)
+	{
+		int userId = getUserIdByName(userName);
+		int issueId = getIssueID(issueTitle);
+
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_INVITATION))
+		{
+			pstmt.setInt(1, userId);
+			pstmt.setInt(2, issueId);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 }

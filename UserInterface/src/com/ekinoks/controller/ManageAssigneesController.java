@@ -35,5 +35,8 @@ public class ManageAssigneesController
 
 	private void inviteUser()
 	{
+		String name = this.manageAssigneesView.getInviteUserName();
+		DatabaseManager.getInstance().addInvitation(name, issueTitle);
+		manageAssigneesView.inviteUserVector.remove(name);
 	}
 }
