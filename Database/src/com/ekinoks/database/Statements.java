@@ -3,7 +3,7 @@ package com.ekinoks.database;
 public class Statements
 {
 	// @formatter:off
-	public static final String ADD_INVITATION =                              "INSERT INTO invitations(user_id, issue_id) VALUES (?, ?)";
+	public static final String ADD_INVITATION_STATEMENT =                    "INSERT INTO invitations(user_id, issue_id) VALUES (?, ?)";
 	public static final String ADD_ISSUE_STATEMENT =                         "INSERT INTO issues(project_name, title, type, priority, author, description, create_date) VALUES(?, ?, ?, ?, ?, ?, ?)";
 	public static final String ADD_COMMENT_STATEMENT =                       "INSERT INTO comments(issue_id, user_name, comment, date) VALUES (?, ?, ?, ?)";
 	public static final String ADD_PROJECT_STATEMENT =                       "INSERT INTO projects(project_name) VALUES (?)";
@@ -11,6 +11,7 @@ public class Statements
 	public static final String CHECK_USER_EXISTS_STATEMENT =                 "SELECT * FROM users WHERE user_name = ?";
 	public static final String EDIT_ISSUE_STATEMENT =                        "UPDATE issues SET description = ?, title = ?, state = ? WHERE issue_id = ?";
 	public static final String GET_ALL_COMMENTS_OF_ISSUE_STATEMENT =         "SELECT * FROM comments WHERE issue_id = ?";
+	public static final String GET_ALL_INVITATIONS_OF_USER_STATEMENT =       "SELECT issue_id FROM invitations WHERE user_id = ?";
 	public static final String GET_ALL_ISSUES_STATEMENT =                    "SELECT * from issues";
 	public static final String GET_ALL_ISSUES_OF_PROJECT_STATEMENT =         "SELECT * from issues WHERE project_name = ?";
 	public static final String GET_ALL_PROJECTS_STATEMENT =                  "SELECT project_name FROM projects";
@@ -33,6 +34,7 @@ public class Statements
 	public static final String GET_USER_ID_BY_NAME_STATEMENT =               "SELECT user_id FROM users WHERE user_name = ?";
 	public static final String GET_USER_NAME_BY_ID_STATEMENT =               "SELECT user_name FROM users WHERE user_id = ?";
 	public static final String LOGIN_CHECK_STATEMENT =                       "SELECT * FROM users WHERE user_name = ? AND password = ?";
+	public static final String REMOVE_INVITATION_STATEMENT =                 "DELETE FROM invitations WHERE user_id = ? AND issue_id = ?";
 	public static final String REMOVE_RELATION_STATEMENT =                   "DELETE FROM relation WHERE (user_id, issue_id) IN (SELECT usr.user_id, iss.issue_id FROM users usr JOIN issues iss WHERE usr.user_name = ? AND iss.title = ?)";
 	public static final String REMOVE_REQUEST_STATEMENT =                    "DELETE FROM requests WHERE user_name = ?";
 	public static final String REMOVE_USER_STATEMENT =                       "DELETE FROM users WHERE user_name = ?";

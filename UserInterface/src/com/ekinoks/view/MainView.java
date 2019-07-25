@@ -80,6 +80,7 @@ public class MainView extends JFrame
 	private JLabel timeSpentLabel;
 	private JButton commentsButton;
 	private JButton manageAssigneesButton;
+	private JButton pendingInvitationsButton;
 
 	/**
 	 * Default constructor
@@ -372,6 +373,9 @@ public class MainView extends JFrame
 		gbc_userPanel.gridy = 2;
 		getContentPane().add(userPanel, gbc_userPanel);
 		userPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+
+		pendingInvitationsButton = new JButton(Messages.getString("MainView.btnPendingInvitations.text")); //$NON-NLS-1$
+		userPanel.add(pendingInvitationsButton);
 
 		refreshButton = new JButton(Messages.getString("MainView.btnRefresh.text"));
 		refreshButton.setHorizontalAlignment(SwingConstants.LEFT);
@@ -704,6 +708,15 @@ public class MainView extends JFrame
 
 	/**
 	 * 
+	 * @return pending invitations button
+	 */
+	public JButton getPendingInvitationsButton()
+	{
+		return pendingInvitationsButton;
+	}
+
+	/**
+	 * 
 	 * @return the selected user on the JComboBox
 	 */
 	public String getSelectedUser()
@@ -800,6 +813,15 @@ public class MainView extends JFrame
 		{
 			manageUsersButton.setVisible(true);
 			addProjectButton.setVisible(true);
+		}
+
+		if (DatabaseManager.getInstance().invitationForUserExists(currentUserName))
+		{
+			pendingInvitationsButton.setVisible(true);
+		}
+		else
+		{
+			pendingInvitationsButton.setVisible(false);
 		}
 
 	}

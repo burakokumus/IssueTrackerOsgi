@@ -31,6 +31,7 @@ public class ManageAssigneesController
 		String name = this.manageAssigneesView.getRemoveAssigneeName();
 		DatabaseManager.getInstance().removeRelation(name, issueTitle);
 		manageAssigneesView.removeAssigneeVector.remove(name);
+		manageAssigneesView.setRemovableAssignees();
 	}
 
 	private void inviteUser()
@@ -38,5 +39,6 @@ public class ManageAssigneesController
 		String name = this.manageAssigneesView.getInviteUserName();
 		DatabaseManager.getInstance().addInvitation(name, issueTitle);
 		manageAssigneesView.inviteUserVector.remove(name);
+		manageAssigneesView.setInvitableUsers();
 	}
 }

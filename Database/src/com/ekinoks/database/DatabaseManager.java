@@ -1134,7 +1134,7 @@ public class DatabaseManager
 		int issueId = getIssueID(issueTitle);
 
 		try (Connection conn = this.connect();
-				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_INVITATION))
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_INVITATION_STATEMENT))
 		{
 			pstmt.setInt(1, userId);
 			pstmt.setInt(2, issueId);
@@ -1145,4 +1145,74 @@ public class DatabaseManager
 			System.err.println(e.getMessage());
 		}
 	}
+
+	public void removeInvitation(String userName, String issueTitle)
+	{
+		int userId = getUserIdByName(userName);
+		int issueId = getIssueID(issueTitle);
+
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.REMOVE_INVITATION_STATEMENT))
+		{
+			pstmt.setInt(1, userId);
+			pstmt.setInt(2, issueId);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
+
+	public boolean invitationForUserExists(String userName)
+	{
+		int userId = getUserIdByName(userName);
+
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_INVITATIONS_OF_USER_STATEMENT))
+		{
+			pstmt.setInt(1, userId);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if (executeQuery.next())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+			return false;
+		}
+
+	}
+
+	public ArrayList<String> getAllInvitationsForUser(String userName)
+	{
+		ArrayList<String> result = new ArrayList<String>();
+
+		int userId = getUserIdByName(userName);
+
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_ALL_INVITATIONS_OF_USER_STATEMENT))
+		{
+			pstmt.setInt(1, userId);
+			ResultSet executeQuery = pstmt.executeQuery();
+			while (executeQuery.next())
+			{
+				int issueId = executeQuery.getInt("issue_id");
+				result.add(getIssueNameById(issueId));
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+
+		return result;
+	}
+
 }

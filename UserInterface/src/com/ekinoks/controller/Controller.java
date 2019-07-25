@@ -63,6 +63,7 @@ public class Controller
 			configuration.save();
 
 		});
+
 	}
 
 	/**
@@ -75,6 +76,7 @@ public class Controller
 		view.getAddProjectButton().addActionListener(e -> addProject());
 		view.getSelectProjectButton().addActionListener(e -> selectProject());
 		view.getRefreshButton().addActionListener(e -> refresh());
+		view.getPendingInvitationsButton().addActionListener(e -> pendingInvitations());
 		view.getEditButton().addActionListener(e -> editIssue());
 		view.getExportButton().addActionListener(e -> exportToExcel());
 		view.getLogOutButton().addActionListener(e -> logout());
@@ -221,7 +223,6 @@ public class Controller
 				{
 					view.setDetailPanelVisible(false);
 				}
-
 			}
 		});
 
@@ -232,6 +233,7 @@ public class Controller
 
 			view.addIssueToJTable(issue);
 		}
+
 	}
 
 	/**
@@ -337,6 +339,15 @@ public class Controller
 		{
 			view.addIssueToJTable(issue);
 		}
+	}
+
+	/**
+	 * Action Listener for the Pending Invitations Button.
+	 */
+	private void pendingInvitations()
+	{
+		@SuppressWarnings("unused")
+		PendingInvitationsController pendingInvitationsController = new PendingInvitationsController(currentUserName);
 	}
 
 	/**
