@@ -803,6 +803,8 @@ public class MainView extends JFrame
 		assignButton.setVisible(false);
 		stateComboBox.setVisible(false);
 		assignComboBox.setVisible(false);
+		getCommentsButton().setVisible(false);
+		getManageAssigneesButton().setVisible(false);
 
 		if (currentRank > 1)
 		{

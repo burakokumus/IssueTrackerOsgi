@@ -120,6 +120,8 @@ public class Controller
 						view.getStateComboBox().setVisible(true);
 						view.getSetStatusButton().setVisible(true);
 						view.getEditButton().setVisible(true);
+						view.getCommentsButton().setVisible(true);
+						view.getManageAssigneesButton().setVisible(true);
 					}
 					else if (state.toString().equals(IssueState.VerifiedDone.toString()))
 					{
@@ -128,6 +130,8 @@ public class Controller
 						view.getStateComboBox().setVisible(false);
 						view.getSetStatusButton().setVisible(false);
 						view.getEditButton().setVisible(false);
+						view.getCommentsButton().setVisible(true);
+						view.getManageAssigneesButton().setVisible(false);
 					}
 					else if (currentUserName.equals(author) || currentUserName.equals(progressUser))
 					{
@@ -136,6 +140,8 @@ public class Controller
 						view.getStateComboBox().setVisible(true);
 						view.getSetStatusButton().setVisible(true);
 						view.getEditButton().setVisible(true);
+						view.getCommentsButton().setVisible(true);
+						view.getManageAssigneesButton().setVisible(true);
 					}
 
 					else if (assignees.contains(currentUserName))
@@ -145,6 +151,8 @@ public class Controller
 						view.getStateComboBox().setVisible(true);
 						view.getSetStatusButton().setVisible(true);
 						view.getEditButton().setVisible(true);
+						view.getCommentsButton().setVisible(true);
+						view.getManageAssigneesButton().setVisible(false);
 					}
 					else
 					{
@@ -153,6 +161,8 @@ public class Controller
 						view.getStateComboBox().setVisible(false);
 						view.getSetStatusButton().setVisible(false);
 						view.getEditButton().setVisible(false);
+						view.getCommentsButton().setVisible(false);
+						view.getManageAssigneesButton().setVisible(false);
 					}
 
 					view.getIssueProjectNameLabel().setText("Project Name: " + projectName);
