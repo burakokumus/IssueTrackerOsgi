@@ -56,6 +56,8 @@ public class AddIssueDialogController
 		String type = addIssueDialogView.getIssueType();
 		int priority = addIssueDialogView.getIssuePriority();
 		String description = addIssueDialogView.getIssueDescription();
+		String detectedVersion = addIssueDialogView.getIssueDetectedVersion();
+		String targetVersion = addIssueDialogView.getIssueTargetVersion();
 
 		if (priority == -1 || title.trim().length() == 0)
 		{
@@ -63,7 +65,8 @@ public class AddIssueDialogController
 		}
 
 		String author = mainView.getCurrentUserName();
-		boolean added = DatabaseManager.getInstance().addIssue(projectName, title, type, priority, author, description);
+		boolean added = DatabaseManager.getInstance().addIssue(projectName, title, type, priority, author, description,
+				detectedVersion, targetVersion);
 		String message = "";
 		if (added)
 		{

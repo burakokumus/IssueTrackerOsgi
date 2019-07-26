@@ -17,7 +17,7 @@ public class IssueConfiguration extends AbstractXMLConfiguration
 	public List<FieldConfiguration> columnPreferences = null;
 
 	@Config("proje_adi")
-	public String currentProject = "prj4";
+	public String currentProject = null;
 
 	// en son secilen projeyi tut
 

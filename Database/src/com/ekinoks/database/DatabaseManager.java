@@ -239,10 +239,11 @@ public class DatabaseManager
 	 * @param priority
 	 * @param author
 	 * @param description
+	 * @param detectedVersion
 	 * @return
 	 */
 	public boolean addIssue(String projectName, String title, String type, int priority, String author,
-			String description)
+			String description, String detectedVersion, String targetVersion)
 	{
 		try (Connection conn = this.connect();
 				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_ISSUE_STATEMENT))
@@ -254,6 +255,8 @@ public class DatabaseManager
 			pstmt.setString(5, author);
 			pstmt.setString(6, description);
 			pstmt.setString(7, getCurrentDate());
+			pstmt.setString(8, detectedVersion);
+			pstmt.setString(9, targetVersion);
 			pstmt.executeUpdate();
 			return true;
 

@@ -4,7 +4,7 @@ public class Statements
 {
 	// @formatter:off
 	public static final String ADD_INVITATION_STATEMENT =                    "INSERT INTO invitations(user_id, issue_id) VALUES (?, ?)";
-	public static final String ADD_ISSUE_STATEMENT =                         "INSERT INTO issues(project_name, title, type, priority, author, description, create_date) VALUES(?, ?, ?, ?, ?, ?, ?)";
+	public static final String ADD_ISSUE_STATEMENT =                         "INSERT INTO issues(project_name, title, type, priority, author, description, create_date, detected_version, target_version) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	public static final String ADD_COMMENT_STATEMENT =                       "INSERT INTO comments(issue_id, user_name, comment, date) VALUES (?, ?, ?, ?)";
 	public static final String ADD_PROJECT_STATEMENT =                       "INSERT INTO projects(project_name) VALUES (?)";
 	public static final String ADD_RELATION_STATEMENT =                      "INSERT INTO relation(user_id, issue_id) SELECT usr.user_id, iss.issue_id FROM users usr JOIN issues iss WHERE user_name = ? and title = ?";
