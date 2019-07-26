@@ -38,6 +38,7 @@ public class Controller
 	private String currentUserName;
 	private String currentTitle;
 	private String currentProjectName;
+	private IssueConfiguration configuration;
 
 	@SuppressWarnings("unchecked")
 	public Controller()
@@ -47,12 +48,18 @@ public class Controller
 		this.currentTitle = "";
 		this.currentProjectName = "prj1";
 
-		IssueConfiguration configuration = new IssueConfiguration();
+		configuration = new IssueConfiguration();
 
 		if (configuration.columnPreferences != null)
 		{
 
 			view.getTable().setColumnPreferences(configuration.columnPreferences);
+		}
+
+		if (configuration.currentProject != null)
+		{
+			view.setCurrentProjectName(configuration.currentProject);
+			this.currentProjectName = configuration.currentProject;
 		}
 
 		view.getTable().addColumnPreferencesChangedListener(l ->
@@ -304,7 +311,7 @@ public class Controller
 		LogManager.getInstance().log("Select Project button is pressed by " + currentUserName);
 		@SuppressWarnings("unused")
 		SelectProjectDialogController selectProjectDialogController = new SelectProjectDialogController(view, this,
-				view.getAllProjects());
+				view.getAllProjects(), configuration);
 	}
 
 	/**
@@ -365,8 +372,10 @@ public class Controller
 	 */
 	private void logout()
 	{
-		LoginController loginController = new LoginController(this);
+		Controller newController = new Controller();
+		LoginController loginController = new LoginController(newController);
 		loginController.initController();
+		newController.initController();
 		this.view.dispose();
 		LogManager.getInstance().log(currentUserName + " logged out!");
 	}

@@ -30,14 +30,15 @@ public class DoneConfirmationController
 	private void confirmButtonController()
 	{
 		int hours = verifiedDoneView.getHours() + (verifiedDoneView.getDays() * 24);
+		int issueId = DatabaseManager.getInstance().getIssueID(title);
+		int oldTime = DatabaseManager.getInstance().getIssueTimeSpent(issueId);
 		DatabaseManager.getInstance().setFinishDate(title);
-		DatabaseManager.getInstance().setTimeSpent(title, hours);
+		DatabaseManager.getInstance().setTimeSpent(title, hours + oldTime);
 		DatabaseManager.getInstance().updateIssueState(title, IssueState.Done);
 		DatabaseManager.getInstance().setProgressUser(title, null);
 		view.updateIssueStateOnJTable(title, IssueState.Done);
 		view.setIssueState(IssueState.Done);
 		view.setPossibleStates();
 		verifiedDoneView.dispose();
-
 	}
 }

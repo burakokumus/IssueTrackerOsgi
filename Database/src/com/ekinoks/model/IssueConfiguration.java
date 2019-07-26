@@ -16,6 +16,11 @@ public class IssueConfiguration extends AbstractXMLConfiguration
 	@ConfigurationList(type = ArrayList.class, valueType = TableColumnPreference.class)
 	public List<FieldConfiguration> columnPreferences = null;
 
+	@Config("proje_adi")
+	public String currentProject = "prj4";
+
+	// en son secilen projeyi tut
+
 	public IssueConfiguration()
 	{
 		create();
