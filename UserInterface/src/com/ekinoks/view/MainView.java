@@ -819,19 +819,24 @@ public class MainView extends JFrame
 		{
 			pendingInvitationsButton.setVisible(false);
 		}
-		ArrayList<String> allProjects = DatabaseManager.getInstance().getAllProjectNames();
-		ArrayList<String> allAvailableProjects = new ArrayList<>();
-		for (String project : allProjects)
+
+		if (this.currentRank != 1)
 		{
-			if (DatabaseManager.getInstance().isProjectAvailableToUser(userName, project))
+			ArrayList<String> allProjects = DatabaseManager.getInstance().getAllProjectNames();
+			ArrayList<String> allAvailableProjects = new ArrayList<>();
+			for (String project : allProjects)
 			{
-				allAvailableProjects.add(project);
+				if (DatabaseManager.getInstance().isProjectAvailableToUser(userName, project))
+				{
+					allAvailableProjects.add(project);
+				}
 			}
-		}
-		this.allProjects = new String[allAvailableProjects.size()];
-		for (int i = 0; i < allAvailableProjects.size(); i++)
-		{
-			this.allProjects[i] = allAvailableProjects.get(i);
+
+			this.allProjects = new String[allAvailableProjects.size()];
+			for (int i = 0; i < allAvailableProjects.size(); i++)
+			{
+				this.allProjects[i] = allAvailableProjects.get(i);
+			}
 		}
 	}
 
