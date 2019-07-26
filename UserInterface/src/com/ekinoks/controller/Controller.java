@@ -28,8 +28,8 @@ import com.ekinoks.model.IssueState;
 import com.ekinoks.model.User;
 import com.ekinoks.ui.components.common.fieldGenerator.FieldConfiguration;
 import com.ekinoks.view.AddIssueDialogView;
-import com.ekinoks.view.AddUserDialogView;
 import com.ekinoks.view.MainView;
+import com.ekinoks.view.ManageUsersDialogView;
 import com.ekinoks.view.Messages;
 
 public class Controller
@@ -284,8 +284,8 @@ public class Controller
 			ArrayList<String> allUsersString = new ArrayList<>();
 			for (User user : allUsers)
 				allUsersString.add(user.getUserName());
-			AddUserDialogView addUserDialogView = new AddUserDialogView(view, requests, allUsersString);
-			AddUserDialogController addUserDialogController = new AddUserDialogController(addUserDialogView);
+			ManageUsersDialogView addUserDialogView = new ManageUsersDialogView(view, requests, allUsersString);
+			ManageUsersDialogController addUserDialogController = new ManageUsersDialogController(addUserDialogView);
 			addUserDialogView.setPreferredSize(new Dimension(300, 300));
 			addUserDialogView.pack();
 			addUserDialogView.setVisible(true);

@@ -1218,4 +1218,91 @@ public class DatabaseManager
 		return result;
 	}
 
+	public int getProjectId(String projectName)
+	{
+		int result = -1;
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.GET_PROJECT_ID_STATEMENT))
+		{
+			pstmt.setString(1, projectName);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if (executeQuery.next())
+			{
+				result = executeQuery.getInt("project_id");
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+		return result;
+	}
+
+	public void addProjectAvailabilityToUser(String userName, String projectName)
+	{
+		int userId = getUserIdByName(userName);
+		int projectId = getProjectId(projectName);
+
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_PROJECT_AVAILABILITY_TO_USER))
+		{
+			pstmt.setInt(1, userId);
+			pstmt.setInt(2, projectId);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
+	}
+
+	public boolean removeProjectAvailabilityFromUser(String userName, String projectName)
+	{
+		int userId = getUserIdByName(userName);
+		int projectId = getProjectId(projectName);
+
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.REMOVE_PROJECT_AVAILABILITY_FROM_USER))
+		{
+			pstmt.setInt(1, userId);
+			pstmt.setInt(2, projectId);
+			pstmt.executeUpdate();
+			return true;
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+			return false;
+		}
+	}
+
+	public boolean isProjectAvailableToUser(String userName, String projectName)
+	{
+
+		int userId = getUserIdByName(userName);
+		int projectId = getProjectId(projectName);
+
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn
+						.prepareStatement(Statements.GET_IF_PROJECT_IS_AVAILABLE_TO_USER_STATEMENT))
+		{
+			pstmt.setInt(1, userId);
+			pstmt.setInt(2, projectId);
+			ResultSet executeQuery = pstmt.executeQuery();
+			if (executeQuery.next())
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+			return false;
+		}
+
+	}
 }

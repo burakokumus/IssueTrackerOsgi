@@ -12,30 +12,30 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
-public class AddUserDialogView extends JDialog
+public class ManageUsersDialogView extends JDialog
 {
 	private JComboBox<String> requestsComboBox;
 	private JComboBox<String> ranksComboBox;
 	private String[] usersArr;
 	private String[] ranks;
 	private String[] allUsers;
+	private String[] allProjects;
 	private JButton acceptButton;
 	private JButton rejectButton;
 	private JLabel removeLabel;
 	private JComboBox<String> removeComboBox;
 	private JButton removeButton;
+	private JLabel acceptRejectLabel;
+	private JLabel setVisibleLabel;
+	private JComboBox<String> setVisibleComboBox;
+	private JButton setButton;
 
-	public AddUserDialogView()
-	{
-		this(new ArrayList<String>(), new ArrayList<String>());
-	}
-
-	public AddUserDialogView(ArrayList<String> requests, ArrayList<String> allUsers)
+	public ManageUsersDialogView(ArrayList<String> requests, ArrayList<String> allUsers)
 	{
 		this(null, requests, allUsers);
 	}
 
-	public AddUserDialogView(Window parentWindow, ArrayList<String> requests, ArrayList<String> allUsers)
+	public ManageUsersDialogView(Window parentWindow, ArrayList<String> requests, ArrayList<String> allUsers)
 	{
 		super(parentWindow);
 		ranks = new String[]
@@ -43,6 +43,7 @@ public class AddUserDialogView extends JDialog
 		this.usersArr = new String[requests.size()];
 		for (int i = 0; i < requests.size(); i++)
 			usersArr[i] = requests.get(i);
+
 		this.allUsers = new String[allUsers.size()];
 		for (int i = 0; i < allUsers.size(); i++)
 			this.allUsers[i] = allUsers.get(i);
@@ -67,6 +68,13 @@ public class AddUserDialogView extends JDialog
 		gridBagLayout.rowWeights = new double[]
 		{ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
+
+		acceptRejectLabel = new JLabel("Accept/Reject an application");
+		GridBagConstraints gbc_acceptRejectLabel = new GridBagConstraints();
+		gbc_acceptRejectLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_acceptRejectLabel.gridx = 1;
+		gbc_acceptRejectLabel.gridy = 0;
+		getContentPane().add(acceptRejectLabel, gbc_acceptRejectLabel);
 
 		requestsComboBox = new JComboBox<String>(usersArr);
 		GridBagConstraints gbc_requestsComboBox = new GridBagConstraints();
@@ -102,26 +110,49 @@ public class AddUserDialogView extends JDialog
 		GridBagConstraints gbc_removeLabel = new GridBagConstraints();
 		gbc_removeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_removeLabel.gridx = 1;
-		gbc_removeLabel.gridy = 5;
+		gbc_removeLabel.gridy = 3;
 		getContentPane().add(removeLabel, gbc_removeLabel);
 
 		removeComboBox = new JComboBox<>(allUsers);
 		GridBagConstraints gbc_removeComboBox = new GridBagConstraints();
-		gbc_removeComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_removeComboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_removeComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_removeComboBox.gridx = 1;
-		gbc_removeComboBox.gridy = 6;
+		gbc_removeComboBox.gridy = 4;
 		getContentPane().add(removeComboBox, gbc_removeComboBox);
 
 		removeButton = new JButton("Remove");
 		GridBagConstraints gbc_removeButton = new GridBagConstraints();
+		gbc_removeButton.insets = new Insets(0, 0, 5, 0);
 		gbc_removeButton.gridx = 2;
-		gbc_removeButton.gridy = 6;
+		gbc_removeButton.gridy = 4;
 		getContentPane().add(removeButton, gbc_removeButton);
+
+		setVisibleLabel = new JLabel("Set Visible Projects For User");
+		GridBagConstraints gbc_setVisibleLabel = new GridBagConstraints();
+		gbc_setVisibleLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_setVisibleLabel.gridx = 1;
+		gbc_setVisibleLabel.gridy = 5;
+		getContentPane().add(setVisibleLabel, gbc_setVisibleLabel);
+
+		setVisibleComboBox = new JComboBox<>(allUsers);
+		GridBagConstraints gbc_setVisibleComboBox = new GridBagConstraints();
+		gbc_setVisibleComboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_setVisibleComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_setVisibleComboBox.gridx = 1;
+		gbc_setVisibleComboBox.gridy = 6;
+		getContentPane().add(setVisibleComboBox, gbc_setVisibleComboBox);
+
+		setButton = new JButton("Set");
+		GridBagConstraints gbc_setButton = new GridBagConstraints();
+		gbc_setButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_setButton.gridx = 2;
+		gbc_setButton.gridy = 6;
+		getContentPane().add(setButton, gbc_setButton);
 
 	}
 
-	public String getSelectedUser()
+	public String getSelectedAcceptRejectUser()
 	{
 		return (String) this.requestsComboBox.getSelectedItem();
 	}
@@ -129,6 +160,11 @@ public class AddUserDialogView extends JDialog
 	public String getSelectedRank()
 	{
 		return (String) this.ranksComboBox.getSelectedItem();
+	}
+
+	public String getSelectedSetProjectUser()
+	{
+		return (String) this.setVisibleComboBox.getSelectedItem();
 	}
 
 	public JButton getAcceptButton()
@@ -146,9 +182,18 @@ public class AddUserDialogView extends JDialog
 		return this.removeButton;
 	}
 
+	public JButton getSetButton()
+	{
+		return this.setButton;
+	}
+
 	public String getRemoveName()
 	{
 		return (String) removeComboBox.getSelectedItem();
 	}
 
+	public String[] getAllProjects()
+	{
+		return allProjects;
+	}
 }

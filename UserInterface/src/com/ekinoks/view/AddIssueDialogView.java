@@ -79,7 +79,7 @@ public class AddIssueDialogView extends JDialog
 		projectLabel = new JLabel(Messages.getString("AddIssueDialogView.lblProject.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_projectLabel = new GridBagConstraints();
 		gbc_projectLabel.anchor = GridBagConstraints.EAST;
-		gbc_projectLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_projectLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_projectLabel.gridx = 0;
 		gbc_projectLabel.gridy = 0;
 		getContentPane().add(projectLabel, gbc_projectLabel);
@@ -95,7 +95,7 @@ public class AddIssueDialogView extends JDialog
 		projectComboBox = new JComboBox<>(projectComboBoxModel);
 
 		GridBagConstraints gbc_projectComboBox = new GridBagConstraints();
-		gbc_projectComboBox.insets = new Insets(0, 5, 5, 0);
+		gbc_projectComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_projectComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_projectComboBox.gridx = 1;
 		gbc_projectComboBox.gridy = 0;
@@ -113,7 +113,7 @@ public class AddIssueDialogView extends JDialog
 		titleTextField.setText(Messages.getString("AddIssueDialog.textField.text")); //$NON-NLS-1$
 		gbc_titleTextField = new GridBagConstraints();
 		gbc_titleTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_titleTextField.insets = new Insets(5, 5, 5, 0);
+		gbc_titleTextField.insets = new Insets(5, 5, 5, 5);
 		gbc_titleTextField.gridx = 1;
 		gbc_titleTextField.gridy = 1;
 		getContentPane().add(titleTextField, gbc_titleTextField);
@@ -128,7 +128,7 @@ public class AddIssueDialogView extends JDialog
 		getContentPane().add(typeLabel, gbc_typeLabel);
 		typeComboBox = new JComboBox<>(issueTypes);
 		gbc_typeComboBox = new GridBagConstraints();
-		gbc_typeComboBox.insets = new Insets(5, 5, 5, 0);
+		gbc_typeComboBox.insets = new Insets(5, 5, 5, 5);
 		gbc_typeComboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_typeComboBox.gridx = 1;
 		gbc_typeComboBox.gridy = 2;
@@ -145,7 +145,7 @@ public class AddIssueDialogView extends JDialog
 		priorityTextField = new JTextField();
 		priorityTextField.setText(Messages.getString("AddIssueDialogView.textField_1.text")); //$NON-NLS-1$
 		gbc_priorityTextField = new GridBagConstraints();
-		gbc_priorityTextField.insets = new Insets(5, 5, 5, 0);
+		gbc_priorityTextField.insets = new Insets(5, 5, 5, 5);
 		gbc_priorityTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_priorityTextField.gridx = 1;
 		gbc_priorityTextField.gridy = 3;
@@ -162,7 +162,7 @@ public class AddIssueDialogView extends JDialog
 
 		descriptionTextField = new JTextField();
 		gbc_descriptionTextField = new GridBagConstraints();
-		gbc_descriptionTextField.insets = new Insets(5, 5, 5, 0);
+		gbc_descriptionTextField.insets = new Insets(5, 5, 5, 5);
 		gbc_descriptionTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_descriptionTextField.gridx = 1;
 		gbc_descriptionTextField.gridy = 4;
@@ -172,14 +172,14 @@ public class AddIssueDialogView extends JDialog
 		detectedVersionLabel = new JLabel(Messages.getString("AddIssueDialogView.lblDetectedVersion.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_detectedVersionLabel = new GridBagConstraints();
 		gbc_detectedVersionLabel.anchor = GridBagConstraints.EAST;
-		gbc_detectedVersionLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_detectedVersionLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_detectedVersionLabel.gridx = 0;
 		gbc_detectedVersionLabel.gridy = 5;
 		getContentPane().add(detectedVersionLabel, gbc_detectedVersionLabel);
 
 		detectedVersionTextField = new JTextField();
 		GridBagConstraints gbc_detectedVersionTextField = new GridBagConstraints();
-		gbc_detectedVersionTextField.insets = new Insets(0, 5, 5, 0);
+		gbc_detectedVersionTextField.insets = new Insets(5, 5, 5, 5);
 		gbc_detectedVersionTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_detectedVersionTextField.gridx = 1;
 		gbc_detectedVersionTextField.gridy = 5;
@@ -189,14 +189,14 @@ public class AddIssueDialogView extends JDialog
 		targetVersionLabel = new JLabel(Messages.getString("AddIssueDialogView.lblNewLabel.text")); //$NON-NLS-1$
 		GridBagConstraints gbc_targetVersionLabel = new GridBagConstraints();
 		gbc_targetVersionLabel.anchor = GridBagConstraints.EAST;
-		gbc_targetVersionLabel.insets = new Insets(0, 5, 5, 5);
+		gbc_targetVersionLabel.insets = new Insets(5, 5, 5, 5);
 		gbc_targetVersionLabel.gridx = 0;
 		gbc_targetVersionLabel.gridy = 6;
 		getContentPane().add(targetVersionLabel, gbc_targetVersionLabel);
 
 		targetVersionTextField = new JTextField();
 		GridBagConstraints gbc_targetVersionTextField = new GridBagConstraints();
-		gbc_targetVersionTextField.insets = new Insets(0, 0, 5, 0);
+		gbc_targetVersionTextField.insets = new Insets(5, 5, 5, 5);
 		gbc_targetVersionTextField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_targetVersionTextField.gridx = 1;
 		gbc_targetVersionTextField.gridy = 6;
