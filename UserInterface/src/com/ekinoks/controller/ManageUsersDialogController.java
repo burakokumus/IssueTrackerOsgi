@@ -80,7 +80,7 @@ public class ManageUsersDialogController
 		String userName = manageUsersDialogView.getSelectedSetProjectUser();
 
 		@SuppressWarnings("unused")
-		ProjectVisibilityController projectVisibilityController = new ProjectVisibilityController(userName,
+		ProjectAvailabilityController projectVisibilityController = new ProjectAvailabilityController(userName,
 				manageUsersDialogView, DatabaseManager.getInstance().getAllProjectNames());
 	}
 }

@@ -7,18 +7,18 @@ import javax.swing.JOptionPane;
 
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.view.ManageUsersDialogView;
-import com.ekinoks.view.ProjectVisibilityView;
+import com.ekinoks.view.ProjectAvailabilityView;
 
-public class ProjectVisibilityController
+public class ProjectAvailabilityController
 {
 	private String userName;
-	private ProjectVisibilityView projectVisibilityView;
+	private ProjectAvailabilityView projectVisibilityView;
 
-	public ProjectVisibilityController(String userName, ManageUsersDialogView manageUsersDialogView,
+	public ProjectAvailabilityController(String userName, ManageUsersDialogView manageUsersDialogView,
 			ArrayList<String> allProjects)
 	{
 		this.userName = userName;
-		this.projectVisibilityView = new ProjectVisibilityView(userName, manageUsersDialogView, allProjects);
+		this.projectVisibilityView = new ProjectAvailabilityView(userName, manageUsersDialogView, allProjects);
 		this.projectVisibilityView.setVisible(true);
 		this.initController();
 	}

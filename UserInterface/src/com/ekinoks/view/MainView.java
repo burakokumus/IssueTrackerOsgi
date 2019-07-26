@@ -90,12 +90,6 @@ public class MainView extends JFrame
 		this.currentUserName = "";
 		this.possibleStates = new IssueState[]
 		{};
-		ArrayList<String> allProjects = DatabaseManager.getInstance().getAllProjectNames();
-		this.allProjects = new String[allProjects.size()];
-		for (int i = 0; i < allProjects.size(); i++)
-		{
-			this.allProjects[i] = allProjects.get(i);
-		}
 		initialize();
 		this.setTitle("Issue Tracker");
 		this.setCurrentProjectName("prj1");
@@ -825,7 +819,20 @@ public class MainView extends JFrame
 		{
 			pendingInvitationsButton.setVisible(false);
 		}
-
+		ArrayList<String> allProjects = DatabaseManager.getInstance().getAllProjectNames();
+		ArrayList<String> allAvailableProjects = new ArrayList<>();
+		for (String project : allProjects)
+		{
+			if (DatabaseManager.getInstance().isProjectAvailableToUser(userName, project))
+			{
+				allAvailableProjects.add(project);
+			}
+		}
+		this.allProjects = new String[allAvailableProjects.size()];
+		for (int i = 0; i < allAvailableProjects.size(); i++)
+		{
+			this.allProjects[i] = allAvailableProjects.get(i);
+		}
 	}
 
 	/**

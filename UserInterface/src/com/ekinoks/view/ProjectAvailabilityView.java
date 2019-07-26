@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import com.ekinoks.database.DatabaseManager;
 
 @SuppressWarnings("serial")
-public class ProjectVisibilityView extends JDialog
+public class ProjectAvailabilityView extends JDialog
 {
 	private String userName;
 	private JPanel mainPanel;
@@ -22,7 +22,7 @@ public class ProjectVisibilityView extends JDialog
 	private String[] allProjects;
 	private JCheckBox[] checkBoxList;
 
-	public ProjectVisibilityView(String userName, JDialog parentWindow, ArrayList<String> allProjects)
+	public ProjectAvailabilityView(String userName, JDialog parentWindow, ArrayList<String> allProjects)
 	{
 		super(parentWindow);
 		this.userName = userName;
