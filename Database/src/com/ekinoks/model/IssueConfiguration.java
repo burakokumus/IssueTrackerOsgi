@@ -19,8 +19,6 @@ public class IssueConfiguration extends AbstractXMLConfiguration
 	@Config("proje_adi")
 	public String currentProject = null;
 
-	// en son secilen projeyi tut
-
 	public IssueConfiguration()
 	{
 		create();

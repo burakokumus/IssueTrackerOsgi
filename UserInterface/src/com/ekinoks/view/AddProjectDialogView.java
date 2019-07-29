@@ -58,7 +58,7 @@ public class AddProjectDialogView extends JDialog
 		getContentPane().add(confirmButton, gbc_confirmButton);
 
 		this.getRootPane().setDefaultButton(confirmButton);
-
+		this.setModal(true);
 		this.pack();
 	}
 

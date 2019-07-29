@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
@@ -95,7 +96,8 @@ public class CommentsView extends JDialog
 
 		addCommentButton = new JButton("Add Comment");
 		buttonPanel.add(addCommentButton);
-
+		this.setModal(true);
+		this.setLocationRelativeTo(this.getParent());
 		this.pack();
 	}
 
@@ -164,7 +166,9 @@ class ImageCellEditor extends AbstractCellEditor implements TableCellEditor
 	{
 		if (table.convertColumnIndexToModel(column) == 2)
 		{
-			JDialog jDialog = new JDialog();
+			JDialog jDialog = new JDialog(SwingUtilities.getWindowAncestor(table));
+			jDialog.setModal(true);
+			jDialog.setLocationRelativeTo(jDialog.getParent());
 			JLabel jLabel = new JLabel();
 			jDialog.add(jLabel);
 			jLabel.setIcon((ImageIcon) value);

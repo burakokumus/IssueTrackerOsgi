@@ -210,6 +210,7 @@ public class AddIssueDialogView extends JDialog
 		gbc_addIssueButton.gridy = 7;
 		getContentPane().add(addIssueButton, gbc_addIssueButton);
 
+		this.setModal(true);
 		this.getRootPane().setDefaultButton(addIssueButton);
 		this.pack();
 	}
