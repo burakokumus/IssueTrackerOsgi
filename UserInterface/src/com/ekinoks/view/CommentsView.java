@@ -1,11 +1,13 @@
 package com.ekinoks.view;
 
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -17,7 +19,9 @@ public class CommentsView extends JDialog
 {
 	private JTable table;
 	private DefaultTableModel model;
-	private JButton newCommentButton;
+	private JPanel buttonPanel;
+	private JButton addCommentButton;
+	private JButton addImageButton;
 
 	public CommentsView()
 	{
@@ -31,11 +35,11 @@ public class CommentsView extends JDialog
 		gridBagLayout.columnWidths = new int[]
 		{ 0, 0 };
 		gridBagLayout.rowHeights = new int[]
-		{ 0, 0, 0, 0 };
+		{ 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[]
 		{ 1.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[]
-		{ 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		{ 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
 		model = new DefaultTableModel(new String[]
@@ -50,11 +54,19 @@ public class CommentsView extends JDialog
 		gbc_scrollPane.gridy = 0;
 		getContentPane().add(scrollPane, gbc_scrollPane);
 
-		newCommentButton = new JButton("New Comment");
-		GridBagConstraints gbc_newCommentButton = new GridBagConstraints();
-		gbc_newCommentButton.gridx = 0;
-		gbc_newCommentButton.gridy = 2;
-		getContentPane().add(newCommentButton, gbc_newCommentButton);
+		buttonPanel = new JPanel();
+		GridBagConstraints gbc_buttonPanel = new GridBagConstraints();
+		gbc_buttonPanel.fill = GridBagConstraints.BOTH;
+		gbc_buttonPanel.gridx = 0;
+		gbc_buttonPanel.gridy = 3;
+		getContentPane().add(buttonPanel, gbc_buttonPanel);
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+		addImageButton = new JButton("Add Image");
+		buttonPanel.add(addImageButton);
+
+		addCommentButton = new JButton("Add Comment");
+		buttonPanel.add(addCommentButton);
 
 		this.pack();
 	}
@@ -65,9 +77,14 @@ public class CommentsView extends JDialog
 		{ Integer.toString(comment.getCommentID()), comment.getComment(), comment.getUserName(), comment.getDate() });
 	}
 
-	public JButton getNewCommentButton()
+	public JButton getAddCommentButton()
 	{
-		return newCommentButton;
+		return addCommentButton;
+	}
+
+	public JButton getAddImageButton()
+	{
+		return addImageButton;
 	}
 
 	public void clearJTable()

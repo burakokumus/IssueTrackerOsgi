@@ -597,7 +597,7 @@ public class DatabaseManager
 	 * @param userName
 	 * @return
 	 */
-	private int getUserIdByName(String userName)
+	public int getUserIdByName(String userName)
 	{
 		int result = -1;
 		try (Connection conn = this.connect();
@@ -1304,5 +1304,21 @@ public class DatabaseManager
 			return false;
 		}
 
+	}
+
+	public void saveImage(String image, int issueId, int userId)
+	{
+		try (Connection conn = this.connect();
+				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_IMAGE_STATEMENT))
+		{
+			pstmt.setString(1, image);
+			pstmt.setInt(2, issueId);
+			pstmt.setInt(3, userId);
+			pstmt.executeUpdate();
+		}
+		catch (SQLException e)
+		{
+			System.err.println(e.getMessage());
+		}
 	}
 }
