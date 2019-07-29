@@ -3,7 +3,7 @@ package com.ekinoks.database;
 public class Statements
 {
 	// @formatter:off
-	public static final String ADD_IMAGE_STATEMENT =                           "INSERT INTO images(base64, issue_id, user_id) VALUES (?, ?, ?)";
+	public static final String ADD_IMAGE_STATEMENT =                           "UPDATE comments SET image = ? WHERE comment_id = ?";
 	public static final String ADD_INVITATION_STATEMENT =                      "INSERT INTO invitations(user_id, issue_id) VALUES (?, ?)";
 	public static final String ADD_ISSUE_STATEMENT =                           "INSERT INTO issues(project_name, title, type, priority, author, description, create_date, detected_version, target_version) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	public static final String ADD_COMMENT_STATEMENT =                         "INSERT INTO comments(issue_id, user_name, comment, date) VALUES (?, ?, ?, ?)";
@@ -13,6 +13,7 @@ public class Statements
 	public static final String CHECK_USER_EXISTS_STATEMENT =                   "SELECT * FROM users WHERE user_name = ?";
 	public static final String EDIT_ISSUE_STATEMENT =                          "UPDATE issues SET description = ?, title = ?, state = ? WHERE issue_id = ?";
 	public static final String GET_ALL_COMMENTS_OF_ISSUE_STATEMENT =           "SELECT * FROM comments WHERE issue_id = ?";
+	public static final String GET_ALL_IMAGES_OF_ISSUE_STATEMENT =             "SELECT base64 FROM images WHERE issue_id = ?";
 	public static final String GET_ALL_INVITATIONS_OF_USER_STATEMENT =         "SELECT issue_id FROM invitations WHERE user_id = ?";
 	public static final String GET_ALL_ISSUES_STATEMENT =                      "SELECT * from issues";
 	public static final String GET_ALL_ISSUES_OF_PROJECT_STATEMENT =           "SELECT * from issues WHERE project_name = ?";

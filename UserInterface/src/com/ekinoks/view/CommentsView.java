@@ -1,16 +1,23 @@
 package com.ekinoks.view;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.EventObject;
 
+import javax.swing.AbstractCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 import com.ekinoks.model.Comment;
 
@@ -43,9 +50,30 @@ public class CommentsView extends JDialog
 		getContentPane().setLayout(gridBagLayout);
 
 		model = new DefaultTableModel(new String[]
-		{ "Comment ID", "Comment", "User", "Date" }, 0);
-		table = new JTable(model);
+		{ "Comment ID", "Comment", "Image", "User", "Date" }, 0);
+		table = new JTable(model)
+		{
+			@Override
+			public TableCellRenderer getCellRenderer(int row, int column)
+			{
+				if (table.convertColumnIndexToModel(column) != 2)
+				{
+					return super.getCellRenderer(row, column);
+				}
+				else
+				{
+					return new ImageCellRenderer();
+				}
 
+			}
+
+			@Override
+			public TableCellEditor getCellEditor(int row, int column)
+			{
+				return new ImageCellEditor();
+			}
+
+		};
 		JScrollPane scrollPane = new JScrollPane(table);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
@@ -73,8 +101,9 @@ public class CommentsView extends JDialog
 
 	public void addRowToTable(Comment comment)
 	{
-		model.addRow(new String[]
-		{ Integer.toString(comment.getCommentID()), comment.getComment(), comment.getUserName(), comment.getDate() });
+		model.addRow(new Object[]
+		{ Integer.toString(comment.getCommentID()), comment.getComment(), comment.getImage(), comment.getUserName(),
+				comment.getDate() });
 	}
 
 	public JButton getAddCommentButton()
@@ -94,6 +123,61 @@ public class CommentsView extends JDialog
 		{
 			model.removeRow(i);
 		}
+	}
+
+	public JTable getTable()
+	{
+		return table;
+	}
+
+}
+
+class ImageCellRenderer implements TableCellRenderer
+{
+
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column)
+	{
+		JLabel label = new JLabel();
+		if (value instanceof ImageIcon)
+		{
+			label.setIcon((ImageIcon) value);
+		}
+		return label;
+	}
+
+}
+
+@SuppressWarnings("serial")
+class ImageCellEditor extends AbstractCellEditor implements TableCellEditor
+{
+
+	@Override
+	public Object getCellEditorValue()
+	{
+		return null;
+	}
+
+	@Override
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
+	{
+		if (table.convertColumnIndexToModel(column) == 2)
+		{
+			JDialog jDialog = new JDialog();
+			JLabel jLabel = new JLabel();
+			jDialog.add(jLabel);
+			jLabel.setIcon((ImageIcon) value);
+			jDialog.pack();
+			jDialog.setVisible(true);
+		}
+		return null;
+	}
+
+	@Override
+	public boolean isCellEditable(EventObject e)
+	{
+		return true;
 	}
 
 }

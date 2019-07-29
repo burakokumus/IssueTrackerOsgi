@@ -11,6 +11,7 @@ import java.util.Base64;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JTable;
 
 import com.ekinoks.database.DatabaseManager;
 import com.ekinoks.model.Comment;
@@ -35,7 +36,14 @@ public class CommentsController
 	private void initController()
 	{
 		commentsView.getAddCommentButton().addActionListener(e -> addComment());
-		commentsView.getAddImageButton().addActionListener(e -> addImage());
+		commentsView.getAddImageButton().addActionListener(e ->
+		{
+			JTable table = commentsView.getTable();
+			int selectedRow = table.getSelectedRow();
+			Object valueAt = table.getValueAt(selectedRow, table.convertColumnIndexToModel(0));
+
+			addImage(Integer.valueOf((String) valueAt));
+		});
 	}
 
 	private void addComment()
@@ -46,7 +54,7 @@ public class CommentsController
 				currentUserName, this);
 	}
 
-	private void addImage()
+	private void addImage(int commentId)
 	{
 		JFileChooser fileChooser = new JFileChooser();
 		fileChooser.showOpenDialog(null);
@@ -63,22 +71,14 @@ public class CommentsController
 		{
 			ImageIO.write(bImage, "jpg", byteArrayOutputStream);
 		}
-		catch (IOException e1)
+		catch (IOException e)
 		{
-			e1.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		byte[] imageInByte = byteArrayOutputStream.toByteArray();
 		byte[] encode = Base64.getEncoder().encode(imageInByte);
 		String temp = new String(encode);
-		int userId = DatabaseManager.getInstance().getUserIdByName(currentUserName);
-		DatabaseManager.getInstance().saveImage(temp, issueID, userId);
-		/*
-		 * byte[] decode = Base64.getDecoder().decode(encode); ByteArrayInputStream
-		 * biInputStream = new ByteArrayInputStream(decode); BufferedImage read = null;
-		 * try { read = ImageIO.read(biInputStream); } catch (IOException e1) {
-		 * e1.printStackTrace(); } ImageIcon imageIcon2 = new ImageIcon(read); JButton
-		 * jbnPopup = new JButton(); jbnPopup.setIcon(imageIcon2);
-		 */
+		DatabaseManager.getInstance().addImageToComment(commentId, temp);
 	}
 
 	public void addAllCommentsToJTable()

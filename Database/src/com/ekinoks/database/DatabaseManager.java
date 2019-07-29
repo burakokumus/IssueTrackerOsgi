@@ -1,5 +1,8 @@
 package com.ekinoks.database;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,8 +11,12 @@ import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Date;
 import java.util.Vector;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 import com.ekinoks.model.Comment;
 import com.ekinoks.model.Issue;
@@ -1113,8 +1120,28 @@ public class DatabaseManager
 				String userName = executeQuery.getString("user_name");
 				String comment = executeQuery.getString("comment");
 				String date = executeQuery.getString("date");
-				Comment temp = new Comment(commentID, issueID, userName, comment, date);
-				result.add(temp);
+				String image = executeQuery.getString("image");
+				if (image != null)
+				{
+					ByteArrayInputStream bis = new ByteArrayInputStream(Base64.getDecoder().decode(image));
+					BufferedImage bi;
+					try
+					{
+						bi = ImageIO.read(bis);
+						Comment temp = new Comment(commentID, issueID, userName, comment, date, new ImageIcon(bi));
+						result.add(temp);
+					}
+					catch (IOException e)
+					{
+						e.printStackTrace();
+					}
+				}
+				else
+				{
+					Comment temp = new Comment(commentID, issueID, userName, comment, date, null);
+					result.add(temp);
+				}
+
 			}
 		}
 		catch (SQLException e)
@@ -1306,19 +1333,20 @@ public class DatabaseManager
 
 	}
 
-	public void saveImage(String image, int issueId, int userId)
+	public void addImageToComment(int commentId, String imageToBase64)
 	{
 		try (Connection conn = this.connect();
 				PreparedStatement pstmt = conn.prepareStatement(Statements.ADD_IMAGE_STATEMENT))
 		{
-			pstmt.setString(1, image);
-			pstmt.setInt(2, issueId);
-			pstmt.setInt(3, userId);
+			pstmt.setString(1, imageToBase64);
+			pstmt.setInt(2, commentId);
 			pstmt.executeUpdate();
+
 		}
 		catch (SQLException e)
 		{
 			System.err.println(e.getMessage());
 		}
 	}
+
 }

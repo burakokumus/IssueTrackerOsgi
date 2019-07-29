@@ -1,5 +1,7 @@
 package com.ekinoks.model;
 
+import javax.swing.ImageIcon;
+
 public class Comment
 {
 	private int commentID;
@@ -7,13 +9,14 @@ public class Comment
 	private String userName;
 	private String comment;
 	private String date;
+	private ImageIcon image;
 
 	public Comment()
 	{
 
 	}
 
-	public Comment(int commentID, int issueID, String userName, String comment, String date)
+	public Comment(int commentID, int issueID, String userName, String comment, String date, ImageIcon image)
 	{
 		super();
 		this.commentID = commentID;
@@ -21,6 +24,7 @@ public class Comment
 		this.userName = userName;
 		this.comment = comment;
 		this.date = date;
+		this.image = image;
 	}
 
 	public int getCommentID()
@@ -48,4 +52,8 @@ public class Comment
 		return date;
 	}
 
+	public ImageIcon getImage()
+	{
+		return image;
+	}
 }
