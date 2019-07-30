@@ -15,12 +15,12 @@ public class AddCommentDialogController
 
 	public AddCommentDialogController(String issueTitle, String currentUserName, CommentsController commentsController)
 	{
-		addCommentDialogView = new AddCommentDialogView(issueTitle);
+		addCommentDialogView = new AddCommentDialogView(issueTitle, commentsController.getCommentsView());
 		this.issueTitle = issueTitle;
 		this.currentUserName = currentUserName;
 		this.commentsController = commentsController;
-		addCommentDialogView.setVisible(true);
 		initController();
+		addCommentDialogView.setVisible(true);
 	}
 
 	private void initController()

@@ -1,10 +1,15 @@
 package com.ekinoks.view;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.RenderingHints;
+import java.awt.image.BufferedImage;
 import java.util.EventObject;
 
 import javax.swing.AbstractCellEditor;
@@ -75,7 +80,14 @@ public class CommentsView extends JDialog
 			}
 
 		};
+
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		table.setRowHeight(40);
+
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setPreferredSize(new Dimension(800, 600));
+		scrollPane.setMinimumSize(new Dimension(800, 600));
+
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
@@ -103,8 +115,9 @@ public class CommentsView extends JDialog
 
 	public void addRowToTable(Comment comment)
 	{
+		ImageIcon first = comment.getImage();
 		model.addRow(new Object[]
-		{ Integer.toString(comment.getCommentID()), comment.getComment(), comment.getImage(), comment.getUserName(),
+		{ Integer.toString(comment.getCommentID()), comment.getComment(), first, comment.getUserName(),
 				comment.getDate() });
 	}
 
@@ -144,18 +157,30 @@ class ImageCellRenderer implements TableCellRenderer
 		JLabel label = new JLabel();
 		if (value instanceof ImageIcon)
 		{
-			label.setIcon((ImageIcon) value);
+			ImageIcon image = (ImageIcon) value;
+			Image scaledImage = getScaledImage(image.getImage(), 80, 40);
+			label.setIcon(new ImageIcon(scaledImage));
 		}
 		return label;
 	}
 
+	private Image getScaledImage(Image srcImg, int w, int h)
+	{
+		BufferedImage resizedImg = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = resizedImg.createGraphics();
+
+		g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		g2.drawImage(srcImg, 0, 0, w, h, null);
+		g2.dispose();
+
+		return resizedImg;
+	}
 }
 
 @SuppressWarnings("serial")
 class ImageCellEditor extends AbstractCellEditor implements TableCellEditor
 {
 
-	@Override
 	public Object getCellEditorValue()
 	{
 		return null;
@@ -164,6 +189,12 @@ class ImageCellEditor extends AbstractCellEditor implements TableCellEditor
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
 	{
+		if (value == null)
+		{
+
+			return null;
+		}
+// TODO firetabledatachange
 		if (table.convertColumnIndexToModel(column) == 2)
 		{
 			JDialog jDialog = new JDialog(SwingUtilities.getWindowAncestor(table));

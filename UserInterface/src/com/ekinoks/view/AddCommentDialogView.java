@@ -16,8 +16,9 @@ public class AddCommentDialogView extends JDialog
 	private JButton addButton;
 	private JLabel issueTitleLabel;
 
-	public AddCommentDialogView(String issueTitle)
+	public AddCommentDialogView(String issueTitle, CommentsView commentsView)
 	{
+		super(commentsView);
 		initialize();
 		this.issueTitleLabel.setText(issueTitle);
 	}
